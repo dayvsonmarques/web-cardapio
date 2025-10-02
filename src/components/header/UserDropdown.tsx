@@ -2,11 +2,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslations();
 
 function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
   e.stopPropagation();
@@ -16,6 +18,7 @@ function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
   function closeDropdown() {
     setIsOpen(false);
   }
+
   return (
     <div className="relative">
       <button
@@ -90,7 +93,7 @@ function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
                   fill=""
                 />
               </svg>
-              Edit profile
+              {t("editProfile")}
             </DropdownItem>
           </li>
           <li>
@@ -115,7 +118,7 @@ function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
                   fill=""
                 />
               </svg>
-              Account settings
+              {t("accountSettings")}
             </DropdownItem>
           </li>
           <li>
@@ -140,7 +143,7 @@ function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
                   fill=""
                 />
               </svg>
-              Support
+              {t("support")}
             </DropdownItem>
           </li>
         </ul>
@@ -163,7 +166,7 @@ function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
               fill=""
             />
           </svg>
-          Sign out
+          {t("signOut")}
         </Link>
       </Dropdown>
     </div>
