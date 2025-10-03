@@ -7,6 +7,7 @@ import { useSidebar } from "../context/SidebarContext";
 import {
   BoxCubeIcon,
   CalenderIcon,
+  CatalogIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
@@ -31,6 +32,15 @@ const navItems: NavItem[] = [
     icon: <GridIcon />,
     name: "Dashboard",
     subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+  },
+  {
+    icon: <CatalogIcon />,
+    name: "Catálogo",
+    subItems: [
+      { name: "Produtos", path: "/catalogo/produtos", pro: false },
+      { name: "Categorias", path: "/catalogo/categorias", pro: false },
+      { name: "Cardápios", path: "/catalogo/cardapios", pro: false },
+    ],
   },
   {
     icon: <CalenderIcon />,
