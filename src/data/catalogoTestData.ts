@@ -52,7 +52,7 @@ export const produtosTestData: Produto[] = [
     descricao: 'Pão italiano tostado com tomate, manjericão e azeite',
     preco: 18.90,
     categoriaId: '1',
-    imagem: '/images/product/bruschetta.jpg',
+    imagem: 'https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=400&h=300&fit=crop',
     disponivel: true,
     ingredientes: ['Pão italiano', 'Tomate', 'Manjericão', 'Alho', 'Azeite'],
     informacoesNutricionais: {
@@ -70,7 +70,7 @@ export const produtosTestData: Produto[] = [
     descricao: 'Alface romana, croutons, parmesão e molho caesar',
     preco: 24.90,
     categoriaId: '1',
-    imagem: '/images/product/caesar-salad.jpg',
+    imagem: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=300&fit=crop',
     disponivel: true,
     ingredientes: ['Alface romana', 'Croutons', 'Parmesão', 'Molho caesar'],
     informacoesNutricionais: {
@@ -88,7 +88,7 @@ export const produtosTestData: Produto[] = [
     descricao: 'Arroz arbóreo cremoso com camarões frescos',
     preco: 58.90,
     categoriaId: '2',
-    imagem: '/images/product/risotto-camarao.jpg',
+    imagem: 'https://images.unsplash.com/photo-1476124369491-a4df9217caa6?w=400&h=300&fit=crop',
     disponivel: true,
     ingredientes: ['Arroz arbóreo', 'Camarão', 'Vinho branco', 'Parmesão', 'Cebola'],
     informacoesNutricionais: {
@@ -106,7 +106,7 @@ export const produtosTestData: Produto[] = [
     descricao: 'Filé mignon grelhado com batatas rústicas e legumes',
     preco: 78.90,
     categoriaId: '2',
-    imagem: '/images/product/file-mignon.jpg',
+    imagem: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&h=300&fit=crop',
     disponivel: true,
     ingredientes: ['Filé mignon', 'Batatas', 'Brócolis', 'Cenoura', 'Temperos'],
     informacoesNutricionais: {
@@ -124,7 +124,7 @@ export const produtosTestData: Produto[] = [
     descricao: 'Sobremesa italiana com café, mascarpone e cacau',
     preco: 16.90,
     categoriaId: '3',
-    imagem: '/images/product/tiramisu.jpg',
+    imagem: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&h=300&fit=crop',
     disponivel: true,
     ingredientes: ['Mascarpone', 'Café', 'Biscoito champagne', 'Cacau', 'Açúcar'],
     informacoesNutricionais: {
@@ -142,7 +142,7 @@ export const produtosTestData: Produto[] = [
     descricao: 'Cheesecake cremoso com calda de frutas vermelhas',
     preco: 19.90,
     categoriaId: '3',
-    imagem: '/images/product/cheesecake.jpg',
+    imagem: 'https://images.unsplash.com/photo-1533134486753-c833f0ed4866?w=400&h=300&fit=crop',
     disponivel: true,
     ingredientes: ['Cream cheese', 'Biscoito', 'Frutas vermelhas', 'Açúcar', 'Gelatina'],
     informacoesNutricionais: {
@@ -160,7 +160,7 @@ export const produtosTestData: Produto[] = [
     descricao: 'Suco de laranja natural, sem açúcar adicionado',
     preco: 8.90,
     categoriaId: '4',
-    imagem: '/images/product/suco-laranja.jpg',
+    imagem: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400&h=300&fit=crop',
     disponivel: true,
     ingredientes: ['Laranja'],
     informacoesNutricionais: {
@@ -178,7 +178,7 @@ export const produtosTestData: Produto[] = [
     descricao: 'Café expresso tradicional',
     preco: 4.50,
     categoriaId: '4',
-    imagem: '/images/product/cafe-expresso.jpg',
+    imagem: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&h=300&fit=crop',
     disponivel: true,
     ingredientes: ['Café'],
     informacoesNutricionais: {
@@ -196,7 +196,7 @@ export const produtosTestData: Produto[] = [
     descricao: 'Lasanha tradicional com molho bolonhesa e queijo',
     preco: 42.90,
     categoriaId: '2',
-    imagem: '/images/product/lasanha.jpg',
+    imagem: 'https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=400&h=300&fit=crop',
     disponivel: false,
     ingredientes: ['Massa de lasanha', 'Carne moída', 'Molho de tomate', 'Queijo', 'Bechamel'],
     informacoesNutricionais: {
@@ -214,7 +214,7 @@ export const produtosTestData: Produto[] = [
     descricao: 'Água mineral sem gás - 500ml',
     preco: 3.50,
     categoriaId: '4',
-    imagem: '/images/product/agua-mineral.jpg',
+    imagem: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&h=300&fit=crop',
     disponivel: true,
     ingredientes: ['Água mineral'],
     informacoesNutricionais: {
