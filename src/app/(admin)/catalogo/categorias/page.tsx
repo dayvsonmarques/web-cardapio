@@ -3,8 +3,10 @@
 import React, { useState, useMemo } from 'react';
 import { categoriasTestData } from '@/data/catalogoTestData';
 import { Categoria } from '@/types/catalogo';
+import { useTranslations } from '@/hooks/useTranslations';
 
 const CategoriasPage: React.FC = () => {
+  const { t } = useTranslations();
   const [categorias] = useState<Categoria[]>(categoriasTestData);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -30,10 +32,10 @@ const CategoriasPage: React.FC = () => {
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-          Gerenciar Categorias
+          {t('manageCategories')}
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          Organize os produtos em categorias
+          {t('viewAndManageCategories')}
         </p>
       </div>
 
@@ -43,11 +45,11 @@ const CategoriasPage: React.FC = () => {
           {/* Busca */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Buscar
+              {t('name')}
             </label>
             <input
               type="text"
-              placeholder="Nome ou descrição..."
+              placeholder={t('searchCategories')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
@@ -57,23 +59,23 @@ const CategoriasPage: React.FC = () => {
           {/* Filtro por Status */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Status
+              {t('status')}
             </label>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
             >
-              <option value="all">Todas</option>
-              <option value="true">Ativas</option>
-              <option value="false">Inativas</option>
+              <option value="all">{t('allStatus')}</option>
+              <option value="true">{t('active')}</option>
+              <option value="false">{t('inactive')}</option>
             </select>
           </div>
 
           {/* Botão Nova Categoria */}
           <div className="flex items-end">
             <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
-              Nova Categoria
+              {t('addNewCategory')}
             </button>
           </div>
         </div>
@@ -97,15 +99,15 @@ const CategoriasPage: React.FC = () => {
                     ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                     : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                 }`}>
-                  {categoria.ativa ? 'Ativa' : 'Inativa'}
+                  {categoria.ativa ? t('active') : t('inactive')}
                 </span>
               </div>
               <div className="flex space-x-2 ml-4">
                 <button className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm">
-                  Editar
+                  {t('edit')}
                 </button>
                 <button className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm">
-                  Excluir
+                  {t('delete')}
                 </button>
               </div>
             </div>
@@ -137,7 +139,7 @@ const CategoriasPage: React.FC = () => {
         <div className="text-center py-12">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8">
             <p className="text-gray-500 dark:text-gray-400 text-lg">
-              Nenhuma categoria encontrada com os filtros aplicados.
+              {t('noCategoriesFound')}
             </p>
           </div>
         </div>
@@ -150,7 +152,7 @@ const CategoriasPage: React.FC = () => {
             {categorias.length}
           </div>
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            Total de Categorias
+            {t('totalCategories')}
           </div>
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
@@ -158,7 +160,7 @@ const CategoriasPage: React.FC = () => {
             {categorias.filter(c => c.ativa).length}
           </div>
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            Categorias Ativas
+            {t('active')}
           </div>
         </div>
       </div>

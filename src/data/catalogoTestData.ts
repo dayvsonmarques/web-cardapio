@@ -376,7 +376,7 @@ export const produtosTestData: Produto[] = [
     descricao: 'Quiche vegana com espinafre, tofu e cebola caramelizada',
     preco: 24.90,
     categoriaId: '1',
-    imagem: 'https://images.unsplash.com/photo-1619985004798-0a8a5e72c420?w=400&h=300&fit=crop',
+    imagem: 'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=400&h=300&fit=crop',
     disponivel: true,
     ingredientes: ['Massa folhada', 'Espinafre', 'Tofu', 'Cebola', 'Leite vegetal', 'Temperos'],
     informacoesNutricionais: {
