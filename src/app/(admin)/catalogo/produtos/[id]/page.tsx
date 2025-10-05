@@ -2,14 +2,14 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { produtosTestData, categoriasTestData } from '@/data/catalogoTestData';
+import { productsTestData, categoriesTestData } from '@/data/catalogTestData';
 
 export default function ViewProductPage() {
   const params = useParams();
   const router = useRouter();
   const productId = params.id as string;
 
-  const product = produtosTestData.find(p => p.id === productId);
+  const product = productsTestData.find(p => p.id === productId);
 
   if (!product) {
     return (
@@ -26,8 +26,8 @@ export default function ViewProductPage() {
   }
 
   const getCategoryName = (categoryId: string) => {
-    const category = categoriasTestData.find(cat => cat.id === categoryId);
-    return category?.nome || 'N/A';
+    const category = categoriesTestData.find(cat => cat.id === categoryId);
+    return category?.name || 'N/A';
   };
 
   const formatPrice = (price: number) => {
@@ -74,11 +74,11 @@ export default function ViewProductPage() {
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         <div className="p-6 space-y-6">
           {/* Image */}
-          {product.imagem && (
+          {product.image && (
             <div className="w-full h-96 relative rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700">
               <Image
-                src={product.imagem}
-                alt={product.nome}
+                src={product.image}
+                alt={product.name}
                 fill
                 className="object-cover"
               />
@@ -91,7 +91,7 @@ export default function ViewProductPage() {
               <label className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
                 Name
               </label>
-              <p className="text-lg font-semibold text-gray-900 dark:text-white">{product.nome}</p>
+              <p className="text-lg font-semibold text-gray-900 dark:text-white">{product.name}</p>
             </div>
 
             <div>
@@ -99,11 +99,11 @@ export default function ViewProductPage() {
                 Status
               </label>
               <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
-                product.disponivel
+                product.isAvailable
                   ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
                   : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
               }`}>
-                {product.disponivel ? 'Available' : 'Unavailable'}
+                {product.isAvailable ? 'Available' : 'Unavailable'}
               </span>
             </div>
           </div>
@@ -112,7 +112,7 @@ export default function ViewProductPage() {
             <label className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
               Description
             </label>
-            <p className="text-gray-900 dark:text-white">{product.descricao}</p>
+            <p className="text-gray-900 dark:text-white">{product.description}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -121,7 +121,7 @@ export default function ViewProductPage() {
                 Price
               </label>
               <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                {formatPrice(product.preco)}
+                {formatPrice(product.price)}
               </p>
             </div>
 
@@ -129,18 +129,18 @@ export default function ViewProductPage() {
               <label className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
                 Category
               </label>
-              <p className="text-lg text-gray-900 dark:text-white">{getCategoryName(product.categoriaId)}</p>
+              <p className="text-lg text-gray-900 dark:text-white">{getCategoryName(product.categoryId)}</p>
             </div>
           </div>
 
           {/* Ingredients */}
-          {product.ingredientes && product.ingredientes.length > 0 && (
+          {product.ingredients && product.ingredients.length > 0 && (
             <div>
               <label className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
                 Ingredients
               </label>
               <div className="flex flex-wrap gap-2">
-                {product.ingredientes.map((ingredient, index) => (
+                {product.ingredients.map((ingredient, index) => (
                   <span
                     key={index}
                     className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm"
@@ -162,28 +162,28 @@ export default function ViewProductPage() {
                 <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                   <p className="text-xs text-blue-600 dark:text-blue-400 mb-1">Calories</p>
                   <p className="text-2xl font-bold text-blue-900 dark:text-blue-300">
-                    {product.informacoesNutricionais.calorias}
+                    {product.informacoesNutricionais.calories}
                     <span className="text-sm font-normal ml-1">kcal</span>
                   </p>
                 </div>
                 <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
                   <p className="text-xs text-green-600 dark:text-green-400 mb-1">Protein</p>
                   <p className="text-2xl font-bold text-green-900 dark:text-green-300">
-                    {product.informacoesNutricionais.proteinas}
+                    {product.informacoesNutricionais.proteins}
                     <span className="text-sm font-normal ml-1">g</span>
                   </p>
                 </div>
                 <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                   <p className="text-xs text-yellow-600 dark:text-yellow-400 mb-1">Carbs</p>
                   <p className="text-2xl font-bold text-yellow-900 dark:text-yellow-300">
-                    {product.informacoesNutricionais.carboidratos}
+                    {product.informacoesNutricionais.carbohydrates}
                     <span className="text-sm font-normal ml-1">g</span>
                   </p>
                 </div>
                 <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
                   <p className="text-xs text-orange-600 dark:text-orange-400 mb-1">Fat</p>
                   <p className="text-2xl font-bold text-orange-900 dark:text-orange-300">
-                    {product.informacoesNutricionais.gorduras}
+                    {product.informacoesNutricionais.fats}
                     <span className="text-sm font-normal ml-1">g</span>
                   </p>
                 </div>
@@ -197,13 +197,13 @@ export default function ViewProductPage() {
               <div>
                 <span className="text-gray-500 dark:text-gray-400">Created:</span>
                 <span className="ml-2 text-gray-900 dark:text-white">
-                  {new Date(product.dataCriacao).toLocaleDateString('pt-BR')}
+                  {new Date(product.createdAt).toLocaleDateString('pt-BR')}
                 </span>
               </div>
               <div>
                 <span className="text-gray-500 dark:text-gray-400">Last Updated:</span>
                 <span className="ml-2 text-gray-900 dark:text-white">
-                  {new Date(product.dataAtualizacao).toLocaleDateString('pt-BR')}
+                  {new Date(product.updatedAt).toLocaleDateString('pt-BR')}
                 </span>
               </div>
             </div>

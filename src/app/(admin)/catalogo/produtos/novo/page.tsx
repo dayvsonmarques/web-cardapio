@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ProdutoForm } from '@/types/catalogo';
-import { categoriasTestData } from '@/data/catalogoTestData';
+import { ProductFormData } from '@/types/catalog';
+import { categoriesTestData } from '@/data/catalogTestData';
 
 export default function NewProductPage() {
   const router = useRouter();
-  const [formData, setFormData] = useState<ProdutoForm>({
+  const [formData, setFormData] = useState<ProductFormData>({
     nome: '',
     descricao: '',
     preco: 0,
@@ -101,7 +101,7 @@ export default function NewProductPage() {
                 <input
                   type="text"
                   name="nome"
-                  value={formData.nome}
+                  value={formData.name}
                   onChange={handleInputChange}
                   required
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
@@ -114,7 +114,7 @@ export default function NewProductPage() {
                 </label>
                 <textarea
                   name="descricao"
-                  value={formData.descricao}
+                  value={formData.description}
                   onChange={handleInputChange}
                   required
                   rows={4}
@@ -129,7 +129,7 @@ export default function NewProductPage() {
                 <input
                   type="number"
                   name="preco"
-                  value={formData.preco}
+                  value={formData.price}
                   onChange={handleInputChange}
                   required
                   min="0"
@@ -144,15 +144,15 @@ export default function NewProductPage() {
                 </label>
                 <select
                   name="categoriaId"
-                  value={formData.categoriaId}
+                  value={formData.categoryId}
                   onChange={handleInputChange}
                   required
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
                   <option value="">Select a category</option>
-                  {categoriasTestData.map((cat) => (
+                  {categoriesTestData.map((cat) => (
                     <option key={cat.id} value={cat.id}>
-                      {cat.nome}
+                      {cat.name}
                     </option>
                   ))}
                 </select>
@@ -165,7 +165,7 @@ export default function NewProductPage() {
                 <input
                   type="url"
                   name="imagem"
-                  value={formData.imagem || ''}
+                  value={formData.image || ''}
                   onChange={handleInputChange}
                   placeholder="https://images.unsplash.com/..."
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
@@ -177,7 +177,7 @@ export default function NewProductPage() {
                   <input
                     type="checkbox"
                     name="disponivel"
-                    checked={formData.disponivel}
+                    checked={formData.isAvailable}
                     onChange={handleInputChange}
                     className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                   />
@@ -196,7 +196,7 @@ export default function NewProductPage() {
                 </label>
                 <textarea
                   name="ingredientes"
-                  value={formData.ingredientes?.join(', ') || ''}
+                  value={formData.ingredients?.join(', ') || ''}
                   onChange={(e) => {
                     const value = e.target.value;
                     setFormData(prev => ({
@@ -222,7 +222,7 @@ export default function NewProductPage() {
                     <input
                       type="number"
                       name="calorias"
-                      value={formData.informacoesNutricionais?.calorias || ''}
+                      value={formData.informacoesNutricionais?.calories || ''}
                       onChange={(e) => {
                         setFormData(prev => ({
                           ...prev,
@@ -243,7 +243,7 @@ export default function NewProductPage() {
                     <input
                       type="number"
                       name="proteinas"
-                      value={formData.informacoesNutricionais?.proteinas || ''}
+                      value={formData.informacoesNutricionais?.proteins || ''}
                       onChange={(e) => {
                         setFormData(prev => ({
                           ...prev,
@@ -265,7 +265,7 @@ export default function NewProductPage() {
                     <input
                       type="number"
                       name="carboidratos"
-                      value={formData.informacoesNutricionais?.carboidratos || ''}
+                      value={formData.informacoesNutricionais?.carbohydrates || ''}
                       onChange={(e) => {
                         setFormData(prev => ({
                           ...prev,
@@ -287,7 +287,7 @@ export default function NewProductPage() {
                     <input
                       type="number"
                       name="gorduras"
-                      value={formData.informacoesNutricionais?.gorduras || ''}
+                      value={formData.informacoesNutricionais?.fats || ''}
                       onChange={(e) => {
                         setFormData(prev => ({
                           ...prev,

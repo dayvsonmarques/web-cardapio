@@ -1,20 +1,20 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { cardapiosTestData, produtosTestData } from '@/data/catalogoTestData';
-import { Cardapio } from '@/types/catalogo';
+import { menusTestData, productsTestData } from '@/data/catalogTestData';
+import { Menu } from '@/types/catalog';
 import { useTranslations } from '@/hooks/useTranslations';
 
 const CardapiosPage: React.FC = () => {
   const { t } = useTranslations();
-  const [cardapios] = useState<Cardapio[]>(cardapiosTestData);
+  const [cardapios] = useState<Menu[]>(menusTestData);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
 
   const cardapiosFiltrados = useMemo(() => {
     return cardapios.filter(cardapio => {
-      const matchSearch = cardapio.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (cardapio.descricao && cardapio.descricao.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchSearch = cardapio.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         (cardapio.description && cardapio.description.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchStatus = filterStatus === 'all' || 
                          (filterStatus === 'true' && cardapio.ativo) ||
                          (filterStatus === 'false' && !cardapio.ativo);
@@ -29,16 +29,16 @@ const CardapiosPage: React.FC = () => {
   };
 
   const getProdutoNome = (produtoId: string) => {
-    const produto = produtosTestData.find(p => p.id === produtoId);
-    return produto ? produto.nome : 'Produto não encontrado';
+    const produto = productsTestData.find(p => p.id === produtoId);
+    return produto ? produto.name : 'Produto não encontrado';
   };
 
   const isCardapioAtivo = (cardapio: Cardapio) => {
     if (!cardapio.ativo) return false;
     
     const hoje = new Date();
-    const inicio = cardapio.dataInicio;
-    const fim = cardapio.dataFim;
+    const inicio = cardapio.startDate;
+    const fim = cardapio.endDate;
     
     if (inicio && hoje < inicio) return false;
     if (fim && hoje > fim) return false;
@@ -113,7 +113,7 @@ const CardapiosPage: React.FC = () => {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                      {cardapio.nome}
+                      {cardapio.name}
                     </h3>
                     <span className={`inline-flex px-3 py-1 text-sm font-medium rounded-full ${
                       isCardapioAtivo(cardapio)
@@ -123,9 +123,9 @@ const CardapiosPage: React.FC = () => {
                       {isCardapioAtivo(cardapio) ? t('active') : t('inactive')}
                     </span>
                   </div>
-                  {cardapio.descricao && (
+                  {cardapio.description && (
                     <p className="text-gray-600 dark:text-gray-400 mb-3">
-                      {cardapio.descricao}
+                      {cardapio.description}
                     </p>
                   )}
                   
@@ -133,15 +133,15 @@ const CardapiosPage: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-500 dark:text-gray-400">
                     <div>
                       <span className="font-medium">Período:</span>
-                      <div>{formatData(cardapio.dataInicio)} - {formatData(cardapio.dataFim)}</div>
+                      <div>{formatData(cardapio.startDate)} - {formatData(cardapio.endDate)}</div>
                     </div>
                     <div>
                       <span className="font-medium">Criado em:</span>
-                      <div>{formatData(cardapio.dataCriacao)}</div>
+                      <div>{formatData(cardapio.createdAt)}</div>
                     </div>
                     <div>
                       <span className="font-medium">Total de produtos:</span>
-                      <div>{cardapio.produtos.length} itens</div>
+                      <div>{cardapio.products.length} itens</div>
                     </div>
                   </div>
                 </div>
@@ -167,7 +167,7 @@ const CardapiosPage: React.FC = () => {
                 Produtos inclusos:
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-                {cardapio.produtos.slice(0, 6).map((produtoId) => (
+                {cardapio.products.slice(0, 6).map((produtoId) => (
                   <div
                     key={produtoId}
                     className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 text-sm"
@@ -177,9 +177,9 @@ const CardapiosPage: React.FC = () => {
                     </span>
                   </div>
                 ))}
-                {cardapio.produtos.length > 6 && (
+                {cardapio.products.length > 6 && (
                   <div className="bg-gray-100 dark:bg-gray-600 rounded-lg p-3 text-sm text-center text-gray-500 dark:text-gray-400">
-                    +{cardapio.produtos.length - 6} produtos
+                    +{cardapio.products.length - 6} produtos
                   </div>
                 )}
               </div>
@@ -219,7 +219,7 @@ const CardapiosPage: React.FC = () => {
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="text-3xl font-bold text-blue-600 mb-2">
-            {cardapios.reduce((total, c) => total + c.produtos.length, 0)}
+            {cardapios.reduce((total, c) => total + c.products.length, 0)}
           </div>
           <div className="text-sm text-gray-500 dark:text-gray-400">
             {t('products')}

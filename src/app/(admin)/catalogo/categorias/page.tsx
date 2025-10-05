@@ -1,23 +1,23 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { categoriasTestData } from '@/data/catalogoTestData';
-import { Categoria } from '@/types/catalogo';
+import { categoriesTestData } from '@/data/catalogTestData';
+import { Category } from '@/types/catalog';
 import { useTranslations } from '@/hooks/useTranslations';
 
 const CategoriasPage: React.FC = () => {
   const { t } = useTranslations();
-  const [categorias] = useState<Categoria[]>(categoriasTestData);
+  const [categorias] = useState<Category[]>(categoriesTestData);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
 
   const categoriasFiltradas = useMemo(() => {
     return categorias.filter(categoria => {
-      const matchSearch = categoria.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (categoria.descricao && categoria.descricao.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchSearch = categoria.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         (categoria.description && categoria.description.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchStatus = filterStatus === 'all' || 
-                         (filterStatus === 'true' && categoria.ativa) ||
-                         (filterStatus === 'false' && !categoria.ativa);
+                         (filterStatus === 'true' && categoria.isActive) ||
+                         (filterStatus === 'false' && !categoria.isActive);
       
       return matchSearch && matchStatus;
     });
@@ -92,14 +92,14 @@ const CategoriasPage: React.FC = () => {
             <div className="flex items-start justify-between mb-4">
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-                  {categoria.nome}
+                  {categoria.name}
                 </h3>
                 <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
-                  categoria.ativa
+                  categoria.isActive
                     ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                     : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
                 }`}>
-                  {categoria.ativa ? t('active') : t('inactive')}
+                  {categoria.isActive ? t('active') : t('inactive')}
                 </span>
               </div>
               <div className="flex space-x-2 ml-4">
@@ -113,9 +113,9 @@ const CategoriasPage: React.FC = () => {
             </div>
 
             {/* Descrição */}
-            {categoria.descricao && (
+            {categoria.description && (
               <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                {categoria.descricao}
+                {categoria.description}
               </p>
             )}
 
@@ -123,11 +123,11 @@ const CategoriasPage: React.FC = () => {
             <div className="space-y-2 text-xs text-gray-500 dark:text-gray-400">
               <div className="flex justify-between">
                 <span>Criada em:</span>
-                <span>{formatData(categoria.dataCriacao)}</span>
+                <span>{formatData(categoria.createdAt)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Atualizada em:</span>
-                <span>{formatData(categoria.dataAtualizacao)}</span>
+                <span>{formatData(categoria.updatedAt)}</span>
               </div>
             </div>
           </div>
@@ -157,7 +157,7 @@ const CategoriasPage: React.FC = () => {
         </div>
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <div className="text-3xl font-bold text-green-600 mb-2">
-            {categorias.filter(c => c.ativa).length}
+            {categorias.filter(c => c.isActive).length}
           </div>
           <div className="text-sm text-gray-500 dark:text-gray-400">
             {t('active')}

@@ -2,15 +2,15 @@
 
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Produto } from '@/types/catalogo';
-import { produtosTestData, categoriasTestData } from '@/data/catalogoTestData';
+import { Product } from '@/types/catalog';
+import { productsTestData, categoriesTestData } from '@/data/catalogTestData';
 import { useTranslations } from '@/hooks/useTranslations';
 import Image from 'next/image';
 
 export default function ProductsPage() {
   const router = useRouter();
   const { t } = useTranslations();
-  const [products, setProducts] = useState<Produto[]>(produtosTestData);
+  const [products, setProducts] = useState<Product[]>(productsTestData);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [filterAvailable, setFilterAvailable] = useState('all');
@@ -18,22 +18,22 @@ export default function ProductsPage() {
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
-      const matchSearch = product.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.descricao.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
       
-      const matchCategory = !filterCategory || product.categoriaId === filterCategory;
+      const matchCategory = !filterCategory || product.categoryId === filterCategory;
       
       const matchAvailable = filterAvailable === 'all' ||
-                             (filterAvailable === 'true' && product.disponivel) ||
-                             (filterAvailable === 'false' && !product.disponivel);
+                             (filterAvailable === 'true' && product.isAvailable) ||
+                             (filterAvailable === 'false' && !product.isAvailable);
 
       return matchSearch && matchCategory && matchAvailable;
     });
   }, [products, searchTerm, filterCategory, filterAvailable]);
 
   const getCategoryName = (categoryId: string) => {
-    const category = categoriasTestData.find(cat => cat.id === categoryId);
-    return category?.nome || 'Unknown';
+    const category = categoriesTestData.find(cat => cat.id === categoryId);
+    return category?.name || 'Unknown';
   };
 
   const formatPrice = (price: number) => {
@@ -45,9 +45,9 @@ export default function ProductsPage() {
 
   const stats = {
     total: products.length,
-    available: products.filter(p => p.disponivel).length,
-    unavailable: products.filter(p => !p.disponivel).length,
-    avgPrice: products.reduce((sum, p) => sum + p.preco, 0) / products.length
+    available: products.filter(p => p.isAvailable).length,
+    unavailable: products.filter(p => !p.isAvailable).length,
+    avgPrice: products.reduce((sum, p) => sum + p.price, 0) / products.length
   };
 
   const handleDelete = (productId: string) => {
@@ -122,9 +122,9 @@ export default function ProductsPage() {
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
               <option value="">{t('allCategories')}</option>
-              {categoriasTestData.map((cat) => (
+              {categoriesTestData.map((cat) => (
                 <option key={cat.id} value={cat.id}>
-                  {cat.nome}
+                  {cat.name}
                 </option>
               ))}
             </select>
@@ -175,11 +175,11 @@ export default function ProductsPage() {
               {filteredProducts.map((product) => (
                 <tr key={product.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {product.imagem ? (
+                    {product.image ? (
                       <div className="w-16 h-16 rounded-lg overflow-hidden relative">
                         <Image
-                          src={product.imagem}
-                          alt={product.nome}
+                          src={product.image}
+                          alt={product.name}
                           fill
                           className="object-cover"
                         />
@@ -192,33 +192,33 @@ export default function ProductsPage() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm font-medium text-gray-900 dark:text-white">
-                      {product.nome}
+                      {product.name}
                     </div>
                     <div className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">
-                      {product.descricao}
+                      {product.description}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="text-sm text-gray-900 dark:text-white">
-                      {getCategoryName(product.categoriaId)}
+                      {getCategoryName(product.categoryId)}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="text-sm font-medium text-gray-900 dark:text-white">
-                      {formatPrice(product.preco)}
+                      {formatPrice(product.price)}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
                       className={
                         `inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          product.disponivel
+                          product.isAvailable
                             ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
                             : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
                         }`
                       }
                     >
-                      {product.disponivel ? t('available') : t('unavailable')}
+                      {product.isAvailable ? t('available') : t('unavailable')}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
@@ -299,7 +299,7 @@ export default function ProductsPage() {
                   </div>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 mb-6">
-                  {t('confirmDeleteProduct')} <strong>{productToDelete?.nome}</strong>?
+                  {t('confirmDeleteProduct')} <strong>{productToDelete?.name}</strong>?
                 </p>
                 <div className="flex gap-3 justify-end">
                   <button
