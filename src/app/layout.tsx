@@ -1,4 +1,4 @@
-import { Outfit } from 'next/font/google';
+import { Outfit, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 
 import { SidebarProvider } from '@/context/SidebarContext';
@@ -7,6 +7,12 @@ import { UserProvider } from '@/context/UserContext';
 
 const outfit = Outfit({
   subsets: ["latin"],
+  variable: '--font-outfit',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: '--font-space-grotesk',
 });
 
 export default function RootLayout({
@@ -16,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.className} dark:bg-gray-900`}>
+      <body className={`${outfit.variable} ${spaceGrotesk.variable} ${outfit.className} dark:bg-gray-900`}>
         <ThemeProvider>
           <UserProvider>
             <SidebarProvider>{children}</SidebarProvider>
