@@ -14,17 +14,19 @@ export default function EditProductPage() {
   const product = productsTestData.find(p => p.id === productId);
 
   const [formData, setFormData] = useState<ProductFormData>({
-    nome: '',
-    descricao: '',
-    preco: 0,
-    categoriaId: '',
-    disponivel: true,
-    ingredientes: [],
-    informacoesNutricionais: {
-      calorias: undefined,
-      proteinas: undefined,
-      carboidratos: undefined,
-      gorduras: undefined,
+    name: '',
+    description: '',
+    price: 0,
+    categoryId: '',
+    image: '',
+    isAvailable: true,
+    ingredients: [],
+    nutritionalInfo: {
+      calories: 0,
+      proteins: 0,
+      carbohydrates: 0,
+      fats: 0,
+      fiber: 0,
     },
   });
 
@@ -33,14 +35,20 @@ export default function EditProductPage() {
   useEffect(() => {
     if (product) {
       setFormData({
-        nome: product.name,
-        descricao: product.description,
-        preco: product.price,
-        categoriaId: product.categoryId,
-        imagem: product.image,
-        disponivel: product.isAvailable,
-        ingredientes: product.ingredients,
-        informacoesNutricionais: product.informacoesNutricionais,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        categoryId: product.categoryId,
+        image: product.image,
+        isAvailable: product.isAvailable,
+        ingredients: product.ingredients,
+        nutritionalInfo: {
+          calories: product.nutritionalInfo.calories,
+          proteins: product.nutritionalInfo.proteins,
+          carbohydrates: product.nutritionalInfo.carbohydrates,
+          fats: product.nutritionalInfo.fats,
+          fiber: product.nutritionalInfo.fiber,
+        },
       });
       if (product.image) {
         setImagePreview(product.image);
@@ -70,12 +78,14 @@ export default function EditProductPage() {
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData((prev) => ({ ...prev, [name]: checked }));
+    } else if (name === 'price') {
+      setFormData((prev) => ({ ...prev, [name]: parseFloat(value) || 0 }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
 
     // Update image preview
-    if (name === 'imagem') {
+    if (name === 'image') {
       setImagePreview(value);
     }
   };
@@ -85,7 +95,7 @@ export default function EditProductPage() {
     console.log('Updating product:', productId, formData);
     // TODO: Integrate with API
     // After successful update, redirect to view page
-    router.push(`/catalogo/produtos/${productId}`);
+    router.push(`/admin/catalogo/produtos/${productId}`);
   };
 
   return (
@@ -137,7 +147,7 @@ export default function EditProductPage() {
                 </label>
                 <input
                   type="text"
-                  name="nome"
+                  name="name"
                   value={formData.name}
                   onChange={handleInputChange}
                   required
@@ -150,7 +160,7 @@ export default function EditProductPage() {
                   Description *
                 </label>
                 <textarea
-                  name="descricao"
+                  name="description"
                   value={formData.description}
                   onChange={handleInputChange}
                   required
@@ -165,7 +175,7 @@ export default function EditProductPage() {
                 </label>
                 <input
                   type="number"
-                  name="preco"
+                  name="price"
                   value={formData.price}
                   onChange={handleInputChange}
                   required
@@ -180,7 +190,7 @@ export default function EditProductPage() {
                   Category *
                 </label>
                 <select
-                  name="categoriaId"
+                  name="categoryId"
                   value={formData.categoryId}
                   onChange={handleInputChange}
                   required
@@ -201,7 +211,7 @@ export default function EditProductPage() {
                 </label>
                 <input
                   type="url"
-                  name="imagem"
+                  name="image"
                   value={formData.image || ''}
                   onChange={handleInputChange}
                   placeholder="https://images.unsplash.com/..."
@@ -213,7 +223,7 @@ export default function EditProductPage() {
                 <label className="flex items-center gap-2">
                   <input
                     type="checkbox"
-                    name="disponivel"
+                    name="isAvailable"
                     checked={formData.isAvailable}
                     onChange={handleInputChange}
                     className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
@@ -232,13 +242,13 @@ export default function EditProductPage() {
                   Ingredients (comma separated)
                 </label>
                 <textarea
-                  name="ingredientes"
+                  name="ingredients"
                   value={formData.ingredients?.join(', ') || ''}
                   onChange={(e) => {
                     const value = e.target.value;
                     setFormData(prev => ({
                       ...prev,
-                      ingredientes: value ? value.split(',').map(i => i.trim()) : []
+                      ingredients: value ? value.split(',').map(i => i.trim()) : []
                     }));
                   }}
                   rows={3}
@@ -258,14 +268,14 @@ export default function EditProductPage() {
                     </label>
                     <input
                       type="number"
-                      name="calorias"
-                      value={formData.informacoesNutricionais?.calories || ''}
+                      name="calories"
+                      value={formData.nutritionalInfo?.calories || ''}
                       onChange={(e) => {
                         setFormData(prev => ({
                           ...prev,
-                          informacoesNutricionais: {
-                            ...prev.informacoesNutricionais,
-                            calorias: e.target.value ? Number(e.target.value) : undefined
+                          nutritionalInfo: {
+                            ...prev.nutritionalInfo,
+                            calories: e.target.value ? Number(e.target.value) : 0
                           }
                         }));
                       }}
@@ -279,14 +289,14 @@ export default function EditProductPage() {
                     </label>
                     <input
                       type="number"
-                      name="proteinas"
-                      value={formData.informacoesNutricionais?.proteins || ''}
+                      name="proteins"
+                      value={formData.nutritionalInfo?.proteins || ''}
                       onChange={(e) => {
                         setFormData(prev => ({
                           ...prev,
-                          informacoesNutricionais: {
-                            ...prev.informacoesNutricionais,
-                            proteinas: e.target.value ? Number(e.target.value) : undefined
+                          nutritionalInfo: {
+                            ...prev.nutritionalInfo,
+                            proteins: e.target.value ? Number(e.target.value) : 0
                           }
                         }));
                       }}
@@ -301,14 +311,14 @@ export default function EditProductPage() {
                     </label>
                     <input
                       type="number"
-                      name="carboidratos"
-                      value={formData.informacoesNutricionais?.carbohydrates || ''}
+                      name="carbohydrates"
+                      value={formData.nutritionalInfo?.carbohydrates || ''}
                       onChange={(e) => {
                         setFormData(prev => ({
                           ...prev,
-                          informacoesNutricionais: {
-                            ...prev.informacoesNutricionais,
-                            carboidratos: e.target.value ? Number(e.target.value) : undefined
+                          nutritionalInfo: {
+                            ...prev.nutritionalInfo,
+                            carbohydrates: e.target.value ? Number(e.target.value) : 0
                           }
                         }));
                       }}
@@ -323,14 +333,14 @@ export default function EditProductPage() {
                     </label>
                     <input
                       type="number"
-                      name="gorduras"
-                      value={formData.informacoesNutricionais?.fats || ''}
+                      name="fats"
+                      value={formData.nutritionalInfo?.fats || ''}
                       onChange={(e) => {
                         setFormData(prev => ({
                           ...prev,
-                          informacoesNutricionais: {
-                            ...prev.informacoesNutricionais,
-                            gorduras: e.target.value ? Number(e.target.value) : undefined
+                          nutritionalInfo: {
+                            ...prev.nutritionalInfo,
+                            fats: e.target.value ? Number(e.target.value) : 0
                           }
                         }));
                       }}

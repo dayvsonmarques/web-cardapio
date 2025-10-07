@@ -141,7 +141,7 @@ export const productsTestData: Product[] = [
     description: "Grão-de-bico assado, rúcula, tomate seco e tahine",
     price: 31.5,
     categoryId: "1",
-    image: "https://images.unsplash.com/photo-1547496502-affa22d38842?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/chickpea-salad.jpg",
     isAvailable: true,
     ingredients: ["Grão-de-bico", "Rúcula", "Tomate seco", "Tahine"],
     nutritionalInfo: {
@@ -160,7 +160,7 @@ export const productsTestData: Product[] = [
     description: "Beterraba assada, folhas, nozes e queijo vegano",
     price: 30.0,
     categoryId: "1",
-    image: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/beetroot-salad.jpg",
     isAvailable: true,
     ingredients: ["Beterraba", "Mix de folhas", "Nozes", "Queijo vegano"],
     nutritionalInfo: {
@@ -179,7 +179,7 @@ export const productsTestData: Product[] = [
     description: "Repolho roxo, cenoura, edamame, gergelim e molho agridoce",
     price: 28.5,
     categoryId: "1",
-    image: "https://images.unsplash.com/photo-1559847844-5315695dadae?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/05/asian-salad-bowl.jpg",
     isAvailable: true,
     ingredients: ["Repolho roxo", "Cenoura", "Edamame", "Gergelim", "Molho agridoce"],
     nutritionalInfo: {
@@ -198,7 +198,7 @@ export const productsTestData: Product[] = [
     description: "Lentilha, rúcula, tomate, pepino e vinagrete balsâmico",
     price: 29.0,
     categoryId: "1",
-    image: "https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/lentil-salad-bowl.jpg",
     isAvailable: true,
     ingredients: ["Lentilha", "Rúcula", "Tomate", "Pepino", "Vinagrete"],
     nutritionalInfo: {
@@ -219,7 +219,7 @@ export const productsTestData: Product[] = [
     description: "Hambúrguer de grão-de-bico, alface, tomate, cebola e molho especial",
     price: 35.0,
     categoryId: "2",
-    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/juicy-burger-with-fries.jpg",
     isAvailable: true,
     ingredients: ["Pão brioche vegano", "Hambúrguer de grão-de-bico", "Alface", "Tomate", "Molho especial"],
     nutritionalInfo: {
@@ -238,7 +238,7 @@ export const productsTestData: Product[] = [
     description: "Massa fresca, proteína de soja, molho bolonhesa e bechamel vegano",
     price: 42.0,
     categoryId: "2",
-    image: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/05/lasagna-with-cheese.jpg",
     isAvailable: true,
     ingredients: ["Massa fresca", "Proteína de soja", "Molho bolonhesa", "Bechamel vegano"],
     nutritionalInfo: {
@@ -257,7 +257,7 @@ export const productsTestData: Product[] = [
     description: "Arroz arbório, mix de cogumelos, vinho branco e parmesão vegano",
     price: 45.0,
     categoryId: "2",
-    image: "https://images.unsplash.com/photo-1476124369491-c76bdf60c3cb?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/mushroom-risotto.jpg",
     isAvailable: true,
     ingredients: ["Arroz arbório", "Cogumelos variados", "Vinho branco", "Parmesão vegano"],
     nutritionalInfo: {
@@ -276,7 +276,7 @@ export const productsTestData: Product[] = [
     description: "Feijão preto, proteína de soja, legumes e temperos especiais",
     price: 38.5,
     categoryId: "2",
-    image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/black-bean-stew.jpg",
     isAvailable: true,
     ingredients: ["Feijão preto", "Proteína de soja", "Legumes", "Temperos"],
     nutritionalInfo: {
@@ -295,7 +295,7 @@ export const productsTestData: Product[] = [
     description: "Legumes frescos, leite de coco, curry vermelho e arroz jasmim",
     price: 39.9,
     categoryId: "2",
-    image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/05/thai-curry-with-vegetables.jpg",
     isAvailable: true,
     ingredients: ["Legumes", "Leite de coco", "Curry vermelho", "Arroz jasmim"],
     nutritionalInfo: {
@@ -314,7 +314,7 @@ export const productsTestData: Product[] = [
     description: "Palmito, pimentões, leite de coco, dendê e pirão",
     price: 44.0,
     categoryId: "2",
-    image: "https://images.unsplash.com/photo-1543352634-99a5d50ae78e?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/08/fish-stew-with-vegetables.jpg",
     isAvailable: true,
     ingredients: ["Palmito", "Pimentões", "Leite de coco", "Dendê", "Pirão"],
     nutritionalInfo: {
@@ -333,7 +333,7 @@ export const productsTestData: Product[] = [
     description: "Cogumelos frescos, creme vegano, mostarda e arroz integral",
     price: 40.5,
     categoryId: "2",
-    image: "https://images.unsplash.com/photo-1516684732162-798a0062be99?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/creamy-mushroom-dish.jpg",
     isAvailable: true,
     ingredients: ["Cogumelos", "Creme vegano", "Mostarda", "Arroz integral"],
     nutritionalInfo: {
@@ -352,7 +352,7 @@ export const productsTestData: Product[] = [
     description: "Macarrão de arroz, tofu, vegetais, amendoim e molho tamarindo",
     price: 37.5,
     categoryId: "2",
-    image: "https://images.unsplash.com/photo-1559314809-0d155014e29e?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/pad-thai-noodles.jpg",
     isAvailable: true,
     ingredients: ["Macarrão de arroz", "Tofu", "Vegetais", "Amendoim", "Molho tamarindo"],
     nutritionalInfo: {
@@ -371,7 +371,7 @@ export const productsTestData: Product[] = [
     description: "Massa integral, espinafre, tomate seco e queijo vegano",
     price: 33.0,
     categoryId: "2",
-    image: "https://images.unsplash.com/photo-1614963224623-8c2f9e088a6d?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/05/spinach-quiche.jpg",
     isAvailable: true,
     ingredients: ["Massa integral", "Espinafre", "Tomate seco", "Queijo vegano"],
     nutritionalInfo: {
@@ -390,7 +390,7 @@ export const productsTestData: Product[] = [
     description: "Massa artesanal, molho de tomate, mussarela vegana e manjericão",
     price: 48.0,
     categoryId: "2",
-    image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/04/margherita-pizza.jpg",
     isAvailable: true,
     ingredients: ["Massa artesanal", "Molho de tomate", "Mussarela vegana", "Manjericão"],
     nutritionalInfo: {
@@ -409,7 +409,7 @@ export const productsTestData: Product[] = [
     description: "Tortillas, proteína texturizada, guacamole, pico de gallo",
     price: 36.0,
     categoryId: "2",
-    image: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/mexican-tacos.jpg",
     isAvailable: true,
     ingredients: ["Tortillas", "Proteína texturizada", "Guacamole", "Pico de gallo"],
     nutritionalInfo: {
@@ -428,7 +428,7 @@ export const productsTestData: Product[] = [
     description: "Quinoa, grão-de-bico, abacate, vegetais assados e tahine",
     price: 41.0,
     categoryId: "2",
-    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/05/buddha-bowl-with-quinoa.jpg",
     isAvailable: true,
     ingredients: ["Quinoa", "Grão-de-bico", "Abacate", "Vegetais assados", "Tahine"],
     nutritionalInfo: {
@@ -449,7 +449,7 @@ export const productsTestData: Product[] = [
     description: "Brownie de chocolate amargo com nozes",
     price: 18.5,
     categoryId: "3",
-    image: "https://images.unsplash.com/photo-1607920591413-4ec007e70023?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/chocolate-brownies.jpg",
     isAvailable: true,
     ingredients: ["Chocolate amargo", "Farinha integral", "Nozes", "Açúcar demerara"],
     nutritionalInfo: {
@@ -468,7 +468,7 @@ export const productsTestData: Product[] = [
     description: "Base de castanhas, creme de castanha de caju e frutas vermelhas",
     price: 22.0,
     categoryId: "3",
-    image: "https://images.unsplash.com/photo-1524351199678-941a58a3df50?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/05/berry-cheesecake.jpg",
     isAvailable: true,
     ingredients: ["Castanhas", "Castanha de caju", "Frutas vermelhas", "Ágar-ágar"],
     nutritionalInfo: {
@@ -487,7 +487,7 @@ export const productsTestData: Product[] = [
     description: "Mousse cremoso de chocolate belga 70% cacau",
     price: 19.5,
     categoryId: "3",
-    image: "https://images.unsplash.com/photo-1541599468348-e96984315921?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/chocolate-mousse.jpg",
     isAvailable: true,
     ingredients: ["Chocolate 70%", "Leite de coco", "Ágar-ágar", "Açúcar de coco"],
     nutritionalInfo: {
@@ -506,7 +506,7 @@ export const productsTestData: Product[] = [
     description: "Chia, leite de amêndoas, manga e granola",
     price: 17.0,
     categoryId: "3",
-    image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/chia-pudding.jpg",
     isAvailable: true,
     ingredients: ["Chia", "Leite de amêndoas", "Manga", "Granola"],
     nutritionalInfo: {
@@ -525,7 +525,7 @@ export const productsTestData: Product[] = [
     description: "Base crocante, creme de limão siciliano e merengue vegano",
     price: 21.0,
     categoryId: "3",
-    image: "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/08/lemon-pie.jpg",
     isAvailable: true,
     ingredients: ["Biscoito", "Limão siciliano", "Aquafaba", "Açúcar"],
     nutritionalInfo: {
@@ -544,7 +544,7 @@ export const productsTestData: Product[] = [
     description: "Sorvete cremoso de açaí com granola e banana",
     price: 16.5,
     categoryId: "3",
-    image: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/acai-bowl.jpg",
     isAvailable: true,
     ingredients: ["Açaí", "Banana", "Granola", "Mel vegano"],
     nutritionalInfo: {
@@ -563,7 +563,7 @@ export const productsTestData: Product[] = [
     description: "Camadas de biscoito, creme mascarpone vegano e café",
     price: 23.5,
     categoryId: "3",
-    image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/05/tiramisu-dessert.jpg",
     isAvailable: true,
     ingredients: ["Biscoito champanhe", "Creme vegano", "Café espresso", "Cacau"],
     nutritionalInfo: {
@@ -582,7 +582,7 @@ export const productsTestData: Product[] = [
     description: "Bolinho de chocolate com recheio cremoso e sorvete",
     price: 24.0,
     categoryId: "3",
-    image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/chocolate-lava-cake.jpg",
     isAvailable: true,
     ingredients: ["Chocolate", "Farinha", "Leite vegetal", "Sorvete vegano"],
     nutritionalInfo: {
@@ -603,7 +603,7 @@ export const productsTestData: Product[] = [
     description: "Couve, limão, gengibre, maçã e água de coco",
     price: 14.5,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/green-detox-smoothie.jpg",
     isAvailable: true,
     ingredients: ["Couve", "Limão", "Gengibre", "Maçã", "Água de coco"],
     nutritionalInfo: {
@@ -622,7 +622,7 @@ export const productsTestData: Product[] = [
     description: "Morango, framboesa, mirtilo, banana e leite de amêndoas",
     price: 16.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/05/berry-smoothie.jpg",
     isAvailable: true,
     ingredients: ["Morango", "Framboesa", "Mirtilo", "Banana", "Leite de amêndoas"],
     nutritionalInfo: {
@@ -641,7 +641,7 @@ export const productsTestData: Product[] = [
     description: "Limão, hortelã, açúcar e gelo",
     price: 12.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/fresh-lemonade.jpg",
     isAvailable: true,
     ingredients: ["Limão", "Hortelã", "Açúcar", "Gelo"],
     nutritionalInfo: {
@@ -660,7 +660,7 @@ export const productsTestData: Product[] = [
     description: "Café espresso com leite de aveia vaporizado",
     price: 13.5,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/latte-art-coffee.jpg",
     isAvailable: true,
     ingredients: ["Café espresso", "Leite de aveia"],
     nutritionalInfo: {
@@ -679,7 +679,7 @@ export const productsTestData: Product[] = [
     description: "Hibisco, gengibre, hortelã e limão",
     price: 11.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/08/iced-hibiscus-tea.jpg",
     isAvailable: true,
     ingredients: ["Hibisco", "Gengibre", "Hortelã", "Limão"],
     nutritionalInfo: {
@@ -698,7 +698,7 @@ export const productsTestData: Product[] = [
     description: "Leite vegetal, açafrão, gengibre, canela e mel vegano",
     price: 15.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1577968897744-0970323d2b22?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/golden-turmeric-latte.jpg",
     isAvailable: true,
     ingredients: ["Leite de coco", "Açafrão", "Gengibre", "Canela", "Mel vegano"],
     nutritionalInfo: {
@@ -719,7 +719,7 @@ export const productsTestData: Product[] = [
     description: "Pão italiano, tomate fresco, manjericão e azeite",
     price: 19.0,
     categoryId: "5",
-    image: "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/tomato-bruschetta.jpg",
     isAvailable: true,
     ingredients: ["Pão italiano", "Tomate", "Manjericão", "Azeite", "Alho"],
     nutritionalInfo: {
@@ -738,7 +738,7 @@ export const productsTestData: Product[] = [
     description: "Pasta de grão-de-bico, tahine, limão e pão sírio quente",
     price: 17.5,
     categoryId: "5",
-    image: "https://images.unsplash.com/photo-1622811051832-78a5a5a58d06?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/05/hummus-with-pita.jpg",
     isAvailable: true,
     ingredients: ["Grão-de-bico", "Tahine", "Limão", "Alho", "Pão sírio"],
     nutritionalInfo: {
@@ -757,7 +757,7 @@ export const productsTestData: Product[] = [
     description: "Abacate, tomate, cebola, coentro e tortillas crocantes",
     price: 20.0,
     categoryId: "5",
-    image: "https://images.unsplash.com/photo-1582169296194-e4d644c48063?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/guacamole-nachos.jpg",
     isAvailable: true,
     ingredients: ["Abacate", "Tomate", "Cebola", "Coentro", "Tortillas"],
     nutritionalInfo: {
@@ -776,7 +776,7 @@ export const productsTestData: Product[] = [
     description: "Massa de batata, recheio de palmito e temperos",
     price: 8.5,
     categoryId: "5",
-    image: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/08/brazilian-coxinha.jpg",
     isAvailable: true,
     ingredients: ["Batata", "Palmito", "Temperos", "Farinha de rosca"],
     nutritionalInfo: {
@@ -795,7 +795,7 @@ export const productsTestData: Product[] = [
     description: "Batatas rústicas assadas com alecrim e sal grosso",
     price: 15.0,
     categoryId: "5",
-    image: "https://images.unsplash.com/photo-1576777647209-e8733152dc4f?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/crispy-french-fries.jpg",
     isAvailable: true,
     ingredients: ["Batatas", "Alecrim", "Sal grosso", "Azeite"],
     nutritionalInfo: {
@@ -814,7 +814,7 @@ export const productsTestData: Product[] = [
     description: "Rolinhos de vegetais frescos com molho agridoce",
     price: 18.0,
     categoryId: "5",
-    image: "https://images.unsplash.com/photo-1594241480721-1e94fce0f86e?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/05/vietnamese-spring-rolls.jpg",
     isAvailable: true,
     ingredients: ["Papel de arroz", "Cenoura", "Pepino", "Alface", "Molho agridoce"],
     nutritionalInfo: {
@@ -836,7 +836,7 @@ export const productsTestData: Product[] = [
     description: "Cachaça artesanal com acerola fresca, limão e açúcar",
     price: 18.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/red-fruit-cocktail.jpg",
     isAvailable: true,
     ingredients: ["Cachaça", "Acerola", "Limão", "Açúcar", "Gelo"],
     nutritionalInfo: {
@@ -855,7 +855,7 @@ export const productsTestData: Product[] = [
     description: "Cachaça premium com polpa de cajá e toque cítrico",
     price: 19.5,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/orange-cocktail-drink.jpg",
     isAvailable: true,
     ingredients: ["Cachaça", "Cajá", "Limão", "Açúcar mascavo", "Gelo"],
     nutritionalInfo: {
@@ -874,7 +874,7 @@ export const productsTestData: Product[] = [
     description: "Cachaça com polpa cremosa de cupuaçu amazônico",
     price: 21.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1536935338788-846bb9981813?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/08/tropical-cocktail.jpg",
     isAvailable: true,
     ingredients: ["Cachaça", "Cupuaçu", "Açúcar", "Limão", "Gelo"],
     nutritionalInfo: {
@@ -893,7 +893,7 @@ export const productsTestData: Product[] = [
     description: "Cachaça com polpa de caju fresco e especiarias",
     price: 18.5,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1595981234244-4e13e33d6963?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/yellow-fruit-drink.jpg",
     isAvailable: true,
     ingredients: ["Cachaça", "Caju", "Gengibre", "Açúcar", "Gelo"],
     nutritionalInfo: {
@@ -912,7 +912,7 @@ export const productsTestData: Product[] = [
     description: "Cachaça com morangos frescos macerados",
     price: 17.5,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/strawberry-cocktail.jpg",
     isAvailable: true,
     ingredients: ["Cachaça", "Morango", "Açúcar", "Limão", "Gelo"],
     nutritionalInfo: {
@@ -931,7 +931,7 @@ export const productsTestData: Product[] = [
     description: "Cachaça com uvas roxas frescas e toque de hortelã",
     price: 19.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1596130127447-fdc1e6b3ab72?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/05/purple-grape-drink.jpg",
     isAvailable: true,
     ingredients: ["Cachaça", "Uva roxa", "Hortelã", "Açúcar", "Gelo"],
     nutritionalInfo: {
@@ -950,7 +950,7 @@ export const productsTestData: Product[] = [
     description: "Licor artesanal de jabuticaba com toque adocicado",
     price: 22.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1546171753-97d7676e4602?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/dark-berry-liqueur.jpg",
     isAvailable: true,
     ingredients: ["Jabuticaba", "Cachaça", "Açúcar", "Especiarias"],
     nutritionalInfo: {
@@ -969,7 +969,7 @@ export const productsTestData: Product[] = [
     description: "Licor cremoso de cupuaçu amazônico",
     price: 24.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/08/creamy-liqueur-glass.jpg",
     isAvailable: true,
     ingredients: ["Cupuaçu", "Leite condensado", "Vodka", "Creme de leite"],
     nutritionalInfo: {
@@ -988,7 +988,7 @@ export const productsTestData: Product[] = [
     description: "Licor de cacau com notas de baunilha",
     price: 23.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1609951651418-304ec4e8f0d4?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/chocolate-liqueur.jpg",
     isAvailable: false,
     ingredients: ["Cacau", "Vodka", "Baunilha", "Açúcar"],
     nutritionalInfo: {
@@ -1007,7 +1007,7 @@ export const productsTestData: Product[] = [
     description: "Licor refrescante de maracujá com toque ácido",
     price: 21.5,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1587223962930-cb7f31384c19?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/passion-fruit-drink.jpg",
     isAvailable: true,
     ingredients: ["Maracujá", "Vodka", "Açúcar", "Limão"],
     nutritionalInfo: {
@@ -1026,7 +1026,7 @@ export const productsTestData: Product[] = [
     description: "Gin premium com água tônica e limão siciliano",
     price: 25.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/05/classic-gin-tonic.jpg",
     isAvailable: true,
     ingredients: ["Gin", "Água tônica", "Limão siciliano", "Gelo", "Gengibre"],
     nutritionalInfo: {
@@ -1045,7 +1045,7 @@ export const productsTestData: Product[] = [
     description: "Gin com frutas vermelhas frescas e tônica rosé",
     price: 27.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/berry-gin-cocktail.jpg",
     isAvailable: true,
     ingredients: ["Gin", "Morango", "Framboesa", "Água tônica rosé", "Gelo"],
     nutritionalInfo: {
@@ -1064,7 +1064,7 @@ export const productsTestData: Product[] = [
     description: "Gin com maracujá, abacaxi e hortelã",
     price: 26.5,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1587223962930-cb7f31384c19?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/08/tropical-gin-tonic.jpg",
     isAvailable: true,
     ingredients: ["Gin", "Maracujá", "Abacaxi", "Hortelã", "Água tônica"],
     nutritionalInfo: {
@@ -1083,7 +1083,7 @@ export const productsTestData: Product[] = [
     description: "Gin com especiarias, pepino e alecrim",
     price: 28.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/spiced-gin-drink.jpg",
     isAvailable: true,
     ingredients: ["Gin", "Pepino", "Alecrim", "Pimenta rosa", "Água tônica"],
     nutritionalInfo: {
@@ -1102,7 +1102,7 @@ export const productsTestData: Product[] = [
     description: "Cachaça batida com leite de coco e leite condensado",
     price: 16.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/coconut-cocktail.jpg",
     isAvailable: true,
     ingredients: ["Cachaça", "Leite de coco", "Leite condensado", "Gelo"],
     nutritionalInfo: {
@@ -1121,7 +1121,7 @@ export const productsTestData: Product[] = [
     description: "Cachaça batida com pasta de amendoim e leite",
     price: 17.5,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/peanut-cream-drink.jpg",
     isAvailable: false,
     ingredients: ["Cachaça", "Pasta de amendoim", "Leite", "Açúcar", "Gelo"],
     nutritionalInfo: {
@@ -1140,7 +1140,7 @@ export const productsTestData: Product[] = [
     description: "Cachaça com hortelã, limão e açúcar mascavo",
     price: 18.5,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1541546989082-79c9b0a9a6de?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/05/mint-mojito-cocktail.jpg",
     isAvailable: true,
     ingredients: ["Cachaça", "Hortelã", "Limão", "Açúcar mascavo", "Soda"],
     nutritionalInfo: {
@@ -1159,7 +1159,7 @@ export const productsTestData: Product[] = [
     description: "Vodka com kiwi fresco e limão",
     price: 20.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1587223962930-cb7f31384c19?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/06/kiwi-green-cocktail.jpg",
     isAvailable: true,
     ingredients: ["Vodka", "Kiwi", "Limão", "Açúcar", "Gelo"],
     nutritionalInfo: {
@@ -1178,7 +1178,7 @@ export const productsTestData: Product[] = [
     description: "Gin com limão, clara de ovo e xarope de jabuticaba",
     price: 29.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/08/gin-sour-cocktail.jpg",
     isAvailable: true,
     ingredients: ["Gin", "Limão", "Clara de ovo", "Xarope de jabuticaba", "Angostura"],
     nutritionalInfo: {
@@ -1197,7 +1197,7 @@ export const productsTestData: Product[] = [
     description: "Cachaça artesanal envelhecida em barris de carvalho (dose)",
     price: 15.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=400&h=300&fit=crop",
+    image: "https://foodiesfeed.com/wp-content/uploads/2023/07/aged-spirits-glass.jpg",
     isAvailable: true,
     ingredients: ["Cachaça envelhecida"],
     nutritionalInfo: {

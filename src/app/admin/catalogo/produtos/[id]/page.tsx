@@ -16,7 +16,7 @@ export default function ViewProductPage() {
       <div className="text-center py-12">
         <p className="text-gray-500 dark:text-gray-400">Product not found</p>
         <button
-          onClick={() => router.push('/catalogo/produtos')}
+          onClick={() => router.push('/admin/catalogo/produtos')}
           className="mt-4 text-blue-600 hover:text-blue-800 dark:text-blue-400"
         >
           Back to products
@@ -60,7 +60,7 @@ export default function ViewProductPage() {
         </div>
         <div className="flex gap-2">
           <button
-            onClick={() => router.push(`/catalogo/produtos/${product.id}/editar`)}
+            onClick={() => router.push(`/admin/catalogo/produtos/${product.id}/editar`)}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,7 +153,7 @@ export default function ViewProductPage() {
           )}
 
           {/* Nutritional Information */}
-          {product.informacoesNutricionais && (
+          {product.nutritionalInfo && (
             <div>
               <label className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">
                 Nutritional Information
@@ -162,28 +162,28 @@ export default function ViewProductPage() {
                 <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                   <p className="text-xs text-blue-600 dark:text-blue-400 mb-1">Calories</p>
                   <p className="text-2xl font-bold text-blue-900 dark:text-blue-300">
-                    {product.informacoesNutricionais.calories}
+                    {product.nutritionalInfo.calories}
                     <span className="text-sm font-normal ml-1">kcal</span>
                   </p>
                 </div>
                 <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
                   <p className="text-xs text-green-600 dark:text-green-400 mb-1">Protein</p>
                   <p className="text-2xl font-bold text-green-900 dark:text-green-300">
-                    {product.informacoesNutricionais.proteins}
+                    {product.nutritionalInfo.proteins}
                     <span className="text-sm font-normal ml-1">g</span>
                   </p>
                 </div>
                 <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                   <p className="text-xs text-yellow-600 dark:text-yellow-400 mb-1">Carbs</p>
                   <p className="text-2xl font-bold text-yellow-900 dark:text-yellow-300">
-                    {product.informacoesNutricionais.carbohydrates}
+                    {product.nutritionalInfo.carbohydrates}
                     <span className="text-sm font-normal ml-1">g</span>
                   </p>
                 </div>
                 <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
                   <p className="text-xs text-orange-600 dark:text-orange-400 mb-1">Fat</p>
                   <p className="text-2xl font-bold text-orange-900 dark:text-orange-300">
-                    {product.informacoesNutricionais.fats}
+                    {product.nutritionalInfo.fats}
                     <span className="text-sm font-normal ml-1">g</span>
                   </p>
                 </div>

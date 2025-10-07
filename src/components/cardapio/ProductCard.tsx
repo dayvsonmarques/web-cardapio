@@ -2,12 +2,15 @@
 
 import Image from "next/image";
 import { Product } from "@/types/catalog";
+import { useState } from "react";
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const [imageError, setImageError] = useState(false);
+
   return (
     <div className="group relative overflow-hidden rounded-lg border border-stroke bg-white shadow-sm transition-all hover:shadow-md dark:border-stroke-dark dark:bg-gray-dark">
       {/* Badge de Disponibilidade */}
@@ -19,12 +22,36 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
       {/* Imagem */}
       <div className="relative h-48 w-full overflow-hidden bg-gray-2 dark:bg-gray-800">
-        <Image
-          src={product.image}
-          alt={product.name}
-          fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
-        />
+        {!imageError ? (
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-gray-3 dark:bg-gray-800">
+            <div className="text-center">
+              <svg
+                className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              <p className="mt-2 text-xs text-gray-500 dark:text-gray-600">
+                Imagem não disponível
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Conteúdo */}
