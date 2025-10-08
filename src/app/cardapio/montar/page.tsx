@@ -44,7 +44,6 @@ const MontarPedidoPage = () => {
       console.log('Adicionando ao carrinho:', product.name, 'Qtd:', quantity);
       addItem(product, quantity);
       setQuantities(prev => ({ ...prev, [productId]: 1 }));
-      alert(`${product.name} adicionado ao carrinho!`);
     }
   };
 
@@ -163,17 +162,18 @@ const MontarPedidoPage = () => {
                           <input
                             type="number"
                             min="1"
+                            max="99"
                             value={quantity}
                             onChange={(e) => {
                               const val = parseInt(e.target.value);
-                              handleQuantityChange(product.id, isNaN(val) || val < 1 ? 1 : val);
+                              handleQuantityChange(product.id, isNaN(val) || val < 1 ? 1 : val > 99 ? 99 : val);
                             }}
-                            className="w-12 border-x border-gray-300 bg-transparent py-1 text-center dark:border-gray-600 dark:text-white"
+                            className="w-12 border-x border-gray-300 bg-transparent py-1 text-center dark:border-gray-600 dark:text-white [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                           />
                           <button
                             onClick={(e) => {
                               e.preventDefault();
-                              handleQuantityChange(product.id, quantity + 1);
+                              handleQuantityChange(product.id, Math.min(99, quantity + 1));
                             }}
                             className="px-3 py-1 text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
                           >
