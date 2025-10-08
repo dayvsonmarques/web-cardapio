@@ -19,6 +19,9 @@ export default function LandingNav() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
+            <Link href="/cardapio" className="text-lg font-medium text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors">
+              Cardápio
+            </Link>
             <a href="#servicos" className="text-lg font-medium text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors">
               Serviços
             </a>
@@ -60,6 +63,9 @@ export default function LandingNav() {
         {mobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200 dark:border-gray-800">
             <div className="flex flex-col space-y-4">
+              <Link href="/cardapio" className="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors">
+                Cardápio
+              </Link>
               <a href="#servicos" className="text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors">
                 Serviços
               </a>
