@@ -8,15 +8,14 @@ import ProductCard from "@/components/cardapio/ProductCard";
 import { categoriesTestData, productsTestData } from "@/data/catalogTestData";
 
 const CardapioPage = () => {
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    null,
+  // Inicializar com a primeira categoria ativa
+  const firstActiveCategory = categoriesTestData.find((cat) => cat.isActive);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>(
+    firstActiveCategory?.id || "1",
   );
 
   // Filtrar produtos pela categoria selecionada
   const filteredProducts = useMemo(() => {
-    if (selectedCategoryId === null) {
-      return productsTestData;
-    }
     return productsTestData.filter(
       (product) => product.categoryId === selectedCategoryId,
     );

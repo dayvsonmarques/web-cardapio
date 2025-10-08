@@ -738,7 +738,7 @@ export const productsTestData: Product[] = [
     description: "Pasta de grão-de-bico, tahine, limão e pão sírio quente",
     price: 17.5,
     categoryId: "5",
-    image: "https://images.unsplash.com/photo-1590562590852-5d3d1e034ad1?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1603893603993-c49b51086e3f?w=400&h=300&fit=crop",
     isAvailable: true,
     ingredients: ["Grão-de-bico", "Tahine", "Limão", "Alho", "Pão sírio"],
     nutritionalInfo: {
@@ -795,7 +795,7 @@ export const productsTestData: Product[] = [
     description: "Batatas rústicas assadas com alecrim e sal grosso",
     price: 15.0,
     categoryId: "5",
-    image: "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1576777647209-e8733152dc4f?w=400&h=300&fit=crop",
     isAvailable: true,
     ingredients: ["Batatas", "Alecrim", "Sal grosso", "Azeite"],
     nutritionalInfo: {
@@ -814,7 +814,7 @@ export const productsTestData: Product[] = [
     description: "Rolinhos de vegetais frescos com molho agridoce",
     price: 18.0,
     categoryId: "5",
-    image: "https://images.unsplash.com/photo-1626790680787-de5e9a07bcf2?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1594241480721-1e94fce0f86e?w=400&h=300&fit=crop",
     isAvailable: true,
     ingredients: ["Papel de arroz", "Cenoura", "Pepino", "Alface", "Molho agridoce"],
     nutritionalInfo: {
@@ -893,7 +893,7 @@ export const productsTestData: Product[] = [
     description: "Cachaça com polpa de caju fresco e especiarias",
     price: 18.5,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1587180931564-492867d2c6cb?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1595981234244-4e13e33d6963?w=400&h=300&fit=crop",
     isAvailable: true,
     ingredients: ["Cachaça", "Caju", "Gengibre", "Açúcar", "Gelo"],
     nutritionalInfo: {
@@ -931,7 +931,7 @@ export const productsTestData: Product[] = [
     description: "Cachaça com uvas roxas frescas e toque de hortelã",
     price: 19.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1587180931564-492867d2c6cb?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1596130127447-fdc1e6b3ab72?w=400&h=300&fit=crop",
     isAvailable: true,
     ingredients: ["Cachaça", "Uva roxa", "Hortelã", "Açúcar", "Gelo"],
     nutritionalInfo: {
@@ -988,7 +988,7 @@ export const productsTestData: Product[] = [
     description: "Licor de cacau com notas de baunilha",
     price: 23.0,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1609951651418-304ec4e8f0d4?w=400&h=300&fit=crop",
     isAvailable: false,
     ingredients: ["Cacau", "Vodka", "Baunilha", "Açúcar"],
     nutritionalInfo: {
@@ -1140,7 +1140,7 @@ export const productsTestData: Product[] = [
     description: "Cachaça com hortelã, limão e açúcar mascavo",
     price: 18.5,
     categoryId: "4",
-    image: "https://images.unsplash.com/photo-1587223962930-cb7f31384c19?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1541546989082-79c9b0a9a6de?w=400&h=300&fit=crop",
     isAvailable: true,
     ingredients: ["Cachaça", "Hortelã", "Limão", "Açúcar mascavo", "Soda"],
     nutritionalInfo: {

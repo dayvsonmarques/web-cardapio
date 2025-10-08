@@ -18,33 +18,7 @@ const CardapioHeader = () => {
     <header className="sticky top-0 z-50 w-full border-b border-stroke bg-white dark:border-stroke-dark dark:bg-gray-dark">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
-          {/* Mobile Menu Button - Left Side */}
-          <button
-            type="button"
-            className="lg:hidden rounded-md p-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <CloseIcon className="h-6 w-6" />
-            ) : (
-              <ListIcon className="h-6 w-6" />
-            )}
-          </button>
-
-          {/* Desktop Navigation - Center */}
-          <nav className="hidden lg:flex lg:flex-1 lg:justify-center lg:gap-x-12">
-            {menuItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-lg font-medium text-dark transition-colors hover:text-primary dark:text-white dark:hover:text-primary"
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Logo - Right Side */}
+          {/* Logo - Left Side */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
               <Image
@@ -59,6 +33,32 @@ const CardapioHeader = () => {
               </span>
             </Link>
           </div>
+
+          {/* Desktop Navigation - Right Side */}
+          <nav className="hidden lg:flex lg:gap-x-8">
+            {menuItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-lg font-medium text-dark transition-colors hover:text-primary dark:text-white dark:hover:text-primary"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Mobile Menu Button - Right Side */}
+          <button
+            type="button"
+            className="lg:hidden rounded-md p-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? (
+              <CloseIcon className="h-6 w-6" />
+            ) : (
+              <ListIcon className="h-6 w-6" />
+            )}
+          </button>
         </div>
       </div>
 
