@@ -16,8 +16,8 @@ const CardapiosPage: React.FC = () => {
       const matchSearch = cardapio.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          (cardapio.description && cardapio.description.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchStatus = filterStatus === 'all' || 
-                         (filterStatus === 'true' && cardapio.ativo) ||
-                         (filterStatus === 'false' && !cardapio.ativo);
+                         (filterStatus === 'true' && cardapio.isActive) ||
+                         (filterStatus === 'false' && !cardapio.isActive);
       
       return matchSearch && matchStatus;
     });
@@ -33,8 +33,8 @@ const CardapiosPage: React.FC = () => {
     return produto ? produto.name : 'Produto não encontrado';
   };
 
-  const isCardapioAtivo = (cardapio: Cardapio) => {
-    if (!cardapio.ativo) return false;
+  const isCardapioAtivo = (cardapio: Menu) => {
+    if (!cardapio.isActive) return false;
     
     const hoje = new Date();
     const inicio = cardapio.startDate;
