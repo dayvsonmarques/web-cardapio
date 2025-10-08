@@ -9,17 +9,19 @@ import { categoriesTestData } from '@/data/catalogTestData';
 export default function NewProductPage() {
   const router = useRouter();
   const [formData, setFormData] = useState<ProductFormData>({
-    nome: '',
-    descricao: '',
-    preco: 0,
-    categoriaId: '',
-    disponivel: true,
-    ingredientes: [],
-    informacoesNutricionais: {
-      calorias: undefined,
-      proteinas: undefined,
-      carboidratos: undefined,
-      gorduras: undefined,
+    name: '',
+    description: '',
+    price: 0,
+    categoryId: '',
+    image: '',
+    isAvailable: true,
+    ingredients: [],
+    nutritionalInfo: {
+      calories: 0,
+      proteins: 0,
+      carbohydrates: 0,
+      fats: 0,
+      fiber: 0,
     },
   });
 
@@ -100,7 +102,7 @@ export default function NewProductPage() {
                 </label>
                 <input
                   type="text"
-                  name="nome"
+                  name="name"
                   value={formData.name}
                   onChange={handleInputChange}
                   required
@@ -113,7 +115,7 @@ export default function NewProductPage() {
                   Description *
                 </label>
                 <textarea
-                  name="descricao"
+                  name="description"
                   value={formData.description}
                   onChange={handleInputChange}
                   required
@@ -128,7 +130,7 @@ export default function NewProductPage() {
                 </label>
                 <input
                   type="number"
-                  name="preco"
+                  name="price"
                   value={formData.price}
                   onChange={handleInputChange}
                   required
@@ -143,7 +145,7 @@ export default function NewProductPage() {
                   Category *
                 </label>
                 <select
-                  name="categoriaId"
+                  name="categoryId"
                   value={formData.categoryId}
                   onChange={handleInputChange}
                   required
@@ -176,7 +178,7 @@ export default function NewProductPage() {
                 <label className="flex items-center gap-2">
                   <input
                     type="checkbox"
-                    name="disponivel"
+                    name="isAvailable"
                     checked={formData.isAvailable}
                     onChange={handleInputChange}
                     className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
@@ -195,13 +197,13 @@ export default function NewProductPage() {
                   Ingredients (comma separated)
                 </label>
                 <textarea
-                  name="ingredientes"
+                  name="ingredients"
                   value={formData.ingredients?.join(', ') || ''}
                   onChange={(e) => {
                     const value = e.target.value;
                     setFormData(prev => ({
                       ...prev,
-                      ingredientes: value ? value.split(',').map(i => i.trim()) : []
+                      ingredients: value ? value.split(',').map(i => i.trim()) : []
                     }));
                   }}
                   rows={3}
@@ -221,14 +223,14 @@ export default function NewProductPage() {
                     </label>
                     <input
                       type="number"
-                      name="calorias"
-                      value={formData.informacoesNutricionais?.calories || ''}
+                      name="calories"
+                      value={formData.nutritionalInfo?.calories || ''}
                       onChange={(e) => {
                         setFormData(prev => ({
                           ...prev,
-                          informacoesNutricionais: {
-                            ...prev.informacoesNutricionais,
-                            calorias: e.target.value ? Number(e.target.value) : undefined
+                          nutritionalInfo: {
+                            ...prev.nutritionalInfo,
+                            calories: e.target.value ? Number(e.target.value) : 0
                           }
                         }));
                       }}
@@ -242,14 +244,14 @@ export default function NewProductPage() {
                     </label>
                     <input
                       type="number"
-                      name="proteinas"
-                      value={formData.informacoesNutricionais?.proteins || ''}
+                      name="proteins"
+                      value={formData.nutritionalInfo?.proteins || ''}
                       onChange={(e) => {
                         setFormData(prev => ({
                           ...prev,
-                          informacoesNutricionais: {
-                            ...prev.informacoesNutricionais,
-                            proteinas: e.target.value ? Number(e.target.value) : undefined
+                          nutritionalInfo: {
+                            ...prev.nutritionalInfo,
+                            proteins: e.target.value ? Number(e.target.value) : 0
                           }
                         }));
                       }}
@@ -264,14 +266,14 @@ export default function NewProductPage() {
                     </label>
                     <input
                       type="number"
-                      name="carboidratos"
-                      value={formData.informacoesNutricionais?.carbohydrates || ''}
+                      name="carbohydrates"
+                      value={formData.nutritionalInfo?.carbohydrates || ''}
                       onChange={(e) => {
                         setFormData(prev => ({
                           ...prev,
-                          informacoesNutricionais: {
-                            ...prev.informacoesNutricionais,
-                            carboidratos: e.target.value ? Number(e.target.value) : undefined
+                          nutritionalInfo: {
+                            ...prev.nutritionalInfo,
+                            carbohydrates: e.target.value ? Number(e.target.value) : 0
                           }
                         }));
                       }}
@@ -286,14 +288,36 @@ export default function NewProductPage() {
                     </label>
                     <input
                       type="number"
-                      name="gorduras"
-                      value={formData.informacoesNutricionais?.fats || ''}
+                      name="fats"
+                      value={formData.nutritionalInfo?.fats || ''}
                       onChange={(e) => {
                         setFormData(prev => ({
                           ...prev,
-                          informacoesNutricionais: {
-                            ...prev.informacoesNutricionais,
-                            gorduras: e.target.value ? Number(e.target.value) : undefined
+                          nutritionalInfo: {
+                            ...prev.nutritionalInfo,
+                            fats: e.target.value ? Number(e.target.value) : 0
+                          }
+                        }));
+                      }}
+                      min="0"
+                      step="0.1"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                      Fiber (g)
+                    </label>
+                    <input
+                      type="number"
+                      name="fiber"
+                      value={formData.nutritionalInfo?.fiber || ''}
+                      onChange={(e) => {
+                        setFormData(prev => ({
+                          ...prev,
+                          nutritionalInfo: {
+                            ...prev.nutritionalInfo,
+                            fiber: e.target.value ? Number(e.target.value) : 0
                           }
                         }));
                       }}

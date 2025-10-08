@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { tablesTestData, ordersTestData, productsTestData } from '@/data/catalogTestData';
-import { Order, Table, OrderItem, PAYMENT_METHOD_LABELS, PaymentMethod } from '@/types/orders';
+import { Order, Table, OrderItem, Payment, PAYMENT_METHOD_LABELS, PaymentMethod } from '@/types/orders';
 import Image from 'next/image';
 
 type ModalType = 'novo-pedido' | 'adicionar-item' | 'adicionar-pagamento' | 'visualizar' | null;
@@ -20,23 +20,23 @@ export default function PedidosPage() {
 
   // Estado do formulário de novo pedido
   const [novoPedidoForm, setNovoPedidoForm] = useState({
-    mesaId: '',
-    incluirServico: true,
-    observacoes: '',
+    tableId: '',
+    includeService: true,
+    notes: '',
   });
 
   // Estado do formulário de adicionar item
   const [novoItemForm, setNovoItemForm] = useState({
-    produtoId: '',
-    quantidade: 1,
-    observacoes: '',
+    productId: '',
+    quantity: 1,
+    notes: '',
   });
 
   // Estado do formulário de pagamento
   const [novoPagamentoForm, setNovoPagamentoForm] = useState({
-    valor: '',
-    metodoPagamento: 'dinheiro' as PaymentMethod,
-    observacoes: '',
+    amount: '',
+    method: 'cash' as PaymentMethod,
+    notes: '',
   });
 
   const [buscaProduto, setBuscaProduto] = useState('');
@@ -55,18 +55,18 @@ export default function PedidosPage() {
   }, [buscaProduto]);
 
   const mesasLivres = useMemo(() => {
-    return mesas.filter((mesa) => mesa.status === 'livre');
+    return mesas.filter((mesa) => mesa.status === 'available');
   }, [mesas]);
 
-  const calcularTotais = (itens: ItemPedido[], incluirServico: boolean) => {
-    const subtotal = itens.reduce((acc, item) => acc + item.unitPrice * item.quantity, 0);
-    const servicoOpcional = incluirServico ? subtotal * 0.1 : 0;
-    const total = subtotal + servicoOpcional;
-    return { subtotal, servicoOpcional, total };
+  const calcularTotais = (items: ItemPedido[], includeService: boolean) => {
+    const subtotal = items.reduce((acc, item) => acc + item.unitPrice * item.quantity, 0);
+    const serviceCharge = includeService ? subtotal * 0.1 : 0;
+    const total = subtotal + serviceCharge;
+    return { subtotal, serviceCharge, total };
   };
 
   const abrirNovoPedido = () => {
-    setNovoPedidoForm({ mesaId: '', incluirServico: true, observacoes: '' });
+    setNovoPedidoForm({ tableId: '', includeService: true, notes: '' });
     setModalAberto('novo-pedido');
   };
 
@@ -81,23 +81,23 @@ export default function PedidosPage() {
 
     const novoPedido: Pedido = {
       id: String(pedidos.length + 1),
-      mesaId: mesa.id,
-      numeroMesa: mesa.number,
-      itens: [],
+      tableId: mesa.id,
+      tableNumber: mesa.number,
+      items: [],
       subtotal: 0,
-      servicoOpcional: 0,
-      incluirServico: novoPedidoForm.incluirServico,
+      serviceCharge: 0,
       total: 0,
-      status: 'aberto',
-      pagamentos: [],
-      valorPago: 0,
-      valorRestante: 0,
-      dataAbertura: new Date(),
-      observacoes: novoPedidoForm.notes,
+      status: 'pending',
+      payments: [],
+      totalPaid: 0,
+      remainingBalance: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      notes: novoPedidoForm.notes,
     };
 
     setPedidos([...pedidos, novoPedido]);
-    setMesas(mesas.map((m) => (m.id === mesa.id ? { ...m, status: 'ocupada' as const } : m)));
+    setMesas(mesas.map((m) => (m.id === mesa.id ? { ...m, status: 'occupied' as const } : m)));
     setModalAberto(null);
     setPedidoSelecionado(novoPedido);
     setModalAberto('adicionar-item');
@@ -105,7 +105,7 @@ export default function PedidosPage() {
 
   const abrirAdicionarItem = (pedido: Pedido) => {
     setPedidoSelecionado(pedido);
-    setNovoItemForm({ produtoId: '', quantidade: 1, observacoes: '' });
+    setNovoItemForm({ productId: '', quantity: 1, notes: '' });
     setBuscaProduto('');
     setModalAberto('adicionar-item');
   };
@@ -121,26 +121,27 @@ export default function PedidosPage() {
 
     const novoItem: ItemPedido = {
       id: String(Date.now()),
-      produtoId: produto.id,
-      nomeProduto: produto.name,
-      quantidade: novoItemForm.quantity,
-      precoUnitario: produto.price,
-      observacoes: novoItemForm.notes,
+      productId: produto.id,
+      productName: produto.name,
+      quantity: novoItemForm.quantity,
+      unitPrice: produto.price,
+      subtotal: produto.price * novoItemForm.quantity,
+      notes: novoItemForm.notes,
     };
 
     const itensAtualizados = [...pedidoSelecionado.items, novoItem];
-    const totais = calcularTotais(itensAtualizados, pedidoSelecionado.incluirServico);
+    const totais = calcularTotais(itensAtualizados, pedidoSelecionado.serviceCharge > 0);
 
     const pedidoAtualizado: Pedido = {
       ...pedidoSelecionado,
-      itens: itensAtualizados,
+      items: itensAtualizados,
       ...totais,
-      valorRestante: totais.total - pedidoSelecionado.valorPago,
+      remainingBalance: totais.total - pedidoSelecionado.totalPaid,
     };
 
     setPedidos(pedidos.map((p) => (p.id === pedidoAtualizado.id ? pedidoAtualizado : p)));
     setPedidoSelecionado(pedidoAtualizado);
-    setNovoItemForm({ produtoId: '', quantidade: 1, observacoes: '' });
+    setNovoItemForm({ productId: '', quantity: 1, notes: '' });
     setBuscaProduto('');
   };
 
@@ -148,13 +149,13 @@ export default function PedidosPage() {
     if (!pedidoSelecionado) return;
 
     const itensAtualizados = pedidoSelecionado.items.filter((item) => item.id !== itemId);
-    const totais = calcularTotais(itensAtualizados, pedidoSelecionado.incluirServico);
+    const totais = calcularTotais(itensAtualizados, pedidoSelecionado.serviceCharge > 0);
 
     const pedidoAtualizado: Pedido = {
       ...pedidoSelecionado,
-      itens: itensAtualizados,
+      items: itensAtualizados,
       ...totais,
-      valorRestante: totais.total - pedidoSelecionado.valorPago,
+      remainingBalance: totais.total - pedidoSelecionado.totalPaid,
     };
 
     setPedidos(pedidos.map((p) => (p.id === pedidoAtualizado.id ? pedidoAtualizado : p)));
@@ -164,14 +165,13 @@ export default function PedidosPage() {
   const alternarServico = () => {
     if (!pedidoSelecionado) return;
 
-    const incluirServico = !pedidoSelecionado.incluirServico;
+    const incluirServico = !(pedidoSelecionado.serviceCharge > 0);
     const totais = calcularTotais(pedidoSelecionado.items, incluirServico);
 
     const pedidoAtualizado: Pedido = {
       ...pedidoSelecionado,
-      incluirServico,
       ...totais,
-      valorRestante: totais.total - pedidoSelecionado.valorPago,
+      remainingBalance: totais.total - pedidoSelecionado.totalPaid,
     };
 
     setPedidos(pedidos.map((p) => (p.id === pedidoAtualizado.id ? pedidoAtualizado : p)));
@@ -181,9 +181,9 @@ export default function PedidosPage() {
   const abrirAdicionarPagamento = (pedido: Pedido) => {
     setPedidoSelecionado(pedido);
     setNovoPagamentoForm({
-      valor: String(pedido.valorRestante.toFixed(2)),
-      metodoPagamento: 'dinheiro',
-      observacoes: '',
+      amount: String(pedido.remainingBalance.toFixed(2)),
+      method: 'cash',
+      notes: '',
     });
     setModalAberto('adicionar-pagamento');
   };
@@ -197,36 +197,35 @@ export default function PedidosPage() {
       return;
     }
 
-    if (valor > pedidoSelecionado.valorRestante) {
+    if (valor > pedidoSelecionado.remainingBalance) {
       alert('Valor maior que o restante');
       return;
     }
 
-    const novoPagamento: Pagamento = {
+    const novoPagamento: Payment = {
       id: String(Date.now()),
-      valor,
-      metodoPagamento: novoPagamentoForm.metodoPagamento,
-      dataPagamento: new Date(),
-      observacoes: novoPagamentoForm.notes,
+      amount: valor,
+      method: novoPagamentoForm.method,
+      paidAt: new Date(),
     };
 
-    const valorPago = pedidoSelecionado.valorPago + valor;
+    const valorPago = pedidoSelecionado.totalPaid + valor;
     const valorRestante = pedidoSelecionado.total - valorPago;
 
     const pedidoAtualizado: Pedido = {
       ...pedidoSelecionado,
-      pagamentos: [...pedidoSelecionado.payments, novoPagamento],
-      valorPago,
-      valorRestante,
-      status: valorRestante === 0 ? 'finalizado' : pedidoSelecionado.status,
-      dataFechamento: valorRestante === 0 ? new Date() : undefined,
+      payments: [...pedidoSelecionado.payments, novoPagamento],
+      totalPaid: valorPago,
+      remainingBalance: valorRestante,
+      status: valorRestante === 0 ? 'paid' : pedidoSelecionado.status,
+      closedAt: valorRestante === 0 ? new Date() : undefined,
     };
 
     setPedidos(pedidos.map((p) => (p.id === pedidoAtualizado.id ? pedidoAtualizado : p)));
 
     if (valorRestante === 0) {
       setMesas(
-        mesas.map((m) => (m.id === pedidoSelecionado.tableId ? { ...m, status: 'livre' as const } : m))
+        mesas.map((m) => (m.id === pedidoSelecionado.tableId ? { ...m, status: 'available' as const } : m))
       );
     }
 
@@ -270,11 +269,11 @@ export default function PedidosPage() {
 
   const getMesaStatusColor = (status: string) => {
     switch (status) {
-      case 'livre':
+      case 'available':
         return 'bg-green-100 border-green-500 text-green-800';
-      case 'ocupada':
+      case 'occupied':
         return 'bg-red-100 border-red-500 text-red-800';
-      case 'reservada':
+      case 'reserved':
         return 'bg-yellow-100 border-yellow-500 text-yellow-800';
       default:
         return 'bg-gray-100 border-gray-500 text-gray-800';
@@ -283,9 +282,9 @@ export default function PedidosPage() {
 
   const getMesaStatusLabel = (status: string) => {
     const labels: Record<string, string> = {
-      livre: 'Livre',
-      ocupada: 'Ocupada',
-      reservada: 'Reservada',
+      available: 'Livre',
+      occupied: 'Ocupada',
+      reserved: 'Reservada',
     };
     return labels[status] || status;
   };
@@ -316,7 +315,7 @@ export default function PedidosPage() {
         <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">Mesas</h2>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10">
           {mesas.map((mesa) => {
-            const pedidoDaMesa = pedidos.find((p) => p.tableId === mesa.id && p.status !== 'finalizado');
+            const pedidoDaMesa = pedidos.find((p) => p.tableId === mesa.id && p.status !== 'paid');
             return (
               <div
                 key={mesa.id}
@@ -358,7 +357,7 @@ export default function PedidosPage() {
               : 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
           }`}
         >
-          Abertos ({pedidos.filter((p) => p.status === 'aberto').length})
+          Abertos ({pedidos.filter((p) => p.status === 'pending').length})
         </button>
         <button
           onClick={() => setFiltroStatus('em_preparo')}
@@ -368,7 +367,7 @@ export default function PedidosPage() {
               : 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
           }`}
         >
-          Em Preparo ({pedidos.filter((p) => p.status === 'em_preparo').length})
+          Em Preparo ({pedidos.filter((p) => p.status === 'preparing').length})
         </button>
         <button
           onClick={() => setFiltroStatus('finalizado')}
@@ -378,7 +377,7 @@ export default function PedidosPage() {
               : 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
           }`}
         >
-          Finalizados ({pedidos.filter((p) => p.status === 'finalizado').length})
+          Finalizados ({pedidos.filter((p) => p.status === 'paid').length})
         </button>
       </div>
 
@@ -410,11 +409,11 @@ export default function PedidosPage() {
                   {formatarMoeda(pedido.subtotal)}
                 </span>
               </div>
-              {pedido.incluirServico && (
+              {pedido.serviceCharge > 0 && (
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600 dark:text-gray-400">Serviço (10%):</span>
                   <span className="font-medium text-gray-900 dark:text-white">
-                    {formatarMoeda(pedido.servicoOpcional)}
+                    {formatarMoeda(pedido.serviceCharge)}
                   </span>
                 </div>
               )}
@@ -422,18 +421,18 @@ export default function PedidosPage() {
                 <span className="text-gray-900 dark:text-white">Total:</span>
                 <span className="text-gray-900 dark:text-white">{formatarMoeda(pedido.total)}</span>
               </div>
-              {pedido.valorPago > 0 && (
+              {pedido.totalPaid > 0 && (
                 <>
                   <div className="flex justify-between text-sm">
                     <span className="text-green-600 dark:text-green-400">Pago:</span>
                     <span className="font-medium text-green-600 dark:text-green-400">
-                      {formatarMoeda(pedido.valorPago)}
+                      {formatarMoeda(pedido.totalPaid)}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-red-600 dark:text-red-400">Restante:</span>
                     <span className="font-medium text-red-600 dark:text-red-400">
-                      {formatarMoeda(pedido.valorRestante)}
+                      {formatarMoeda(pedido.remainingBalance)}
                     </span>
                   </div>
                 </>
@@ -447,7 +446,7 @@ export default function PedidosPage() {
               >
                 Ver Detalhes
               </button>
-              {pedido.status !== 'finalizado' && pedido.status !== 'cancelado' && (
+              {pedido.status !== 'paid' && pedido.status !== 'cancelled' && (
                 <button
                   onClick={() => abrirAdicionarPagamento(pedido)}
                   className="flex-1 rounded bg-green-600 px-3 py-2 text-sm font-medium text-white hover:bg-green-700"
@@ -479,7 +478,7 @@ export default function PedidosPage() {
                 </label>
                 <select
                   value={novoPedidoForm.tableId}
-                  onChange={(e) => setNovoPedidoForm({ ...novoPedidoForm, mesaId: e.target.value })}
+                  onChange={(e) => setNovoPedidoForm({ ...novoPedidoForm, tableId: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">Selecione uma mesa</option>
@@ -495,9 +494,9 @@ export default function PedidosPage() {
                 <label className="flex items-center gap-2">
                   <input
                     type="checkbox"
-                    checked={novoPedidoForm.incluirServico}
+                    checked={novoPedidoForm.includeService}
                     onChange={(e) =>
-                      setNovoPedidoForm({ ...novoPedidoForm, incluirServico: e.target.checked })
+                      setNovoPedidoForm({ ...novoPedidoForm, includeService: e.target.checked })
                     }
                     className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
@@ -511,7 +510,7 @@ export default function PedidosPage() {
                 </label>
                 <textarea
                   value={novoPedidoForm.notes}
-                  onChange={(e) => setNovoPedidoForm({ ...novoPedidoForm, observacoes: e.target.value })}
+                  onChange={(e) => setNovoPedidoForm({ ...novoPedidoForm, notes: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                   rows={3}
                   placeholder="Observações sobre o pedido..."
@@ -592,14 +591,14 @@ export default function PedidosPage() {
                     <label className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                        checked={pedidoSelecionado.incluirServico}
+                        checked={pedidoSelecionado.serviceCharge > 0}
                         onChange={alternarServico}
                         className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                       />
                       <span className="text-sm text-gray-700 dark:text-gray-300">Serviço (10%):</span>
                     </label>
                     <span className="font-medium">
-                      {formatarMoeda(pedidoSelecionado.servicoOpcional)}
+                      {formatarMoeda(pedidoSelecionado.serviceCharge)}
                     </span>
                   </div>
                   <div className="flex justify-between text-lg font-bold">
@@ -629,7 +628,7 @@ export default function PedidosPage() {
               {produtosFiltrados.slice(0, 10).map((produto) => (
                 <div
                   key={produto.id}
-                  onClick={() => setNovoItemForm({ ...novoItemForm, produtoId: produto.id })}
+                  onClick={() => setNovoItemForm({ ...novoItemForm, productId: produto.id })}
                   className={`cursor-pointer rounded-lg border-2 p-3 transition-all ${
                     novoItemForm.productId === produto.id
                       ? 'border-blue-600 bg-blue-50 dark:bg-blue-900'
@@ -668,7 +667,7 @@ export default function PedidosPage() {
                     min="1"
                     value={novoItemForm.quantity}
                     onChange={(e) =>
-                      setNovoItemForm({ ...novoItemForm, quantidade: parseInt(e.target.value) || 1 })
+                      setNovoItemForm({ ...novoItemForm, quantity: parseInt(e.target.value) || 1 })
                     }
                     className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                   />
@@ -681,7 +680,7 @@ export default function PedidosPage() {
                   <input
                     type="text"
                     value={novoItemForm.notes}
-                    onChange={(e) => setNovoItemForm({ ...novoItemForm, observacoes: e.target.value })}
+                    onChange={(e) => setNovoItemForm({ ...novoItemForm, notes: e.target.value })}
                     className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     placeholder="Ex: Sem cebola, bem passado..."
                   />
@@ -726,12 +725,12 @@ export default function PedidosPage() {
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-green-700 dark:text-green-300">Já Pago:</span>
-                <span className="font-bold">{formatarMoeda(pedidoSelecionado.valorPago)}</span>
+                <span className="font-bold">{formatarMoeda(pedidoSelecionado.totalPaid)}</span>
               </div>
               <div className="mt-2 flex justify-between border-t pt-2 text-lg font-bold">
                 <span className="text-red-700 dark:text-red-300">Restante:</span>
                 <span className="text-red-700 dark:text-red-300">
-                  {formatarMoeda(pedidoSelecionado.valorRestante)}
+                  {formatarMoeda(pedidoSelecionado.remainingBalance)}
                 </span>
               </div>
             </div>
@@ -745,9 +744,9 @@ export default function PedidosPage() {
                   type="number"
                   step="0.01"
                   min="0"
-                  max={pedidoSelecionado.valorRestante}
+                  max={pedidoSelecionado.remainingBalance}
                   value={novoPagamentoForm.amount}
-                  onChange={(e) => setNovoPagamentoForm({ ...novoPagamentoForm, valor: e.target.value })}
+                  onChange={(e) => setNovoPagamentoForm({ ...novoPagamentoForm, amount: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 />
               </div>
@@ -757,11 +756,11 @@ export default function PedidosPage() {
                   Método de Pagamento
                 </label>
                 <select
-                  value={novoPagamentoForm.metodoPagamento}
+                  value={novoPagamentoForm.method}
                   onChange={(e) =>
                     setNovoPagamentoForm({
                       ...novoPagamentoForm,
-                      metodoPagamento: e.target.value as PaymentMethod,
+                      method: e.target.value as PaymentMethod,
                     })
                   }
                   className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
@@ -782,7 +781,7 @@ export default function PedidosPage() {
                   type="text"
                   value={novoPagamentoForm.notes}
                   onChange={(e) =>
-                    setNovoPagamentoForm({ ...novoPagamentoForm, observacoes: e.target.value })
+                    setNovoPagamentoForm({ ...novoPagamentoForm, notes: e.target.value })
                   }
                   className="w-full rounded-lg border border-gray-300 bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                   placeholder="Ex: Troco para R$ 100,00"
@@ -855,10 +854,10 @@ export default function PedidosPage() {
                 <span className="text-gray-600 dark:text-gray-400">Subtotal:</span>
                 <span className="font-medium">{formatarMoeda(pedidoSelecionado.subtotal)}</span>
               </div>
-              {pedidoSelecionado.incluirServico && (
+              {pedidoSelecionado.serviceCharge > 0 && (
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600 dark:text-gray-400">Serviço (10%):</span>
-                  <span className="font-medium">{formatarMoeda(pedidoSelecionado.servicoOpcional)}</span>
+                  <span className="font-medium">{formatarMoeda(pedidoSelecionado.serviceCharge)}</span>
                 </div>
               )}
               <div className="flex justify-between text-lg font-bold">
@@ -876,14 +875,11 @@ export default function PedidosPage() {
                     <div key={pagamento.id} className="flex justify-between rounded bg-green-50 p-3 dark:bg-green-900">
                       <div>
                         <div className="font-medium text-gray-900 dark:text-white">
-                          {PAYMENT_METHOD_LABELS[pagamento.metodoPagamento]}
+                          {PAYMENT_METHOD_LABELS[pagamento.method]}
                         </div>
                         <div className="text-xs text-gray-600 dark:text-gray-400">
-                          {pagamento.dataPagamento.toLocaleString('pt-BR')}
+                          {pagamento.paidAt.toLocaleString('pt-BR')}
                         </div>
-                        {pagamento.notes && (
-                          <div className="text-xs text-gray-500">{pagamento.notes}</div>
-                        )}
                       </div>
                       <div className="font-bold text-green-700 dark:text-green-300">
                         {formatarMoeda(pagamento.amount)}
@@ -895,13 +891,13 @@ export default function PedidosPage() {
                   <div className="flex justify-between text-sm">
                     <span className="text-green-600 dark:text-green-400">Total Pago:</span>
                     <span className="font-bold text-green-600 dark:text-green-400">
-                      {formatarMoeda(pedidoSelecionado.valorPago)}
+                      {formatarMoeda(pedidoSelecionado.totalPaid)}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-red-600 dark:text-red-400">Restante:</span>
                     <span className="font-bold text-red-600 dark:text-red-400">
-                      {formatarMoeda(pedidoSelecionado.valorRestante)}
+                      {formatarMoeda(pedidoSelecionado.remainingBalance)}
                     </span>
                   </div>
                 </div>
@@ -916,7 +912,7 @@ export default function PedidosPage() {
             )}
 
             <div className="flex gap-3">
-              {pedidoSelecionado.status !== 'finalizado' && pedidoSelecionado.status !== 'cancelado' && (
+              {pedidoSelecionado.status !== 'paid' && pedidoSelecionado.status !== 'cancelled' && (
                 <>
                   <button
                     onClick={() => {
