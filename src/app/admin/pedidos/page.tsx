@@ -2,10 +2,14 @@
 
 import { useState, useMemo } from 'react';
 import { tablesTestData, ordersTestData, productsTestData } from '@/data/catalogTestData';
-import { Order, Table, OrderItem, Payment, PAYMENT_METHOD_LABELS, PaymentMethod } from '@/types/orders';
+import { Order, Table, OrderItem, PAYMENT_METHOD_LABELS, PaymentMethod } from '@/types/orders';
 import Image from 'next/image';
 
 type ModalType = 'novo-pedido' | 'adicionar-item' | 'adicionar-pagamento' | 'visualizar' | null;
+
+// Type aliases para compatibilidade com nomes em português
+type Pedido = Order;
+type ItemPedido = OrderItem;
 
 export default function PedidosPage() {
   const [mesas, setMesas] = useState<Table[]>(tablesTestData);

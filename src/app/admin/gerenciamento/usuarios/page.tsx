@@ -48,7 +48,7 @@ const usersTestData: User[] = [
 ];
 
 export default function UsersPage() {
-  const [users, setUsers] = useState<User[]>(usersTestData);
+  const [users] = useState<User[]>(usersTestData);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');

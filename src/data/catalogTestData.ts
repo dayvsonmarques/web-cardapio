@@ -4,7 +4,7 @@
  */
 
 import { Category, Product, Menu } from "@/types/catalog";
-import { Table, Order, OrderStatus } from "@/types/orders";
+import { Table, Order } from "@/types/orders";
 
 // ============================================================
 // CATEGORIES TEST DATA
