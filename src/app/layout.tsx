@@ -5,6 +5,7 @@ import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { UserProvider } from '@/context/UserContext';
 import { CartProvider } from '@/context/CartContext';
+import { AuthProvider } from '@/context/AuthContext';
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -26,9 +27,11 @@ export default function RootLayout({
       <body className={`${outfit.variable} ${spaceGrotesk.variable} ${outfit.className} dark:bg-gray-900`}>
         <ThemeProvider>
           <UserProvider>
-            <CartProvider>
-              <SidebarProvider>{children}</SidebarProvider>
-            </CartProvider>
+            <AuthProvider>
+              <CartProvider>
+                <SidebarProvider>{children}</SidebarProvider>
+              </CartProvider>
+            </AuthProvider>
           </UserProvider>
         </ThemeProvider>
       </body>

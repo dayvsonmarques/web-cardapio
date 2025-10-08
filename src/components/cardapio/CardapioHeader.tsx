@@ -7,65 +7,139 @@ import { ListIcon, CloseIcon } from "@/icons";
 import { useCart } from "@/context/CartContext";
 
 const CartIcon = () => {
-  console.log('CartIcon: Iniciando render');
+  const [isOpen, setIsOpen] = useState(false);
   
   try {
     const cart = useCart();
-    console.log('CartIcon: useCart retornou:', cart);
-    
-    const totalItems = cart.getTotalItems();
-    console.log('CartIcon: totalItems =', totalItems);
+    const { items, getTotalItems, getTotalPrice } = cart;
+    const totalItems = getTotalItems();
+
+    const formatPrice = (price: number) => {
+      return new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(price);
+    };
 
     return (
-      <Link
-        href="/cardapio/montar"
-        className="relative flex items-center justify-center p-2 text-gray-900 transition-colors hover:text-primary dark:text-white dark:hover:text-primary"
-        title="Montar Pedido"
+      <div 
+        className="relative"
+        onMouseEnter={() => setIsOpen(true)}
+        onMouseLeave={() => setIsOpen(false)}
       >
-        <svg
-          className="h-7 w-7"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
+        <Link
+          href="/cardapio/carrinho"
+          className="relative flex items-center justify-center p-2 text-gray-900 transition-colors hover:text-primary dark:text-white dark:hover:text-primary"
+          title="Ver Carrinho"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-          />
-        </svg>
-        {totalItems > 0 && (
-          <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white shadow-sm">
-            {totalItems}
-          </span>
+          <svg
+            className="h-7 w-7"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+          {totalItems > 0 && (
+            <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white shadow-sm">
+              {totalItems}
+            </span>
+          )}
+        </Link>
+
+        {/* Dropdown do Carrinho */}
+        {isOpen && (
+          <div className="absolute right-0 top-full z-50 mt-2 w-96 rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800">
+            <h3 className="mb-3 text-lg font-bold text-gray-900 dark:text-white">
+              Carrinho ({totalItems})
+            </h3>
+
+            {items.length === 0 ? (
+              <p className="py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                Seu carrinho está vazio
+              </p>
+            ) : (
+              <>
+                <div className="mb-4 max-h-80 space-y-3 overflow-y-auto">
+                  {items.map((item) => (
+                    <div
+                      key={item.product.id}
+                      className="rounded-lg border border-gray-200 p-3 dark:border-gray-700"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h4 className="font-medium text-gray-900 dark:text-white">
+                            {item.product.name}
+                          </h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            {formatPrice(item.product.price)} x {item.quantity}
+                          </p>
+                          <p className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
+                            {formatPrice(item.product.price * item.quantity)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="border-t border-gray-200 pt-3 dark:border-gray-700">
+                  <div className="mb-3 flex justify-between text-lg font-bold text-gray-900 dark:text-white">
+                    <span>Total:</span>
+                    <span>{formatPrice(getTotalPrice())}</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Link
+                      href="/cardapio/carrinho"
+                      className="flex-1 rounded-lg border-2 border-gray-300 bg-white py-2 text-center text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                    >
+                      Ver Carrinho
+                    </Link>
+                    <Link
+                      href="/cardapio/checkout"
+                      className="flex-1 rounded-xl border-2 border-primary bg-primary py-2 text-center text-sm font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
+                    >
+                      Finalizar
+                    </Link>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
         )}
-      </Link>
+      </div>
     );
   } catch (error) {
     console.error('Erro ao usar CartIcon:', error);
     return (
-      <Link
-        href="/cardapio/montar"
-        className="relative flex items-center justify-center p-2 text-gray-900 transition-colors hover:text-primary dark:text-white dark:hover:text-primary"
-        title="Montar Pedido"
-      >
-        <svg
-          className="h-7 w-7"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
+      <div className="relative">
+        <Link
+          href="/cardapio/montar"
+          className="relative flex items-center justify-center p-2 text-gray-900 transition-colors hover:text-primary dark:text-white dark:hover:text-primary"
+          title="Montar Pedido"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-          />
-        </svg>
-      </Link>
+          <svg
+            className="h-7 w-7"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+        </Link>
+      </div>
     );
   }
 };

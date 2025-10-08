@@ -2,23 +2,16 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { productsTestData, categoriesTestData } from "@/data/catalogTestData";
 import { useCart } from "@/context/CartContext";
 import CardapioHeader from "@/components/cardapio/CardapioHeader";
 
 const MontarPedidoPage = () => {
   const cart = useCart();
-  const { items, addItem, updateQuantity, removeItem, getTotalPrice, getTotalItems } = cart;
+  const { addItem } = cart;
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [quantities, setQuantities] = useState<Record<string, number>>({});
-  
-  console.log('MontarPedidoPage renderizado, items:', items.length);
-
-  useEffect(() => {
-    console.log('Items do carrinho atualizados:', items);
-  }, [items]);
 
   const activeCategories = categoriesTestData.filter(cat => cat.isActive);
 
@@ -42,7 +35,6 @@ const MontarPedidoPage = () => {
     const quantity = quantities[productId] || 1;
     
     if (product && quantity > 0) {
-      console.log('Adicionando ao carrinho:', product.name, 'Qtd:', quantity);
       addItem(product, quantity);
       setQuantities(prev => ({ ...prev, [productId]: 1 }));
     }
@@ -70,9 +62,9 @@ const MontarPedidoPage = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <div>
           {/* Products Section */}
-          <div className="lg:col-span-2">
+          <div>
             {/* Search */}
             <div className="mb-6">
               <input
@@ -112,7 +104,7 @@ const MontarPedidoPage = () => {
             </div>
 
             {/* Products Grid */}
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filteredProducts.map((product) => {
                 const quantity = quantities[product.id] || 1;
                 const category = categoriesTestData.find(c => c.id === product.categoryId);
@@ -204,79 +196,6 @@ const MontarPedidoPage = () => {
                 </p>
               </div>
             )}
-          </div>
-
-          {/* Cart Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-24 rounded-lg bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-                Carrinho ({getTotalItems()})
-              </h2>
-
-              {items.length === 0 ? (
-                <p className="text-center text-gray-500 dark:text-gray-400">
-                  Seu carrinho está vazio
-                </p>
-              ) : (
-                <>
-                  <div className="mb-4 max-h-96 space-y-3 overflow-y-auto">
-                    {items.map((item) => (
-                      <div
-                        key={item.product.id}
-                        className="rounded-lg border border-gray-200 p-3 dark:border-gray-700"
-                      >
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <h4 className="font-medium text-gray-900 dark:text-white">
-                              {item.product.name}
-                            </h4>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">
-                              {formatPrice(item.product.price)} x {item.quantity}
-                            </p>
-                          </div>
-                          <button
-                            onClick={() => removeItem(item.product.id)}
-                            className="text-xs text-red-500 hover:text-red-700"
-                          >
-                            Remover
-                          </button>
-                        </div>
-                        <div className="mt-2 flex items-center gap-2">
-                          <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                            className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                          >
-                            -
-                          </button>
-                          <span className="text-sm font-medium text-gray-900 dark:text-white">
-                            {item.quantity}
-                          </span>
-                          <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                            className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
-                    <div className="mb-4 flex justify-between text-lg font-bold text-gray-900 dark:text-white">
-                      <span>Total:</span>
-                      <span>{formatPrice(getTotalPrice())}</span>
-                    </div>
-                    <Link
-                      href="/cardapio/checkout"
-                      className="block w-full rounded-xl border-2 border-primary bg-primary py-3 text-center font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
-                    >
-                      Finalizar
-                    </Link>
-                  </div>
-                </>
-              )}
-            </div>
           </div>
         </div>
       </div>

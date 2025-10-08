@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import CardapioHeader from "@/components/cardapio/CardapioHeader";
 
 const CheckoutPage = () => {
   const router = useRouter();
   const { items, getTotalPrice, clearCart } = useCart();
+  const { user, isAuthenticated } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -17,6 +20,21 @@ const CheckoutPage = () => {
     paymentMethod: "pix",
     notes: "",
   });
+
+  // Preencher formulário com dados do usuário se estiver logado
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: user.name,
+        phone: user.phone,
+        email: user.email,
+        address: user.addresses.find((addr) => addr.isDefault)
+          ? `${user.addresses.find((addr) => addr.isDefault)?.street}, ${user.addresses.find((addr) => addr.isDefault)?.number}`
+          : "",
+      }));
+    }
+  }, [user]);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -83,6 +101,28 @@ const CheckoutPage = () => {
         <h1 className="mb-8 text-3xl font-bold text-gray-900 dark:text-white">
           Finalizar Pedido
         </h1>
+
+        {/* Banner de Login */}
+        {!user && (
+          <div className="mb-6 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-medium text-blue-900 dark:text-blue-300">
+                  Já tem uma conta?
+                </h3>
+                <p className="text-sm text-blue-700 dark:text-blue-400">
+                  Faça login para preencher automaticamente seus dados e acompanhar seus pedidos.
+                </p>
+              </div>
+              <Link
+                href="/cardapio/login?redirect=/cardapio/checkout"
+                className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-primary/90"
+              >
+                Fazer Login
+              </Link>
+            </div>
+          </div>
+        )}
 
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Formulário */}
