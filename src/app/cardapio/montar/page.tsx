@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { productsTestData, categoriesTestData } from "@/data/catalogTestData";
 import { useCart } from "@/context/CartContext";
 import CardapioHeader from "@/components/cardapio/CardapioHeader";
@@ -222,46 +223,40 @@ const MontarPedidoPage = () => {
                     {items.map((item) => (
                       <div
                         key={item.product.id}
-                        className="flex gap-3 rounded-lg border border-gray-200 p-3 dark:border-gray-700"
+                        className="rounded-lg border border-gray-200 p-3 dark:border-gray-700"
                       >
-                        <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded">
-                          <Image
-                            src={item.product.image}
-                            alt={item.product.name}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-medium text-gray-900 dark:text-white">
-                            {item.product.name}
-                          </h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
-                            {formatPrice(item.product.price)} x {item.quantity}
-                          </p>
-                          <div className="mt-1 flex items-center gap-2">
-                            <button
-                              onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                              className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                            >
-                              -
-                            </button>
-                            <span className="text-sm font-medium text-gray-900 dark:text-white">
-                              {item.quantity}
-                            </span>
-                            <button
-                              onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                              className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                            >
-                              +
-                            </button>
-                            <button
-                              onClick={() => removeItem(item.product.id)}
-                              className="ml-auto text-xs text-red-500 hover:text-red-700"
-                            >
-                              Remover
-                            </button>
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <h4 className="font-medium text-gray-900 dark:text-white">
+                              {item.product.name}
+                            </h4>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                              {formatPrice(item.product.price)} x {item.quantity}
+                            </p>
                           </div>
+                          <button
+                            onClick={() => removeItem(item.product.id)}
+                            className="text-xs text-red-500 hover:text-red-700"
+                          >
+                            Remover
+                          </button>
+                        </div>
+                        <div className="mt-2 flex items-center gap-2">
+                          <button
+                            onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                            className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                          >
+                            -
+                          </button>
+                          <span className="text-sm font-medium text-gray-900 dark:text-white">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                            className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                          >
+                            +
+                          </button>
                         </div>
                       </div>
                     ))}
@@ -272,9 +267,12 @@ const MontarPedidoPage = () => {
                       <span>Total:</span>
                       <span>{formatPrice(getTotalPrice())}</span>
                     </div>
-                    <button className="w-full rounded-lg bg-primary py-3 font-medium text-white transition-colors hover:bg-primary/90">
-                      Finalizar Pedido
-                    </button>
+                    <Link
+                      href="/cardapio/checkout"
+                      className="block w-full rounded-xl border-2 border-primary bg-primary py-3 text-center font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
+                    >
+                      Finalizar
+                    </Link>
                   </div>
                 </>
               )}
