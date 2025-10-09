@@ -129,6 +129,26 @@ async function main() {
         isActive: true,
       },
     }),
+    prisma.category.upsert({
+      where: { id: '5' },
+      update: {},
+      create: {
+        id: '5',
+        name: 'Pratos Principais',
+        description: 'Refeições completas e nutritivas',
+        isActive: true,
+      },
+    }),
+    prisma.category.upsert({
+      where: { id: '6' },
+      update: {},
+      create: {
+        id: '6',
+        name: 'Entradas',
+        description: 'Aperitivos e petiscos deliciosos',
+        isActive: true,
+      },
+    }),
   ]);
 
   console.log(`✅ Created ${categories.length} categories`);
