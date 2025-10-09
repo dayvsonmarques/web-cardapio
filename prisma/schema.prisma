@@ -1,0 +1,172 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// USER & AUTH MODELS
+// ============================================================
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  phone     String?
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  
+  addresses Address[]
+  orders    Order[]
+  
+  @@map("users")
+}
+
+model Address {
+  id           String   @id @default(uuid())
+  street       String
+  number       String
+  complement   String?
+  neighborhood String
+  city         String
+  state        String
+  zipCode      String
+  isDefault    Boolean  @default(false)
+  
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  @@map("addresses")
+}
+
+// ============================================================
+// CATALOG MODELS
+// ============================================================
+
+model Category {
+  id          String    @id @default(uuid())
+  name        String
+  description String
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  products    Product[]
+  
+  @@map("categories")
+}
+
+model Product {
+  id          String    @id @default(uuid())
+  name        String
+  description String
+  price       Float
+  image       String
+  isAvailable Boolean   @default(true)
+  ingredients String[]
+  
+  // Nutritional Info (embedded)
+  calories       Int
+  proteins       Float
+  carbohydrates  Float
+  fats           Float
+  fiber          Float
+  
+  categoryId  String
+  category    Category  @relation(fields: [categoryId], references: [id])
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  orderItems  OrderItem[]
+  
+  @@map("products")
+}
+
+// ============================================================
+// ORDER MODELS
+// ============================================================
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  READY
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  PIX
+  CREDIT_CARD
+  DEBIT_CARD
+  CASH
+}
+
+model Order {
+  id            String        @id @default(uuid())
+  status        OrderStatus   @default(PENDING)
+  
+  // Customer Info
+  customerName  String
+  customerEmail String
+  customerPhone String
+  
+  // Delivery Address
+  deliveryStreet       String
+  deliveryNumber       String
+  deliveryComplement   String?
+  deliveryNeighborhood String
+  deliveryCity         String
+  deliveryState        String
+  deliveryZipCode      String
+  
+  // Payment
+  paymentMethod PaymentMethod
+  
+  // Totals
+  subtotal      Float
+  total         Float
+  
+  // Notes
+  notes         String?
+  
+  // Relations
+  userId        String?
+  user          User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  items         OrderItem[]
+  
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  
+  @@map("orders")
+}
+
+model OrderItem {
+  id         String   @id @default(uuid())
+  quantity   Int
+  price      Float    // Price at the time of order
+  
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+  
+  createdAt  DateTime @default(now())
+  
+  @@map("order_items")
+}
