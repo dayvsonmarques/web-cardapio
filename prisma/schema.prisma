@@ -97,8 +97,79 @@ model Product {
 }
 
 // ============================================================
+// RESTAURANT SETTINGS
+// ============================================================
+
+enum StoreType {
+  DELIVERY_ONLY
+  DINE_IN_ONLY
+  HYBRID
+}
+
+model RestaurantSettings {
+  id              String    @id @default(uuid())
+  name            String
+  
+  // Address
+  street          String
+  number          String
+  complement      String?
+  neighborhood    String
+  city            String
+  state           String
+  zipCode         String
+  
+  // Store Type
+  storeType       StoreType @default(HYBRID)
+  
+  // Operating Hours (JSON format)
+  // Example: {"monday": {"open": "11:00", "close": "23:00"}, ...}
+  operatingHours  Json
+  
+  // Contact
+  phone           String?
+  email           String?
+  
+  // Delivery Settings
+  deliveryFee     Float     @default(0)
+  minDeliveryValue Float    @default(0)
+  
+  // Service Fee (for dine-in)
+  serviceFeePercent Float   @default(10)
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@map("restaurant_settings")
+}
+
+// ============================================================
+// TABLE MANAGEMENT
+// ============================================================
+
+model Table {
+  id        String   @id @default(uuid())
+  number    Int      @unique
+  capacity  Int
+  location  String?
+  isActive  Boolean  @default(true)
+  
+  orders    Order[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("tables")
+}
+
+// ============================================================
 // ORDER MODELS
 // ============================================================
+
+enum OrderType {
+  DELIVERY
+  DINE_IN
+}
 
 enum OrderStatus {
   PENDING
@@ -117,6 +188,10 @@ enum PaymentMethod {
 
 model Order {
   id            String        @id @default(uuid())
+  
+  // Order Type (Delivery or Dine-in)
+  orderType     OrderType     @default(DELIVERY)
+  
   status        OrderStatus   @default(PENDING)
   
   // Customer Info
@@ -124,35 +199,59 @@ model Order {
   customerEmail String
   customerPhone String
   
-  // Delivery Address
-  deliveryStreet       String
-  deliveryNumber       String
+  // Delivery Address (optional - only for DELIVERY orders)
+  deliveryStreet       String?
+  deliveryNumber       String?
   deliveryComplement   String?
-  deliveryNeighborhood String
-  deliveryCity         String
-  deliveryState        String
-  deliveryZipCode      String
+  deliveryNeighborhood String?
+  deliveryCity         String?
+  deliveryState        String?
+  deliveryZipCode      String?
   
-  // Payment
-  paymentMethod PaymentMethod
+  // Delivery Fee (only for DELIVERY orders)
+  deliveryFee   Float         @default(0)
+  
+  // Table (optional - only for DINE_IN orders)
+  tableId       String?
+  table         Table?        @relation(fields: [tableId], references: [id], onDelete: SetNull)
+  
+  // Service Fee (only for DINE_IN orders)
+  includeService Boolean      @default(false)
+  serviceFee     Float        @default(0)
   
   // Totals
   subtotal      Float
-  total         Float
+  total         Float         // subtotal + deliveryFee (delivery) OR subtotal + serviceFee (dine-in)
   
   // Notes
   notes         String?
   
   // Relations
   userId        String?
-  user          User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  user          User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
   
   items         OrderItem[]
+  payments      Payment[]
   
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   
   @@map("orders")
+}
+
+model Payment {
+  id            String        @id @default(uuid())
+  amount        Float
+  paymentMethod PaymentMethod
+  notes         String?
+  isPaid        Boolean       @default(true)
+  
+  orderId       String
+  order         Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  createdAt     DateTime      @default(now())
+  
+  @@map("payments")
 }
 
 model OrderItem {

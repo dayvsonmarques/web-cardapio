@@ -48,6 +48,11 @@ const navItems: NavItem[] = [
     path: "/admin/reservas",
   },
   {
+    icon: <BoxCubeIcon />,
+    name: "Restaurante",
+    path: "/admin/restaurante",
+  },
+  {
     icon: <GroupIcon />,
     name: "Gerenciamento",
     subItems: [

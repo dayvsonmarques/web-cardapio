@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
+import { createToken } from '@/lib/jwt';
+import { cookies } from 'next/headers';
 
 // GET /api/users - List all users (admin only)
 export async function GET() {
@@ -73,7 +75,24 @@ export async function POST(request: NextRequest) {
       },
     });
     
-    return NextResponse.json(user, { status: 201 });
+    // Create JWT token for auto-login
+    const token = await createToken({
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+    });
+    
+    // Set HTTP-only cookie
+    const cookieStore = await cookies();
+    cookieStore.set('auth-token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: '/',
+    });
+    
+    return NextResponse.json({ user, token }, { status: 201 });
   } catch (error) {
     console.error('Error creating user:', error);
     return NextResponse.json(

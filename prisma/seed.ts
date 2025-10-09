@@ -6,6 +6,86 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🌱 Starting database seed...');
 
+  // Create Restaurant Settings
+  console.log('Creating restaurant settings...');
+  await prisma.restaurantSettings.upsert({
+    where: { id: '1' },
+    update: {},
+    create: {
+      id: '1',
+      name: 'Restaurante Sabor & Arte',
+      street: 'Rua das Palmeiras',
+      number: '456',
+      complement: 'Loja 2',
+      neighborhood: 'Centro',
+      city: 'São Paulo',
+      state: 'SP',
+      zipCode: '01310-100',
+      storeType: 'HYBRID',
+      operatingHours: {
+        monday: { open: '11:00', close: '23:00', closed: false },
+        tuesday: { open: '11:00', close: '23:00', closed: false },
+        wednesday: { open: '11:00', close: '23:00', closed: false },
+        thursday: { open: '11:00', close: '23:00', closed: false },
+        friday: { open: '11:00', close: '00:00', closed: false },
+        saturday: { open: '11:00', close: '00:00', closed: false },
+        sunday: { open: '11:00', close: '22:00', closed: false },
+      },
+      phone: '(11) 3456-7890',
+      email: 'contato@saborarte.com.br',
+      deliveryFee: 8.0,
+      minDeliveryValue: 30.0,
+      serviceFeePercent: 10.0,
+    },
+  });
+  console.log('✅ Restaurant settings created');
+
+  // Create Tables
+  console.log('Creating tables...');
+  const tables = await Promise.all([
+    prisma.table.upsert({
+      where: { number: 1 },
+      update: {},
+      create: { number: 1, capacity: 2, location: 'Salão Principal', isActive: true },
+    }),
+    prisma.table.upsert({
+      where: { number: 2 },
+      update: {},
+      create: { number: 2, capacity: 4, location: 'Salão Principal', isActive: true },
+    }),
+    prisma.table.upsert({
+      where: { number: 3 },
+      update: {},
+      create: { number: 3, capacity: 4, location: 'Salão Principal', isActive: true },
+    }),
+    prisma.table.upsert({
+      where: { number: 4 },
+      update: {},
+      create: { number: 4, capacity: 6, location: 'Varanda', isActive: true },
+    }),
+    prisma.table.upsert({
+      where: { number: 5 },
+      update: {},
+      create: { number: 5, capacity: 8, location: 'Varanda', isActive: true },
+    }),
+    prisma.table.upsert({
+      where: { number: 6 },
+      update: {},
+      create: { number: 6, capacity: 2, location: 'Bar', isActive: true },
+    }),
+    prisma.table.upsert({
+      where: { number: 7 },
+      update: {},
+      create: { number: 7, capacity: 4, location: 'Bar', isActive: true },
+    }),
+    prisma.table.upsert({
+      where: { number: 8 },
+      update: {},
+      create: { number: 8, capacity: 10, location: 'Salão de Eventos', isActive: true },
+    }),
+  ]);
+  console.log(`✅ Created ${tables.length} tables`);
+
   // Create Categories
   console.log('Creating categories...');
   const categories = await Promise.all([

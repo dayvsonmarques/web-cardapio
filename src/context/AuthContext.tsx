@@ -22,21 +22,19 @@ export interface Address {
   isDefault: boolean;
 }
 
-interface StoredUser extends User {
-  password: string;
-}
-
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
+  isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
-  logout: () => void;
+  logout: () => Promise<void>;
   register: (data: RegisterData) => Promise<boolean>;
   updateUser: (data: Partial<User>) => void;
   addAddress: (address: Omit<Address, "id">) => void;
   updateAddress: (id: string, address: Partial<Address>) => void;
   deleteAddress: (id: string) => void;
   setDefaultAddress: (id: string) => void;
+  refreshUser: () => Promise<void>;
 }
 
 interface RegisterData {
@@ -51,136 +49,189 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Carregar usuário do localStorage ao iniciar
+  // Verificar autenticação ao carregar
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-      setIsAuthenticated(true);
-    }
+    checkAuth();
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
-    // Simulação de login - em produção, fazer chamada à API
-    // Por enquanto, vamos aceitar qualquer combinação e criar um usuário de teste
-    
-    // Buscar usuários do localStorage (simulação de banco de dados)
-    const usersData = localStorage.getItem("users");
-    const users: StoredUser[] = usersData ? JSON.parse(usersData) : [];
-    
-    const foundUser = users.find((u) => u.email === email && u.password === password);
-    
-    if (foundUser) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password: userPassword, ...userWithoutPassword } = foundUser;
-      setUser(userWithoutPassword);
-      setIsAuthenticated(true);
-      localStorage.setItem("user", JSON.stringify(userWithoutPassword));
-      return true;
+  const checkAuth = async () => {
+    try {
+      const response = await fetch('/api/auth/me', {
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data.user);
+        setIsAuthenticated(true);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+    } catch (error) {
+      console.error('Error checking auth:', error);
+      setUser(null);
+      setIsAuthenticated(false);
+    } finally {
+      setIsLoading(false);
     }
-    
-    return false;
   };
 
-  const register = async (data: RegisterData): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      // Buscar usuários existentes
-      const usersData = localStorage.getItem("users");
-      const users: StoredUser[] = usersData ? JSON.parse(usersData) : [];
-      
-      // Verificar se o email já existe
-      if (users.some((u) => u.email === data.email)) {
-        return false;
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data.user);
+        setIsAuthenticated(true);
+        return true;
       }
-      
-      // Criar novo usuário
-      const newUser = {
-        id: Date.now().toString(),
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        password: data.password, // Em produção, deve ser hasheado
-        addresses: [],
-      };
-      
-      // Adicionar aos usuários
-      users.push(newUser);
-      localStorage.setItem("users", JSON.stringify(users));
-      
-      // Fazer login automaticamente
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...userWithoutPassword } = newUser;
-      setUser(userWithoutPassword);
-      setIsAuthenticated(true);
-      localStorage.setItem("user", JSON.stringify(userWithoutPassword));
-      
-      return true;
+
+      return false;
     } catch (error) {
-      console.error("Erro ao registrar:", error);
+      console.error('Login error:', error);
       return false;
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    setIsAuthenticated(false);
-    localStorage.removeItem("user");
+  const logout = async () => {
+    try {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      setUser(null);
+      setIsAuthenticated(false);
+    }
+  };
+
+  const register = async (data: RegisterData): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setUser(result.user);
+        setIsAuthenticated(true);
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      console.error('Register error:', error);
+      return false;
+    }
+  };
+
+  const refreshUser = async () => {
+    await checkAuth();
   };
 
   const updateUser = (data: Partial<User>) => {
     if (user) {
       const updatedUser = { ...user, ...data };
       setUser(updatedUser);
-      localStorage.setItem("user", JSON.stringify(updatedUser));
-      
-      // Atualizar também no "banco de dados" simulado
-      const usersData = localStorage.getItem("users");
-      const users: StoredUser[] = usersData ? JSON.parse(usersData) : [];
-      const userIndex = users.findIndex((u) => u.id === user.id);
-      if (userIndex !== -1) {
-        users[userIndex] = { ...users[userIndex], ...data };
-        localStorage.setItem("users", JSON.stringify(users));
+      // TODO: Implementar API call para atualizar no backend
+    }
+  };
+
+  const addAddress = async (address: Omit<Address, "id">) => {
+    if (user) {
+      try {
+        const response = await fetch(`/api/users/${user.id}/addresses`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(address),
+        });
+
+        if (response.ok) {
+          const newAddress = await response.json();
+          const updatedUser = {
+            ...user,
+            addresses: [...user.addresses, newAddress],
+          };
+          setUser(updatedUser);
+        }
+      } catch (error) {
+        console.error('Error adding address:', error);
       }
     }
   };
 
-  const addAddress = (address: Omit<Address, "id">) => {
+  const updateAddress = async (id: string, address: Partial<Address>) => {
     if (user) {
-      const newAddress: Address = {
-        ...address,
-        id: Date.now().toString(),
-      };
-      
-      const updatedAddresses = [...user.addresses, newAddress];
-      updateUser({ addresses: updatedAddresses });
+      try {
+        const response = await fetch(`/api/users/${user.id}/addresses/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(address),
+        });
+
+        if (response.ok) {
+          const updatedAddress = await response.json();
+          const updatedAddresses = user.addresses.map(addr => 
+            addr.id === id ? updatedAddress : addr
+          );
+          setUser({ ...user, addresses: updatedAddresses });
+        }
+      } catch (error) {
+        console.error('Error updating address:', error);
+      }
     }
   };
 
-  const updateAddress = (id: string, addressData: Partial<Address>) => {
+  const deleteAddress = async (id: string) => {
     if (user) {
-      const updatedAddresses = user.addresses.map((addr) =>
-        addr.id === id ? { ...addr, ...addressData } : addr
-      );
-      updateUser({ addresses: updatedAddresses });
-    }
-  };
+      try {
+        const response = await fetch(`/api/users/${user.id}/addresses/${id}`, {
+          method: 'DELETE',
+          credentials: 'include',
+        });
 
-  const deleteAddress = (id: string) => {
-    if (user) {
-      const updatedAddresses = user.addresses.filter((addr) => addr.id !== id);
-      updateUser({ addresses: updatedAddresses });
+        if (response.ok) {
+          const updatedAddresses = user.addresses.filter(addr => addr.id !== id);
+          setUser({ ...user, addresses: updatedAddresses });
+        }
+      } catch (error) {
+        console.error('Error deleting address:', error);
+      }
     }
   };
 
   const setDefaultAddress = (id: string) => {
     if (user) {
-      const updatedAddresses = user.addresses.map((addr) => ({
+      const updatedAddresses = user.addresses.map(addr => ({
         ...addr,
         isDefault: addr.id === id,
       }));
-      updateUser({ addresses: updatedAddresses });
+      setUser({ ...user, addresses: updatedAddresses });
+      // TODO: Implementar API call para atualizar no backend
     }
   };
 
@@ -189,6 +240,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         user,
         isAuthenticated,
+        isLoading,
         login,
         logout,
         register,
@@ -197,6 +249,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         updateAddress,
         deleteAddress,
         setDefaultAddress,
+        refreshUser,
       }}
     >
       {children}
@@ -206,8 +259,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth deve ser usado dentro de um AuthProvider");
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };

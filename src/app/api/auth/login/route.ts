@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
+import { createToken } from '@/lib/jwt';
+import { cookies } from 'next/headers';
 
 // POST /api/auth/login - User login
 export async function POST(request: NextRequest) {
@@ -45,8 +47,26 @@ export async function POST(request: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...userWithoutPassword } = user;
     
+    // Create JWT token
+    const token = await createToken({
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+    });
+    
+    // Set HTTP-only cookie
+    const cookieStore = await cookies();
+    cookieStore.set('auth-token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: '/',
+    });
+    
     return NextResponse.json({
       user: userWithoutPassword,
+      token,
       message: 'Login successful',
     });
   } catch (error) {
