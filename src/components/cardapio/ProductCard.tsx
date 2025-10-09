@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Product } from "@/types/catalog";
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
@@ -70,35 +71,40 @@ const ProductCard = ({ product }: ProductCardProps) => {
         )}
       </div>
 
-      {/* Conteúdo */}
-      <div className="p-4">
-        {/* Nome e Preço */}
-        <div className="mb-2 flex items-start justify-between">
-          <h3 className="text-lg font-semibold text-dark dark:text-white">
-            {product.name}
-          </h3>
-          <span className="ml-2 whitespace-nowrap text-lg font-bold text-primary">
-            R$ {product.price.toFixed(2).replace(".", ",")}
-          </span>
-        </div>
-
-        {/* Descrição */}
-        <p className="mb-3 line-clamp-2 text-sm text-body dark:text-gray-5">
-          {product.description}
-        </p>
-
-        {/* Ingredientes */}
-        {product.ingredients.length > 0 && (
-          <div className="mb-3">
-            <p className="text-xs font-medium text-body-secondary dark:text-gray-6">
-              Ingredientes:
-            </p>
-            <p className="line-clamp-1 text-xs text-body dark:text-gray-5">
-              {product.ingredients.join(", ")}
-            </p>
+      {/* Conteúdo Clicável */}
+      <Link href={`/cardapio/produto/${product.id}`} className="block">
+        <div className="p-4 pb-2">
+          {/* Nome e Preço */}
+          <div className="mb-2 flex items-start justify-between">
+            <h3 className="text-lg font-semibold text-dark dark:text-white">
+              {product.name}
+            </h3>
+            <span className="ml-2 whitespace-nowrap text-lg font-bold text-primary">
+              R$ {product.price.toFixed(2).replace(".", ",")}
+            </span>
           </div>
-        )}
 
+          {/* Descrição */}
+          <p className="mb-3 line-clamp-2 text-sm text-body dark:text-gray-5">
+            {product.description}
+          </p>
+
+          {/* Ingredientes */}
+          {product.ingredients.length > 0 && (
+            <div className="mb-3">
+              <p className="text-xs font-medium text-body-secondary dark:text-gray-6">
+                Ingredientes:
+              </p>
+              <p className="line-clamp-1 text-xs text-body dark:text-gray-5">
+                {product.ingredients.join(", ")}
+              </p>
+            </div>
+          )}
+        </div>
+      </Link>
+
+      {/* Controles - Não clicável */}
+      <div className="px-4 pb-4">
         {/* Informações Nutricionais */}
         <div className="mb-3 grid grid-cols-3 gap-2 border-t border-stroke pt-3 dark:border-stroke-dark">
           <div className="text-center">
