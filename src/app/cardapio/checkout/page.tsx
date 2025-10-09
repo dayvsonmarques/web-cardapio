@@ -10,7 +10,7 @@ import CardapioHeader from "@/components/cardapio/CardapioHeader";
 const CheckoutPage = () => {
   const router = useRouter();
   const { items, getTotalPrice, clearCart } = useCart();
-  const { user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",

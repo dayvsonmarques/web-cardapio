@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import { productsTestData, categoriesTestData } from "@/data/catalogTestData";
 import { useCart } from "@/context/CartContext";
@@ -82,7 +82,7 @@ const MontarPedidoPage = () => {
                 onClick={() => setSelectedCategory(null)}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                   selectedCategory === null
-                    ? "bg-primary text-white"
+                    ? "bg-primary text-black shadow-md"
                     : "bg-white text-gray-700 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                 }`}
               >
@@ -94,7 +94,7 @@ const MontarPedidoPage = () => {
                   onClick={() => setSelectedCategory(category.id)}
                   className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                     selectedCategory === category.id
-                      ? "bg-primary text-white"
+                      ? "bg-primary text-black shadow-md"
                       : "bg-white text-gray-700 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                   }`}
                 >

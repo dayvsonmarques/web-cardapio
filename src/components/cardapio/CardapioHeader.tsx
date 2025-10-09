@@ -149,11 +149,9 @@ const CardapioHeader = () => {
 
   const menuItems = [
     { name: "Cardápio", href: "/cardapio" },
-    { name: "Área do Cliente", href: "/auth/signin" },
+    { name: "Área do Cliente", href: "/cardapio/area-cliente" },
     { name: "Contato", href: "/#contato" },
   ];
-
-  console.log('CardapioHeader renderizando');
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-stroke bg-white dark:border-stroke-dark dark:bg-gray-dark">

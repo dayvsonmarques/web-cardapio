@@ -45,10 +45,19 @@ const AreaClientePage = () => {
     isDefault: false,
   });
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/cardapio/login?redirect=/cardapio/area-cliente");
-    }
+    // Aguarda um momento para carregar o estado de autenticação
+    const timer = setTimeout(() => {
+      if (!isAuthenticated) {
+        router.push("/cardapio/login?redirect=/cardapio/area-cliente");
+      } else {
+        setIsLoading(false);
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, [isAuthenticated, router]);
 
   useEffect(() => {
@@ -102,7 +111,16 @@ const AreaClientePage = () => {
   const handleEditAddress = (id: string) => {
     const address = user?.addresses.find((addr) => addr.id === id);
     if (address) {
-      setAddressForm(address);
+      setAddressForm({
+        street: address.street,
+        number: address.number,
+        complement: address.complement || "",
+        neighborhood: address.neighborhood,
+        city: address.city,
+        state: address.state,
+        zipCode: address.zipCode,
+        isDefault: address.isDefault,
+      });
       setEditingAddressId(id);
       setIsAddingAddress(true);
     }
@@ -147,8 +165,19 @@ const AreaClientePage = () => {
     return colorMap[status];
   };
 
-  if (!isAuthenticated || !user) {
-    return null;
+  // Mostra loading enquanto verifica autenticação
+  if (isLoading || !isAuthenticated || !user) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <CardapioHeader />
+        <div className="flex items-center justify-center py-20">
+          <div className="text-center">
+            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-gray-200 border-t-primary"></div>
+            <p className="mt-4 text-gray-600 dark:text-gray-400">Carregando...</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
