@@ -49,7 +49,7 @@ const CarrinhoPage = () => {
               Adicione produtos ao carrinho para continuar comprando.
             </p>
             <Link
-              href="/cardapio/montar"
+              href="/cardapio"
               className="mt-6 inline-block rounded-xl border-2 border-primary bg-primary px-6 py-3 font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
             >
               Explorar Produtos
@@ -212,7 +212,7 @@ const CarrinhoPage = () => {
             {/* Botão Continuar Comprando */}
             <div className="mt-6">
               <Link
-                href="/cardapio/montar"
+                href="/cardapio"
                 className="inline-flex items-center text-sm font-medium text-primary hover:underline"
               >
                 <svg
@@ -265,7 +265,7 @@ const CarrinhoPage = () => {
                 </button>
 
                 <Link
-                  href="/cardapio/montar"
+                  href="/cardapio"
                   className="block w-full rounded-lg border-2 border-gray-300 bg-white py-3 text-center font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                 >
                   Adicionar Mais Itens

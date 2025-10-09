@@ -83,7 +83,7 @@ const CheckoutPage = () => {
             Adicione produtos ao carrinho antes de finalizar o pedido.
           </p>
           <button
-            onClick={() => router.push("/cardapio/montar")}
+            onClick={() => router.push("/cardapio")}
             className="mt-6 rounded-xl border-2 border-primary bg-primary px-6 py-3 font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
           >
             Voltar para Cardápio

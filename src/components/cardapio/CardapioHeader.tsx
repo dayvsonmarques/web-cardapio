@@ -120,9 +120,9 @@ const CartIcon = () => {
     return (
       <div className="relative">
         <Link
-          href="/cardapio/montar"
+          href="/cardapio"
           className="relative flex items-center justify-center p-2 text-gray-900 transition-colors hover:text-primary dark:text-white dark:hover:text-primary"
-          title="Montar Pedido"
+          title="Cardápio"
         >
           <svg
             className="h-7 w-7"
@@ -221,7 +221,7 @@ const CardapioHeader = () => {
               </Link>
             ))}
             <Link
-              href="/cardapio/montar"
+              href="/cardapio"
               className="flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-base font-medium text-white hover:bg-primary/90"
               onClick={() => setMobileMenuOpen(false)}
             >
