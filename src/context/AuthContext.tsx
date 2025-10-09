@@ -22,6 +22,10 @@ export interface Address {
   isDefault: boolean;
 }
 
+interface StoredUser extends User {
+  password: string;
+}
+
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
@@ -64,12 +68,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     
     // Buscar usuários do localStorage (simulação de banco de dados)
     const usersData = localStorage.getItem("users");
-    const users = usersData ? JSON.parse(usersData) : [];
+    const users: StoredUser[] = usersData ? JSON.parse(usersData) : [];
     
-    const foundUser = users.find((u: any) => u.email === email && u.password === password);
+    const foundUser = users.find((u) => u.email === email && u.password === password);
     
     if (foundUser) {
-      const { password: _, ...userWithoutPassword } = foundUser;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password: userPassword, ...userWithoutPassword } = foundUser;
       setUser(userWithoutPassword);
       setIsAuthenticated(true);
       localStorage.setItem("user", JSON.stringify(userWithoutPassword));
@@ -83,10 +88,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       // Buscar usuários existentes
       const usersData = localStorage.getItem("users");
-      const users = usersData ? JSON.parse(usersData) : [];
+      const users: StoredUser[] = usersData ? JSON.parse(usersData) : [];
       
       // Verificar se o email já existe
-      if (users.some((u: any) => u.email === data.email)) {
+      if (users.some((u) => u.email === data.email)) {
         return false;
       }
       
@@ -105,7 +110,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem("users", JSON.stringify(users));
       
       // Fazer login automaticamente
-      const { password: _, ...userWithoutPassword } = newUser;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...userWithoutPassword } = newUser;
       setUser(userWithoutPassword);
       setIsAuthenticated(true);
       localStorage.setItem("user", JSON.stringify(userWithoutPassword));
@@ -131,8 +137,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       
       // Atualizar também no "banco de dados" simulado
       const usersData = localStorage.getItem("users");
-      const users = usersData ? JSON.parse(usersData) : [];
-      const userIndex = users.findIndex((u: any) => u.id === user.id);
+      const users: StoredUser[] = usersData ? JSON.parse(usersData) : [];
+      const userIndex = users.findIndex((u) => u.id === user.id);
       if (userIndex !== -1) {
         users[userIndex] = { ...users[userIndex], ...data };
         localStorage.setItem("users", JSON.stringify(users));
