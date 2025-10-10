@@ -91,13 +91,13 @@ const ProductDetailPage = () => {
             <span className="text-dark dark:text-white">{product.name}</span>
           </nav>
 
-          {/* Botão Voltar Grande */}
+          {/* Botão Voltar */}
           <button
             onClick={() => router.push("/cardapio")}
-            className="mb-8 flex items-center gap-3 rounded-xl border-2 border-stroke bg-white px-6 py-4 text-lg font-semibold text-dark transition-all hover:border-primary hover:bg-gray-2 dark:border-stroke-dark dark:bg-gray-dark dark:text-white dark:hover:border-primary dark:hover:bg-gray-800"
+            className="mb-8 inline-flex items-center gap-2 rounded-lg border-2 border-primary bg-primary px-5 py-2.5 font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
           >
             <svg
-              className="h-6 w-6"
+              className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -109,7 +109,7 @@ const ProductDetailPage = () => {
                 d="M10 19l-7-7m0 0l7-7m-7 7h18"
               />
             </svg>
-            Voltar ao Cardápio
+            Voltar
           </button>
 
           {/* Product Details */}
@@ -159,9 +159,9 @@ const ProductDetailPage = () => {
 
             {/* Product Info */}
             <div className="flex flex-col">
-              {/* Category Badge */}
+              {/* Category Badge - Estilo Tag */}
               {category && (
-                <span className="mb-2 inline-block w-fit rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary dark:bg-primary/20">
+                <span className="mb-4 inline-block w-fit rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm">
                   {category.name}
                 </span>
               )}
@@ -170,16 +170,16 @@ const ProductDetailPage = () => {
               <h1 className="mb-4 text-4xl font-bold text-dark dark:text-white">
                 {product.name}
               </h1>
-              <p className="mb-6 text-3xl font-bold text-primary">
+              <p className="mb-8 text-3xl font-bold text-primary">
                 R$ {product.price.toFixed(2).replace(".", ",")}
               </p>
 
               {/* Description */}
-              <div className="mb-6">
-                <h2 className="mb-2 text-lg font-semibold text-dark dark:text-white">
+              <div className="mb-8">
+                <h2 className="mb-3 text-lg font-semibold text-dark dark:text-white">
                   Descrição
                 </h2>
-                <p className="text-body dark:text-gray-5">
+                <p className="text-body leading-relaxed dark:text-gray-5">
                   {product.description}
                 </p>
               </div>
@@ -230,14 +230,14 @@ const ProductDetailPage = () => {
           </div>
 
           {/* Product Information Tabs */}
-          <div className="mb-12">
+          <div className="my-16">
             <ProductInfoTabs product={product} />
           </div>
 
           {/* Related Products Carousel */}
           {relatedProducts.length > 0 && (
-            <div>
-              <h2 className="mb-6 text-2xl font-bold text-dark dark:text-white">
+            <div className="my-16">
+              <h2 className="mb-8 text-3xl font-bold text-dark dark:text-white">
                 Produtos Relacionados
               </h2>
               <RelatedProductsCarousel products={relatedProducts} />
