@@ -1,16 +1,16 @@
 // Mock implementation of jose library for testing
 
 export class SignJWT {
-  private payload: any;
-  private protectedHeader: any;
+  private payload: Record<string, unknown>;
+  private protectedHeader: Record<string, unknown> = {};
   private issuedAt: boolean = false;
   private expirationTime: string | null = null;
 
-  constructor(payload: any) {
+  constructor(payload: Record<string, unknown>) {
     this.payload = payload;
   }
 
-  setProtectedHeader(header: any) {
+  setProtectedHeader(header: Record<string, unknown>) {
     this.protectedHeader = header;
     return this;
   }
@@ -25,7 +25,7 @@ export class SignJWT {
     return this;
   }
 
-  async sign(secret: Uint8Array): Promise<string> {
+  async sign(): Promise<string> {
     // Create a simple mock JWT token with current timestamp to ensure uniqueness
     const now = Date.now();
     const header = Buffer.from(JSON.stringify(this.protectedHeader)).toString('base64');
@@ -41,7 +41,7 @@ export class SignJWT {
   }
 }
 
-export async function jwtVerify(token: string, secret: Uint8Array): Promise<{ payload: any }> {
+export async function jwtVerify(token: string): Promise<{ payload: Record<string, unknown> }> {
   // Split the token
   const parts = token.split('.');
   
