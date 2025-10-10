@@ -1,0 +1,19 @@
+// Coverage directory
+coverage/
+*.lcov
+
+// Test files themselves
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+
+// Mock files
+**/__mocks__/
+
+// Next.js
+.next/
+out/
+
+// Node modules
+node_modules/
