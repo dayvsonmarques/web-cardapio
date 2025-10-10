@@ -6,7 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import CardapioHeader from "@/components/cardapio/CardapioHeader";
 import CardapioFooter from "@/components/cardapio/CardapioFooter";
-import ProductCard from "@/components/cardapio/ProductCard";
+import ProductInfoTabs from "@/components/cardapio/ProductInfoTabs";
+import RelatedProductsCarousel from "@/components/cardapio/RelatedProductsCarousel";
 import { productsTestData, categoriesTestData } from "@/data/catalogTestData";
 import { useCart } from "@/context/CartContext";
 
@@ -20,12 +21,12 @@ const ProductDetailPage = () => {
   const productId = params.id as string;
   const product = productsTestData.find(p => p.id === productId);
   
-  // Produtos relacionados da mesma categoria
+  // Produtos relacionados da mesma categoria (10 produtos para o carousel)
   const relatedProducts = useMemo(() => {
     if (!product) return [];
     return productsTestData
       .filter(p => p.categoryId === product.categoryId && p.id !== product.id && p.isAvailable)
-      .slice(0, 4);
+      .slice(0, 10);
   }, [product]);
   
   const category = product ? categoriesTestData.find(c => c.id === product.categoryId) : null;
@@ -89,6 +90,27 @@ const ProductDetailPage = () => {
             )}
             <span className="text-dark dark:text-white">{product.name}</span>
           </nav>
+
+          {/* Botão Voltar Grande */}
+          <button
+            onClick={() => router.push("/cardapio")}
+            className="mb-8 flex items-center gap-3 rounded-xl border-2 border-stroke bg-white px-6 py-4 text-lg font-semibold text-dark transition-all hover:border-primary hover:bg-gray-2 dark:border-stroke-dark dark:bg-gray-dark dark:text-white dark:hover:border-primary dark:hover:bg-gray-800"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+            Voltar ao Cardápio
+          </button>
 
           {/* Product Details */}
           <div className="mb-12 grid gap-8 lg:grid-cols-2">
@@ -162,85 +184,6 @@ const ProductDetailPage = () => {
                 </p>
               </div>
 
-              {/* Ingredients */}
-              {product.ingredients.length > 0 && (
-                <div className="mb-6">
-                  <h2 className="mb-2 text-lg font-semibold text-dark dark:text-white">
-                    Ingredientes
-                  </h2>
-                  <ul className="grid grid-cols-2 gap-2">
-                    {product.ingredients.map((ingredient, index) => (
-                      <li 
-                        key={index}
-                        className="flex items-center text-sm text-body dark:text-gray-5"
-                      >
-                        <svg 
-                          className="mr-2 h-4 w-4 text-primary" 
-                          fill="currentColor" 
-                          viewBox="0 0 20 20"
-                        >
-                          <path 
-                            fillRule="evenodd" 
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" 
-                            clipRule="evenodd" 
-                          />
-                        </svg>
-                        {ingredient}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Nutritional Info */}
-              <div className="mb-8 rounded-xl border border-stroke bg-white p-6 dark:border-stroke-dark dark:bg-gray-dark">
-                <h2 className="mb-4 text-lg font-semibold text-dark dark:text-white">
-                  Informações Nutricionais
-                </h2>
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-primary">
-                      {product.nutritionalInfo.calories}
-                    </p>
-                    <p className="text-xs text-body-secondary dark:text-gray-6">
-                      Calorias
-                    </p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-primary">
-                      {product.nutritionalInfo.proteins}g
-                    </p>
-                    <p className="text-xs text-body-secondary dark:text-gray-6">
-                      Proteínas
-                    </p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-primary">
-                      {product.nutritionalInfo.carbohydrates}g
-                    </p>
-                    <p className="text-xs text-body-secondary dark:text-gray-6">
-                      Carboidratos
-                    </p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-primary">
-                      {product.nutritionalInfo.fats}g
-                    </p>
-                    <p className="text-xs text-body-secondary dark:text-gray-6">
-                      Gorduras
-                    </p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-primary">
-                      {product.nutritionalInfo.fiber}g
-                    </p>
-                    <p className="text-xs text-body-secondary dark:text-gray-6">
-                      Fibras
-                    </p>
-                  </div>
-                </div>
-              </div>
-
               {/* Add to Cart */}
               {product.isAvailable && (
                 <div className="mt-auto">
@@ -275,39 +218,29 @@ const ProductDetailPage = () => {
                     </div>
                   </div>
 
-                  <div className="flex gap-3">
-                    <button
-                      onClick={handleAddToCart}
-                      className="flex-1 rounded-xl border-2 border-primary bg-primary px-6 py-4 text-lg font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
-                    >
-                      Adicionar ao Carrinho
-                    </button>
-                    <button
-                      onClick={() => {
-                        handleAddToCart();
-                        router.push("/cardapio/carrinho");
-                      }}
-                      className="rounded-xl border-2 border-primary bg-transparent px-6 py-4 text-lg font-semibold text-primary transition-all hover:bg-primary/10"
-                    >
-                      Comprar Agora
-                    </button>
-                  </div>
+                  <button
+                    onClick={handleAddToCart}
+                    className="w-full rounded-xl border-2 border-primary bg-primary px-6 py-4 text-lg font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
+                  >
+                    Adicionar ao Carrinho
+                  </button>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Related Products */}
+          {/* Product Information Tabs */}
+          <div className="mb-12">
+            <ProductInfoTabs product={product} />
+          </div>
+
+          {/* Related Products Carousel */}
           {relatedProducts.length > 0 && (
             <div>
               <h2 className="mb-6 text-2xl font-bold text-dark dark:text-white">
                 Produtos Relacionados
               </h2>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {relatedProducts.map((relatedProduct) => (
-                  <ProductCard key={relatedProduct.id} product={relatedProduct} />
-                ))}
-              </div>
+              <RelatedProductsCarousel products={relatedProducts} />
             </div>
           )}
         </div>
