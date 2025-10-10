@@ -6,9 +6,10 @@ import { prisma } from '@/lib/prisma';
 // GET /api/users/[id]/addresses - Get user addresses
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const cookieStore = await cookies();
     const token = cookieStore.get('auth-token')?.value;
     
@@ -21,7 +22,7 @@ export async function GET(
     
     const payload = await verifyToken(token);
     
-    if (!payload || payload.userId !== params.id) {
+    if (!payload || payload.userId !== id) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 403 }
@@ -29,7 +30,7 @@ export async function GET(
     }
     
     const addresses = await prisma.address.findMany({
-      where: { userId: params.id },
+      where: { userId: id },
       orderBy: { isDefault: 'desc' },
     });
     
@@ -46,9 +47,10 @@ export async function GET(
 // POST /api/users/[id]/addresses - Create new address
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const cookieStore = await cookies();
     const token = cookieStore.get('auth-token')?.value;
     
@@ -61,7 +63,7 @@ export async function POST(
     
     const payload = await verifyToken(token);
     
-    if (!payload || payload.userId !== params.id) {
+    if (!payload || payload.userId !== id) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 403 }
@@ -73,7 +75,7 @@ export async function POST(
     // If this is the first address or marked as default, unset other defaults
     if (body.isDefault) {
       await prisma.address.updateMany({
-        where: { userId: params.id },
+        where: { userId: id },
         data: { isDefault: false },
       });
     }
@@ -81,7 +83,7 @@ export async function POST(
     const address = await prisma.address.create({
       data: {
         ...body,
-        userId: params.id,
+        userId: id,
       },
     });
     

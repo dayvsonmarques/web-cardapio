@@ -6,9 +6,10 @@ import { prisma } from '@/lib/prisma';
 // PUT /api/users/[userId]/addresses/[addressId] - Update address
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string; addressId: string } }
+  { params }: { params: Promise<{ id: string; addressId: string }> }
 ) {
   try {
+    const { id, addressId } = await params;
     const cookieStore = await cookies();
     const token = cookieStore.get('auth-token')?.value;
     
@@ -21,7 +22,7 @@ export async function PUT(
     
     const payload = await verifyToken(token);
     
-    if (!payload || payload.userId !== params.id) {
+    if (!payload || payload.userId !== id) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 403 }
@@ -34,8 +35,8 @@ export async function PUT(
     if (body.isDefault) {
       await prisma.address.updateMany({
         where: { 
-          userId: params.id,
-          id: { not: params.addressId },
+          userId: id,
+          id: { not: addressId },
         },
         data: { isDefault: false },
       });
@@ -43,8 +44,8 @@ export async function PUT(
     
     const address = await prisma.address.update({
       where: { 
-        id: params.addressId,
-        userId: params.id,
+        id: addressId,
+        userId: id,
       },
       data: body,
     });
@@ -62,9 +63,10 @@ export async function PUT(
 // DELETE /api/users/[userId]/addresses/[addressId] - Delete address
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string; addressId: string } }
+  { params }: { params: Promise<{ id: string; addressId: string }> }
 ) {
   try {
+    const { id, addressId } = await params;
     const cookieStore = await cookies();
     const token = cookieStore.get('auth-token')?.value;
     
@@ -77,7 +79,7 @@ export async function DELETE(
     
     const payload = await verifyToken(token);
     
-    if (!payload || payload.userId !== params.id) {
+    if (!payload || payload.userId !== id) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 403 }
@@ -86,8 +88,8 @@ export async function DELETE(
     
     await prisma.address.delete({
       where: { 
-        id: params.addressId,
-        userId: params.id,
+        id: addressId,
+        userId: id,
       },
     });
     
