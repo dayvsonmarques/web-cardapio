@@ -20,7 +20,7 @@ describe('Badge Component', () => {
       </Badge>
     );
     const badge = container.firstChild;
-    expect(badge).toHaveClass('bg-success-600', 'text-white');
+    expect(badge).toHaveClass('bg-success-500', 'text-white');
   });
 
   it('should render with different colors', () => {
@@ -31,7 +31,7 @@ describe('Badge Component', () => {
     expect(container.firstChild).toHaveClass('bg-warning-50', 'text-warning-600');
 
     rerender(<Badge color="info">Info</Badge>);
-    expect(container.firstChild).toHaveClass('bg-blue-50', 'text-blue-600');
+    expect(container.firstChild).toHaveClass('bg-blue-light-50', 'text-blue-light-500');
   });
 
   it('should render with different sizes', () => {

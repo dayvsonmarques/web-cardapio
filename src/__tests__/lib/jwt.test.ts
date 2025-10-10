@@ -18,6 +18,8 @@ describe('JWT Utilities', () => {
 
     it('should create different tokens for same payload', async () => {
       const token1 = await createToken(mockPayload);
+      // Wait 1ms to ensure different timestamp
+      await new Promise(resolve => setTimeout(resolve, 1));
       const token2 = await createToken(mockPayload);
       
       // Tokens should be different due to different iat (issued at) timestamps
@@ -50,7 +52,9 @@ describe('JWT Utilities', () => {
 
     it('should return null for tampered token', async () => {
       const token = await createToken(mockPayload);
-      const tamperedToken = token.slice(0, -5) + 'xxxxx';
+      // Replace the signature completely to trigger verification failure
+      const parts = token.split('.');
+      const tamperedToken = `${parts[0]}.${parts[1]}.xxxxx`;
       const decoded = await verifyToken(tamperedToken);
       
       expect(decoded).toBeNull();
