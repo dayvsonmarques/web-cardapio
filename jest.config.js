@@ -9,8 +9,10 @@ const customJestConfig = {
   setupFiles: ['<rootDir>/jest.polyfills.js'],
   testEnvironment: 'jsdom',
   moduleNameMapper: {
+    '^@/icons$': '<rootDir>/src/__mocks__/icons.js',
     '^@/(.*)$': '<rootDir>/src/$1',
     '^jose$': '<rootDir>/src/__mocks__/jose.ts',
+    '\\.svg$': '<rootDir>/jest-svg-mock.js',
   },
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
