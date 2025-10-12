@@ -9,7 +9,7 @@
  * - Integração com CartContext
  */
 
-import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useRouter, useParams } from 'next/navigation';
 import ProductDetailPage from '@/app/cardapio/produto/[id]/page';
 import { CartProvider } from '@/context/CartContext';
@@ -24,6 +24,7 @@ jest.mock('next/navigation', () => ({
 // Mock do Next Image
 jest.mock('next/image', () => ({
   __esModule: true,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   default: (props: any) => {
     // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
     return <img {...props} />;

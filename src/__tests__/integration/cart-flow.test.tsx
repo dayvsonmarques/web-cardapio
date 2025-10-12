@@ -8,11 +8,10 @@
  * - Persistência de estado
  */
 
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { useRouter } from 'next/navigation';
 import { CartProvider, useCart } from '@/context/CartContext';
 import { productsTestData } from '@/data/catalogTestData';
-import { Product } from '@/types/catalog';
 
 // Mock do Next.js
 jest.mock('next/navigation', () => ({

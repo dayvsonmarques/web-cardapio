@@ -13,9 +13,11 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 // import RelatedProductsCarousel from '@/components/cardapio/RelatedProductsCarousel';
 import { CartProvider } from '@/context/CartContext';
 import { productsTestData } from '@/data/catalogTestData';
+import type { Product } from '@/types/catalog';
 
 // Temporary mock component for tests
-const RelatedProductsCarousel = ({ products }: { products: any[] }) => <div>Mock Carousel</div>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const RelatedProductsCarousel = (_props: { products: Product[] }) => <div>Mock Carousel</div>;
 
 // Mock do Next.js
 jest.mock('next/navigation', () => ({
@@ -27,6 +29,7 @@ jest.mock('next/navigation', () => ({
 
 jest.mock('next/image', () => ({
   __esModule: true,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   default: (props: any) => {
     // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
     return <img {...props} />;
