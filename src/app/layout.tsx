@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Outfit, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 
@@ -17,6 +18,20 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: '--font-space-grotesk',
 });
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Cardápio Digital | Sistema de Gestão de Restaurante',
+    template: '%s | Cardápio Digital',
+  },
+  description: 'Sistema completo de gestão de cardápio digital para restaurantes, com pedidos online, reservas e entregas.',
+  keywords: ['cardápio digital', 'restaurante', 'pedidos online', 'delivery', 'reservas'],
+  authors: [{ name: 'Cardápio Digital' }],
+  creator: 'Cardápio Digital',
+  icons: {
+    icon: '/favicon.ico',
+  },
+};
 
 export default function RootLayout({
   children,

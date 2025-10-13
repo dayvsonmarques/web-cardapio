@@ -3,9 +3,12 @@
 import React, { useState, useEffect } from "react";
 import { DeliverySettings, DeliveryType, deliveryTypeLabels } from "@/types/delivery";
 import { useViaCep } from "@/hooks/useViaCep";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import toast from "react-hot-toast";
 
 const EntregasPage = () => {
+  usePageTitle("Configurações de Entrega");
+  
   const [settings, setSettings] = useState<DeliverySettings | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);

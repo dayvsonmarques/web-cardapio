@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation';
 import { Product } from '@/types/catalog';
 import { productsTestData, categoriesTestData } from '@/data/catalogTestData';
 import { useTranslations } from '@/hooks/useTranslations';
+import { usePageTitle } from '@/hooks/usePageTitle';
 import Image from 'next/image';
 
 export default function ProductsPage() {
+  usePageTitle('Produtos');
   const router = useRouter();
   const { t } = useTranslations();
   const [products, setProducts] = useState<Product[]>(productsTestData);
