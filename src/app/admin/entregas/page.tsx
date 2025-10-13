@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { DeliverySettings, DeliveryType, deliveryTypeLabels } from "@/types/delivery";
 import { useViaCep } from "@/hooks/useViaCep";
+import toast from "react-hot-toast";
 
 const EntregasPage = () => {
   const [settings, setSettings] = useState<DeliverySettings | null>(null);
@@ -90,10 +91,10 @@ const EntregasPage = () => {
       }
 
       await loadSettings();
-      alert("Configurações salvas com sucesso!");
+      toast.success("Configurações salvas com sucesso!");
     } catch (error) {
       console.error("Erro ao salvar:", error);
-      alert("Erro ao salvar configurações");
+      toast.error("Erro ao salvar configurações. Tente novamente.");
     } finally {
       setSaving(false);
     }
@@ -561,14 +562,7 @@ const EntregasPage = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-4">
-            <button
-              type="submit"
-              disabled={saving}
-              className="flex-1 rounded-lg bg-brand-500 px-6 py-3 font-semibold text-white hover:bg-brand-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              {saving ? "Salvando..." : "Salvar Configurações"}
-            </button>
+          <div className="flex gap-4 justify-end">
             {settings && (
               <button
                 type="button"
@@ -581,6 +575,13 @@ const EntregasPage = () => {
                 Cancelar
               </button>
             )}
+            <button
+              type="submit"
+              disabled={saving}
+              className="rounded-lg bg-brand-500 px-8 py-3 font-semibold text-white hover:bg-brand-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {saving ? "Salvando..." : "Salvar Configurações"}
+            </button>
           </div>
         </form>
       )}
