@@ -269,3 +269,45 @@ model OrderItem {
   
   @@map("order_items")
 }
+
+// ============================================================
+// DELIVERY SETTINGS
+// ============================================================
+
+model DeliverySettings {
+  id                    String              @id @default(uuid())
+  
+  // Store Address
+  storeStreet           String
+  storeNumber           String
+  storeComplement       String?
+  storeNeighborhood     String
+  storeCity             String
+  storeState            String
+  storeZipCode          String
+  
+  // Delivery Configuration
+  deliveryType          DeliveryType        @default(FIXED)
+  fixedCost             Float               @default(0)
+  costPerKm             Float               @default(0)
+  freeDeliveryMinValue  Float?              // Minimum order value for free delivery
+  
+  // Pickup Option
+  allowPickup           Boolean             @default(true)
+  
+  // Status
+  isActive              Boolean             @default(true)
+  
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  
+  @@map("delivery_settings")
+}
+
+enum DeliveryType {
+  FIXED              // Fixed cost
+  VARIABLE           // Cost per km
+  FIXED_PLUS_KM      // Fixed + cost per km
+  FREE_ABOVE_VALUE   // Free for orders above certain value
+}
+

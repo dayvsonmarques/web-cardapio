@@ -53,6 +53,11 @@ const navItems: NavItem[] = [
     path: "/admin/restaurante",
   },
   {
+    icon: <BoxCubeIcon />,
+    name: "Entregas",
+    path: "/admin/entregas",
+  },
+  {
     icon: <GroupIcon />,
     name: "Gerenciamento",
     subItems: [
