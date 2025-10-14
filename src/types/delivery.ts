@@ -18,6 +18,8 @@ export interface DeliverySettings {
   fixedCost: number;
   costPerKm: number;
   freeDeliveryMinValue?: number | null;
+  hasDeliveryLimit: boolean;
+  maxDeliveryDistance?: number | null;
   allowPickup: boolean;
   isActive: boolean;
   createdAt: Date;
@@ -36,6 +38,8 @@ export interface DeliveryFormData {
   fixedCost: number;
   costPerKm: number;
   freeDeliveryMinValue?: number;
+  hasDeliveryLimit: boolean;
+  maxDeliveryDistance?: number;
   allowPickup: boolean;
   isActive: boolean;
 }

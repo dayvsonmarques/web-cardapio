@@ -27,6 +27,8 @@ const EntregasPage = () => {
     fixedCost: 0,
     costPerKm: 0,
     freeDeliveryMinValue: 0,
+    hasDeliveryLimit: false,
+    maxDeliveryDistance: 0,
     allowPickup: true,
     isActive: true,
   });
@@ -57,6 +59,8 @@ const EntregasPage = () => {
           fixedCost: data.fixedCost || 0,
           costPerKm: data.costPerKm || 0,
           freeDeliveryMinValue: data.freeDeliveryMinValue || 0,
+          hasDeliveryLimit: data.hasDeliveryLimit ?? false,
+          maxDeliveryDistance: data.maxDeliveryDistance || 0,
           allowPickup: data.allowPickup ?? true,
           isActive: data.isActive ?? true,
         });
@@ -292,6 +296,28 @@ const EntregasPage = () => {
               )}
               
               <div>
+                <p className="mb-1 text-sm font-medium text-body">Limite de Entrega</p>
+                <span
+                  className={`inline-flex rounded-full px-3 py-1 text-sm font-medium ${
+                    settings.hasDeliveryLimit
+                      ? "bg-warning/10 text-warning"
+                      : "bg-bodydark2/10 text-bodydark2"
+                  }`}
+                >
+                  {settings.hasDeliveryLimit ? "Sim" : "Não"}
+                </span>
+              </div>
+
+              {settings.hasDeliveryLimit && settings.maxDeliveryDistance && (
+                <div>
+                  <p className="mb-1 text-sm font-medium text-body">Distância Máxima</p>
+                  <p className="text-base font-semibold text-dark dark:text-white">
+                    {settings.maxDeliveryDistance.toFixed(1)} km
+                  </p>
+                </div>
+              )}
+              
+              <div>
                 <p className="mb-1 text-sm font-medium text-body">Permite Retirada</p>
                 <span
                   className={`inline-flex rounded-full px-3 py-1 text-sm font-medium ${
@@ -522,6 +548,48 @@ const EntregasPage = () => {
                       required
                       className="w-full rounded-lg border border-stroke bg-transparent px-4 py-3 text-dark outline-none focus:border-brand-500 dark:border-strokedark dark:text-white"
                     />
+                  </div>
+                )}
+              </div>
+
+              {/* Limite de Entrega */}
+              <div className="flex flex-col gap-4 border-t border-stroke pt-6 dark:border-strokedark">
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="hasDeliveryLimit"
+                    id="hasDeliveryLimit"
+                    checked={formData.hasDeliveryLimit}
+                    onChange={handleInputChange}
+                    className="h-5 w-5 rounded border-stroke text-primary focus:ring-2 focus:ring-primary dark:border-strokedark"
+                  />
+                  <label
+                    htmlFor="hasDeliveryLimit"
+                    className="ml-3 text-sm font-medium text-dark dark:text-white"
+                  >
+                    Limite de entrega (km)
+                  </label>
+                </div>
+
+                {formData.hasDeliveryLimit && (
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-dark dark:text-white">
+                      Distância máxima para entrega (km)
+                    </label>
+                    <input
+                      type="number"
+                      name="maxDeliveryDistance"
+                      value={formData.maxDeliveryDistance}
+                      onChange={handleInputChange}
+                      step="0.1"
+                      min="0"
+                      required
+                      placeholder="Ex: 10"
+                      className="w-full rounded-lg border border-stroke bg-transparent px-4 py-3 text-dark outline-none focus:border-brand-500 dark:border-strokedark dark:text-white"
+                    />
+                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                      Pedidos além desta distância serão recusados automaticamente
+                    </p>
                   </div>
                 )}
               </div>

@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import { calculateDistanceViaAPI } from '@/lib/googleMaps';
 
+interface AddressInfo {
+  street: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+}
+
 interface DeliveryCalculation {
   type: 'FIXED' | 'VARIABLE' | 'FIXED_PLUS_KM' | 'FREE_ABOVE_VALUE';
   cost: number;
   distance?: number;
-  durationText?: string;
+  address?: AddressInfo;
   isFree: boolean;
 }
 
@@ -33,6 +40,24 @@ export function useDeliveryCalculator() {
         throw new Error('Serviço de entrega não disponível');
       }
 
+      // Buscar informações do endereço via ViaCEP
+      let addressInfo: AddressInfo | undefined;
+      try {
+        const viaCepResponse = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const viaCepData = await viaCepResponse.json();
+        
+        if (!viaCepData.erro) {
+          addressInfo = {
+            street: viaCepData.logradouro,
+            neighborhood: viaCepData.bairro,
+            city: viaCepData.localidade,
+            state: viaCepData.uf,
+          };
+        }
+      } catch (err) {
+        console.log('Erro ao buscar endereço via CEP:', err);
+      }
+
       // Calcular distância real usando Google Maps API
       const distanceResult = await calculateDistanceViaAPI(
         settings.storeZipCode,
@@ -44,7 +69,15 @@ export function useDeliveryCalculator() {
       }
 
       const distance = distanceResult.distanceKm;
-      const durationText = distanceResult.durationText;
+
+      // Verificar se há limite de distância
+      if (settings.hasDeliveryLimit && settings.maxDeliveryDistance) {
+        if (distance > settings.maxDeliveryDistance) {
+          throw new Error(
+            `Desculpe, não entregamos nesta região. Nossa área de entrega é limitada a ${settings.maxDeliveryDistance}km. Distância calculada: ${distance.toFixed(1)}km`
+          );
+        }
+      }
 
       let cost = 0;
       let isFree = false;
@@ -79,7 +112,7 @@ export function useDeliveryCalculator() {
         type: settings.deliveryType,
         cost: Math.max(0, cost),
         distance,
-        durationText,
+        address: addressInfo,
         isFree,
       };
     } catch (err) {

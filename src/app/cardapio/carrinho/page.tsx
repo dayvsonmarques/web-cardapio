@@ -21,6 +21,13 @@ const CarrinhoPage = () => {
   const [cep, setCep] = useState("");
   const [deliveryCost, setDeliveryCost] = useState<number | null>(null);
   const [deliveryInfo, setDeliveryInfo] = useState<string>("");
+  const [deliveryAddress, setDeliveryAddress] = useState<{
+    street: string;
+    neighborhood: string;
+    city: string;
+    state: string;
+  } | null>(null);
+  const [deliveryDistance, setDeliveryDistance] = useState<number | null>(null);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -41,6 +48,8 @@ const CarrinhoPage = () => {
     if (cleanCep.length !== 8) {
       setDeliveryInfo("Por favor, digite um CEP válido");
       setDeliveryCost(null);
+      setDeliveryAddress(null);
+      setDeliveryDistance(null);
       return;
     }
 
@@ -48,18 +57,18 @@ const CarrinhoPage = () => {
     
     if (result) {
       setDeliveryCost(result.cost);
+      setDeliveryDistance(result.distance || null);
+      setDeliveryAddress(result.address || null);
       
       if (result.isFree) {
         setDeliveryInfo("Frete grátis! 🎉");
-      } else if (result.distance) {
-        const distanceText = `Distância: ${result.distance}km`;
-        const timeText = result.durationText ? ` • Tempo estimado: ${result.durationText}` : '';
-        setDeliveryInfo(distanceText + timeText);
       } else {
         setDeliveryInfo("");
       }
     } else {
       setDeliveryCost(null);
+      setDeliveryAddress(null);
+      setDeliveryDistance(null);
       setDeliveryInfo(deliveryError || "Não foi possível calcular o frete");
     }
   };
@@ -319,13 +328,39 @@ const CarrinhoPage = () => {
                     </button>
                   </div>
                   
+                  {/* Informações de entrega */}
+                  {deliveryAddress && (
+                    <div className="mt-3 space-y-1 border-t border-gray-200 pt-3 dark:border-gray-600">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                        Endereço de entrega:
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {deliveryAddress.street}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {deliveryAddress.neighborhood}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {deliveryAddress.city}/{deliveryAddress.state}
+                      </p>
+                    </div>
+                  )}
+                  
+                  {/* Distância */}
+                  {deliveryDistance !== null && (
+                    <div className="mt-3 border-t border-gray-200 pt-3 dark:border-gray-600">
+                      <p className="text-base font-semibold text-gray-900 dark:text-white">
+                        Distância: {deliveryDistance}km
+                      </p>
+                    </div>
+                  )}
+                  
+                  {/* Mensagens de frete grátis ou erro */}
                   {deliveryInfo && (
-                    <p className={`mt-2 text-xs ${
+                    <p className={`mt-2 text-sm font-medium ${
                       deliveryCost === 0 && deliveryInfo.includes("grátis") 
                         ? "text-green-600 dark:text-green-400" 
-                        : deliveryError 
-                        ? "text-red-600 dark:text-red-400"
-                        : "text-gray-600 dark:text-gray-400"
+                        : "text-red-600 dark:text-red-400"
                     }`}>
                       {deliveryInfo}
                     </p>

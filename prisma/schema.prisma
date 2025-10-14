@@ -46,6 +46,8 @@ model DeliverySettings {
   fixedCost            Float        @default(0)
   costPerKm            Float        @default(0)
   freeDeliveryMinValue Float?
+  hasDeliveryLimit     Boolean      @default(false)
+  maxDeliveryDistance  Float?
   allowPickup          Boolean      @default(true)
   isActive             Boolean      @default(true)
   createdAt            DateTime     @default(now())
