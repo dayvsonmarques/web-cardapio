@@ -1,14 +1,26 @@
 "use client";
 
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
+import { useViaCep } from "@/hooks/useViaCep";
+import { useDeliveryCalculator } from "@/hooks/useDeliveryCalculator";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import CardapioHeader from "@/components/cardapio/CardapioHeader";
 
 const CarrinhoPage = () => {
+  usePageTitle("Meu Carrinho");
+  
   const router = useRouter();
   const { items, updateQuantity, removeItem, getTotalPrice, clearCart } = useCart();
+  const { formatCep } = useViaCep();
+  const { calculateDelivery, loading: deliveryLoading, error: deliveryError } = useDeliveryCalculator();
+  
+  const [cep, setCep] = useState("");
+  const [deliveryCost, setDeliveryCost] = useState<number | null>(null);
+  const [deliveryInfo, setDeliveryInfo] = useState<string>("");
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -21,6 +33,40 @@ const CarrinhoPage = () => {
     if (newQuantity < 1) return;
     if (newQuantity > 99) return;
     updateQuantity(productId, newQuantity);
+  };
+
+  const handleCalculateDelivery = async () => {
+    const cleanCep = cep.replace(/\D/g, '');
+    
+    if (cleanCep.length !== 8) {
+      setDeliveryInfo("Por favor, digite um CEP válido");
+      setDeliveryCost(null);
+      return;
+    }
+
+    const result = await calculateDelivery(cleanCep, getTotalPrice());
+    
+    if (result) {
+      setDeliveryCost(result.cost);
+      
+      if (result.isFree) {
+        setDeliveryInfo("Frete grátis! 🎉");
+      } else if (result.distance) {
+        const distanceText = `Distância: ${result.distance}km`;
+        const timeText = result.durationText ? ` • Tempo estimado: ${result.durationText}` : '';
+        setDeliveryInfo(distanceText + timeText);
+      } else {
+        setDeliveryInfo("");
+      }
+    } else {
+      setDeliveryCost(null);
+      setDeliveryInfo(deliveryError || "Não foi possível calcular o frete");
+    }
+  };
+
+  const handleCepChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatCep(e.target.value);
+    setCep(formatted);
   };
 
   if (items.length === 0) {
@@ -249,11 +295,62 @@ const CarrinhoPage = () => {
                     {formatPrice(getTotalPrice())}
                   </span>
                 </div>
+
+                {/* Calculador de Frete */}
+                <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700/50">
+                  <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Calcular frete
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={cep}
+                      onChange={handleCepChange}
+                      placeholder="00000-000"
+                      maxLength={9}
+                      className="flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                    />
+                    <button
+                      onClick={handleCalculateDelivery}
+                      disabled={deliveryLoading}
+                      className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-primary/90 disabled:opacity-50"
+                    >
+                      {deliveryLoading ? "..." : "OK"}
+                    </button>
+                  </div>
+                  
+                  {deliveryInfo && (
+                    <p className={`mt-2 text-xs ${
+                      deliveryCost === 0 && deliveryInfo.includes("grátis") 
+                        ? "text-green-600 dark:text-green-400" 
+                        : deliveryError 
+                        ? "text-red-600 dark:text-red-400"
+                        : "text-gray-600 dark:text-gray-400"
+                    }`}>
+                      {deliveryInfo}
+                    </p>
+                  )}
+                </div>
+
+                {deliveryCost !== null && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600 dark:text-gray-400">Frete</span>
+                    <span className={`font-medium ${
+                      deliveryCost === 0 
+                        ? "text-green-600 dark:text-green-400" 
+                        : "text-gray-900 dark:text-white"
+                    }`}>
+                      {deliveryCost === 0 ? "GRÁTIS" : formatPrice(deliveryCost)}
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className="mt-4 flex justify-between text-lg font-bold">
                 <span className="text-gray-900 dark:text-white">Total</span>
-                <span className="text-primary">{formatPrice(getTotalPrice())}</span>
+                <span className="text-primary">
+                  {formatPrice(getTotalPrice() + (deliveryCost || 0))}
+                </span>
               </div>
 
               <div className="mt-6 space-y-3">
@@ -268,15 +365,8 @@ const CarrinhoPage = () => {
                   href="/cardapio"
                   className="block w-full rounded-lg border-2 border-gray-300 bg-white py-3 text-center font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                 >
-                  Adicionar Mais Itens
+                  Continuar comprando
                 </Link>
-              </div>
-
-              {/* Informações Adicionais */}
-              <div className="mt-6 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-                <p className="text-sm text-blue-800 dark:text-blue-300">
-                  <strong>Frete:</strong> Será calculado no checkout
-                </p>
               </div>
             </div>
           </div>
