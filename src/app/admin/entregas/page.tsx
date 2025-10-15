@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { DeliverySettings, DeliveryType, deliveryTypeLabels } from "@/types/delivery";
+import { DeliverySettings, DeliveryType, deliveryTypeLabels, DistanceRange } from "@/types/delivery";
 import { useViaCep } from "@/hooks/useViaCep";
 import { usePageTitle } from "@/hooks/usePageTitle";
+import { DistanceRangeManager } from "@/components/delivery/DistanceRangeManager";
 import toast from "react-hot-toast";
 
 const EntregasPage = () => {
@@ -31,6 +32,7 @@ const EntregasPage = () => {
     maxDeliveryDistance: 0,
     allowPickup: true,
     isActive: true,
+    distanceRanges: [] as DistanceRange[],
   });
 
   useEffect(() => {
@@ -63,6 +65,7 @@ const EntregasPage = () => {
           maxDeliveryDistance: data.maxDeliveryDistance || 0,
           allowPickup: data.allowPickup ?? true,
           isActive: data.isActive ?? true,
+          distanceRanges: data.distanceRanges || [],
         });
         setIsEditing(false);
       } else {
@@ -85,6 +88,8 @@ const EntregasPage = () => {
     try {
       setSaving(true);
       
+      console.log("Enviando dados:", formData);
+      
       const response = await fetch("/api/delivery-settings", {
         method: settings ? "PUT" : "POST",
         headers: {
@@ -94,14 +99,17 @@ const EntregasPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Erro ao salvar configurações");
+        const errorData = await response.json();
+        console.error("Erro da API:", errorData);
+        throw new Error(errorData.error || "Erro ao salvar configurações");
       }
 
       await loadSettings();
       toast.success("Configurações salvas com sucesso!");
     } catch (error) {
       console.error("Erro ao salvar:", error);
-      toast.error("Erro ao salvar configurações. Tente novamente.");
+      const errorMessage = error instanceof Error ? error.message : "Erro ao salvar configurações. Tente novamente.";
+      toast.error(errorMessage);
     } finally {
       setSaving(false);
     }
@@ -292,6 +300,28 @@ const EntregasPage = () => {
                   <p className="text-base font-semibold text-dark dark:text-white">
                     R$ {settings.freeDeliveryMinValue.toFixed(2)}
                   </p>
+                </div>
+              )}
+
+              {/* Faixas de Distância */}
+              {settings.deliveryType === DeliveryType.RANGE_BASED && settings.distanceRanges && settings.distanceRanges.length > 0 && (
+                <div className="md:col-span-2">
+                  <p className="mb-3 text-sm font-medium text-body">Faixas de Distância</p>
+                  <div className="space-y-2">
+                    {settings.distanceRanges.map((range, index) => (
+                      <div
+                        key={range.id || index}
+                        className="flex items-center justify-between rounded-lg border border-stroke bg-gray-2 px-4 py-3 dark:border-strokedark dark:bg-meta-4"
+                      >
+                        <span className="text-sm text-dark dark:text-white">
+                          {range.minDistance.toFixed(1)} km - {range.maxDistance.toFixed(1)} km
+                        </span>
+                        <span className={`text-sm font-semibold ${range.isFree ? 'text-success' : 'text-dark dark:text-white'}`}>
+                          {range.isFree ? 'Frete Grátis' : `R$ ${range.cost.toFixed(2)}`}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
               
@@ -551,6 +581,18 @@ const EntregasPage = () => {
                   </div>
                 )}
               </div>
+
+              {/* Faixas de Distância */}
+              {formData.deliveryType === DeliveryType.RANGE_BASED && (
+                <div className="border-t border-stroke pt-6 dark:border-strokedark">
+                  <DistanceRangeManager
+                    ranges={formData.distanceRanges}
+                    onChange={(ranges) =>
+                      setFormData((prev) => ({ ...prev, distanceRanges: ranges }))
+                    }
+                  />
+                </div>
+              )}
 
               {/* Limite de Entrega */}
               <div className="flex flex-col gap-4 border-t border-stroke pt-6 dark:border-strokedark">

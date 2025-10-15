@@ -34,7 +34,7 @@ model categories {
 }
 
 model DeliverySettings {
-  id                   String       @id
+  id                   String              @id
   storeStreet          String
   storeNumber          String
   storeComplement      String?
@@ -42,18 +42,33 @@ model DeliverySettings {
   storeCity            String
   storeState           String
   storeZipCode         String
-  deliveryType         DeliveryType @default(FIXED)
-  fixedCost            Float        @default(0)
-  costPerKm            Float        @default(0)
+  deliveryType         DeliveryType        @default(FIXED)
+  fixedCost            Float               @default(0)
+  costPerKm            Float               @default(0)
   freeDeliveryMinValue Float?
-  hasDeliveryLimit     Boolean      @default(false)
+  hasDeliveryLimit     Boolean             @default(false)
   maxDeliveryDistance  Float?
-  allowPickup          Boolean      @default(true)
-  isActive             Boolean      @default(true)
-  createdAt            DateTime     @default(now())
-  updatedAt            DateTime
+  allowPickup          Boolean             @default(true)
+  isActive             Boolean             @default(true)
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  distanceRanges       DistanceRange[]
 
   @@map("delivery_settings")
+}
+
+model DistanceRange {
+  id                 String           @id @default(cuid())
+  deliverySettingsId String
+  minDistance        Float            @default(0)
+  maxDistance        Float
+  cost               Float
+  isFree             Boolean          @default(false)
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  deliverySettings   DeliverySettings @relation(fields: [deliverySettingsId], references: [id], onDelete: Cascade)
+
+  @@map("distance_ranges")
 }
 
 model order_items {
@@ -177,6 +192,7 @@ enum DeliveryType {
   VARIABLE
   FIXED_PLUS_KM
   FREE_ABOVE_VALUE
+  RANGE_BASED
 }
 
 enum OrderStatus {

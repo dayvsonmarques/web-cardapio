@@ -9,7 +9,7 @@ interface AddressInfo {
 }
 
 interface DeliveryCalculation {
-  type: 'FIXED' | 'VARIABLE' | 'FIXED_PLUS_KM' | 'FREE_ABOVE_VALUE';
+  type: 'FIXED' | 'VARIABLE' | 'FIXED_PLUS_KM' | 'FREE_ABOVE_VALUE' | 'RANGE_BASED';
   cost: number;
   distance?: number;
   address?: AddressInfo;
@@ -101,6 +101,34 @@ export function useDeliveryCalculator() {
             isFree = true;
           } else {
             cost = settings.fixedCost || 0;
+          }
+          break;
+
+        case 'RANGE_BASED':
+          // Buscar a faixa correspondente à distância
+          if (settings.distanceRanges && settings.distanceRanges.length > 0) {
+            interface DistanceRange {
+              minDistance: number;
+              maxDistance: number;
+              cost: number;
+              isFree: boolean;
+            }
+            
+            const matchingRange = (settings.distanceRanges as DistanceRange[]).find(
+              (range) => distance >= range.minDistance && distance <= range.maxDistance
+            );
+
+            if (matchingRange) {
+              cost = matchingRange.isFree ? 0 : matchingRange.cost;
+              isFree = matchingRange.isFree;
+            } else {
+              // Se não encontrar faixa correspondente, não entrega
+              throw new Error(
+                `Desculpe, não entregamos nesta distância (${distance.toFixed(1)}km). Verifique as faixas de entrega disponíveis.`
+              );
+            }
+          } else {
+            throw new Error('Faixas de distância não configuradas');
           }
           break;
 
