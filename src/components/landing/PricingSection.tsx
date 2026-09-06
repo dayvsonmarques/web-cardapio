@@ -23,9 +23,9 @@ export default function PricingSection() {
       highlighted: false,
     },
     {
-      name: 'Profissional',
+      name: 'Completo',
       description: 'Para restaurantes em crescimento',
-      monthlyPrice: 'R$ 79,90',
+      monthlyPrice: 'R$ 69,90',
       yearlyPrice: 'R$ 799',
       features: [
         'Tudo do plano Básico',
@@ -41,12 +41,12 @@ export default function PricingSection() {
       highlighted: true,
     },
     {
-      name: 'Enterprise',
+      name: 'Empresarial',
       description: 'Para grandes operações',
       monthlyPrice: 'A negociar',
       yearlyPrice: 'A negociar',
       features: [
-        'Tudo do plano Profissional',
+        'Tudo do plano Completo',
         'Taxas personalizadas',
         'Usuários ilimitados',
         'Multi-localização',
