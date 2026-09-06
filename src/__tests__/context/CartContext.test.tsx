@@ -1,6 +1,12 @@
 import { renderHook, act } from '@testing-library/react';
+import toast from 'react-hot-toast';
 import { CartProvider, useCart } from '@/context/CartContext';
 import { Product } from '@/types/catalog';
+
+jest.mock('react-hot-toast', () => ({
+  __esModule: true,
+  default: { success: jest.fn(), error: jest.fn() },
+}));
 
 // Mock product for testing
 const mockProduct: Product = {
@@ -97,6 +103,18 @@ describe('CartContext', () => {
       expect(result.current.items).toHaveLength(2);
       expect(result.current.items[0].product.id).toBe('1');
       expect(result.current.items[1].product.id).toBe('2');
+    });
+
+    it('shows a toast when a product is added', () => {
+      (toast.success as jest.Mock).mockClear();
+
+      const { result } = renderHook(() => useCart(), { wrapper: CartProvider });
+
+      act(() => {
+        result.current.addItem(mockProduct, 1);
+      });
+
+      expect(toast.success).toHaveBeenCalledWith('Produto adicionado ao carrinho');
     });
   });
 

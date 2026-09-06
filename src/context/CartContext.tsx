@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import toast from 'react-hot-toast';
 import { Product } from '@/types/catalog';
 
 interface CartItem {
@@ -37,6 +38,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
       return [...prevItems, { product, quantity }];
     });
+
+    toast.success('Produto adicionado ao carrinho');
   };
 
   const removeItem = (productId: string) => {
