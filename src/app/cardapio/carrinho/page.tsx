@@ -1,24 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
+import { useDelivery } from "@/context/DeliveryContext";
 import { useViaCep } from "@/hooks/useViaCep";
 import { useDeliveryCalculator } from "@/hooks/useDeliveryCalculator";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import CardapioHeader from "@/components/cardapio/CardapioHeader";
+import LoadingOverlay from "@/components/cardapio/LoadingOverlay";
 
 const CarrinhoPage = () => {
   usePageTitle("Meu Carrinho");
   
   const router = useRouter();
   const { items, updateQuantity, removeItem, getTotalPrice, clearCart } = useCart();
+  const delivery = useDelivery();
   const { formatCep } = useViaCep();
   const { calculateDelivery, loading: deliveryLoading } = useDeliveryCalculator();
-  
-  const [cep, setCep] = useState("");
+
+  const [cep, setCep] = useState(delivery.address?.cep ?? "");
   const [deliveryCost, setDeliveryCost] = useState<number | null>(null);
   const [deliveryInfo, setDeliveryInfo] = useState<string>("");
   const [deliveryAddress, setDeliveryAddress] = useState<{
@@ -28,6 +31,26 @@ const CarrinhoPage = () => {
     state: string;
   } | null>(null);
   const [deliveryDistance, setDeliveryDistance] = useState<number | null>(null);
+
+  // Reidrata a UI a partir do cálculo feito anteriormente (mantido no contexto)
+  useEffect(() => {
+    if (delivery.address) {
+      setCep(delivery.address.cep);
+      setDeliveryAddress({
+        street: delivery.address.street,
+        neighborhood: delivery.address.neighborhood,
+        city: delivery.address.city,
+        state: delivery.address.state,
+      });
+    }
+    if (delivery.distanceKm !== null) setDeliveryDistance(delivery.distanceKm);
+    if (delivery.cost !== null) {
+      setDeliveryCost(delivery.cost);
+      setDeliveryInfo(delivery.isFree ? "Frete grátis! 🎉" : "");
+    }
+    // Só na montagem — depois disso a página é a fonte da verdade
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -61,6 +84,16 @@ const CarrinhoPage = () => {
       setDeliveryDistance(data.distance ?? null);
       setDeliveryAddress(data.address ?? null);
       setDeliveryInfo(data.isFree ? "Frete grátis! 🎉" : "");
+
+      // Compartilha com a finalização (persistido em sessionStorage)
+      delivery.setDelivery({
+        address: data.address
+          ? { ...data.address, cep: formatCep(cleanCep) }
+          : null,
+        distanceKm: data.distance ?? null,
+        cost: data.cost,
+        isFree: data.isFree,
+      });
     } else {
       setDeliveryCost(null);
       setDeliveryAddress(null);
@@ -114,6 +147,7 @@ const CarrinhoPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <LoadingOverlay show={deliveryLoading} message="Calculando frete..." />
       <CardapioHeader />
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">

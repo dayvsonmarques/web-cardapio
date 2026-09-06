@@ -58,8 +58,8 @@ export function useDeliveryCalculator() {
             state: viaCepData.uf,
           };
         }
-      } catch (err) {
-        console.log('Erro ao buscar endereço via CEP:', err);
+      } catch {
+        // ViaCEP é opcional para o cálculo — segue sem os dados de endereço
       }
 
       // Calcular distância real usando Google Maps API

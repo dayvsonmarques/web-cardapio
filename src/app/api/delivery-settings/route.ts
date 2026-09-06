@@ -21,8 +21,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    console.log("POST - Body:", JSON.stringify(body, null, 2));
-    
+
     const settings = await prisma.deliverySettings.create({
       data: {
         storeStreet: body.storeStreet,
@@ -67,34 +66,22 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    console.log("📥 PUT - Dados recebidos:");
-    console.log("  deliveryType:", body.deliveryType);
-    console.log("  hasDeliveryLimit:", body.hasDeliveryLimit);
-    console.log("  maxDeliveryDistance:", body.maxDeliveryDistance);
-    console.log("  distanceRanges:", body.distanceRanges?.length || 0, "faixas");
-    
+
     const currentSettings = await prisma.deliverySettings.findFirst({
       orderBy: { createdAt: 'desc' },
     });
-    
+
     if (!currentSettings) {
-      console.error("❌ Configuração não encontrada");
       return NextResponse.json({ error: "Configuração não encontrada" }, { status: 404 });
     }
-    
-    console.log("✅ Configuração encontrada:", currentSettings.id);
-    
+
     if (body.distanceRanges !== undefined) {
-      console.log("🗑️ Deletando faixas antigas...");
       await prisma.$executeRawUnsafe(
         `DELETE FROM distance_ranges WHERE "deliverySettingsId" = $1`,
         currentSettings.id
       );
-      console.log("✅ Faixas deletadas:", body.distanceRanges.length, "novas faixas");
     }
-    
-    console.log("🔄 Atualizando configuração...");
-    
+
     let settings;
     try {
       // Primeiro atualiza os dados básicos
@@ -121,7 +108,6 @@ export async function PUT(request: NextRequest) {
       
       // Depois cria as novas faixas de distância, se houver
       if (body.distanceRanges && body.distanceRanges.length > 0) {
-        console.log("➕ Criando novas faixas de distância...");
         await prisma.distanceRange.createMany({
           data: body.distanceRanges.map((range: {minDistance: number, maxDistance: number, cost: number, isFree: boolean}) => ({
             deliverySettingsId: currentSettings.id,
@@ -140,24 +126,15 @@ export async function PUT(request: NextRequest) {
           distanceRanges: { orderBy: { minDistance: 'asc' } }
         },
       });
-      console.log("✅ Update executado com sucesso");
     } catch (updateError) {
-      console.error("❌ Erro no Prisma update:");
-      console.error("  Message:", updateError instanceof Error ? updateError.message : "Unknown");
-      console.error("  Type:", typeof updateError);
-      console.error("  Full error:", updateError);
+      console.error("Erro no Prisma update:", updateError);
       throw updateError;
     }
-    
-    console.log("✅ Configuração atualizada com sucesso!");
+
     return NextResponse.json(settings);
   } catch (error) {
-    console.error("❌ Erro ao atualizar configuração:");
-    console.error("Error object:", error);
-    console.error("Error type:", typeof error);
-    console.error("Error message:", error instanceof Error ? error.message : "Unknown");
-    console.error("Error stack:", error instanceof Error ? error.stack : "N/A");
-    
+    console.error("Erro ao atualizar configuração:", error);
+
     return NextResponse.json({ 
       error: "Erro ao atualizar configuração",
       details: error instanceof Error ? error.message : String(error),
