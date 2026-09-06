@@ -16,6 +16,10 @@ interface DeliveryCalculation {
   isFree: boolean;
 }
 
+type DeliveryCalculationResult =
+  | { success: true; data: DeliveryCalculation }
+  | { success: false; error: string };
+
 export function useDeliveryCalculator() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +27,7 @@ export function useDeliveryCalculator() {
   const calculateDelivery = async (
     cep: string,
     orderTotal: number
-  ): Promise<DeliveryCalculation | null> => {
+  ): Promise<DeliveryCalculationResult> => {
     try {
       setLoading(true);
       setError(null);
@@ -137,16 +141,19 @@ export function useDeliveryCalculator() {
       }
 
       return {
-        type: settings.deliveryType,
-        cost: Math.max(0, cost),
-        distance,
-        address: addressInfo,
-        isFree,
+        success: true,
+        data: {
+          type: settings.deliveryType,
+          cost: Math.max(0, cost),
+          distance,
+          address: addressInfo,
+          isFree,
+        },
       };
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erro ao calcular frete';
       setError(errorMessage);
-      return null;
+      return { success: false, error: errorMessage };
     } finally {
       setLoading(false);
     }

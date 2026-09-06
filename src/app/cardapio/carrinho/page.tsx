@@ -16,7 +16,7 @@ const CarrinhoPage = () => {
   const router = useRouter();
   const { items, updateQuantity, removeItem, getTotalPrice, clearCart } = useCart();
   const { formatCep } = useViaCep();
-  const { calculateDelivery, loading: deliveryLoading, error: deliveryError } = useDeliveryCalculator();
+  const { calculateDelivery, loading: deliveryLoading } = useDeliveryCalculator();
   
   const [cep, setCep] = useState("");
   const [deliveryCost, setDeliveryCost] = useState<number | null>(null);
@@ -54,22 +54,19 @@ const CarrinhoPage = () => {
     }
 
     const result = await calculateDelivery(cleanCep, getTotalPrice());
-    
-    if (result) {
-      setDeliveryCost(result.cost);
-      setDeliveryDistance(result.distance || null);
-      setDeliveryAddress(result.address || null);
-      
-      if (result.isFree) {
-        setDeliveryInfo("Frete grátis! 🎉");
-      } else {
-        setDeliveryInfo("");
-      }
+
+    if (result.success) {
+      const { data } = result;
+      setDeliveryCost(data.cost);
+      setDeliveryDistance(data.distance ?? null);
+      setDeliveryAddress(data.address ?? null);
+      setDeliveryInfo(data.isFree ? "Frete grátis! 🎉" : "");
     } else {
       setDeliveryCost(null);
       setDeliveryAddress(null);
       setDeliveryDistance(null);
-      setDeliveryInfo(deliveryError || "Não foi possível calcular o frete");
+      // Mensagem específica devolvida pelo hook (não depende de estado assíncrono)
+      setDeliveryInfo(result.error);
     }
   };
 

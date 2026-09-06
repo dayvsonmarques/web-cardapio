@@ -118,6 +118,74 @@ function simulateDistance(
   };
 }
 
+interface ResolveDistanceOptions {
+  apiKey?: string;
+  fetchImpl?: typeof fetch;
+}
+
+/**
+ * Resolve a distância entre dois CEPs sem nunca lançar: tenta a Google Maps
+ * Distance Matrix API e, em qualquer falha (chave ausente/inválida, billing
+ * desativado, rede, resposta inesperada), cai para a distância simulada.
+ *
+ * Uso no servidor (route handler) — mantém a API key fora do cliente.
+ */
+export async function resolveDistanceResult(
+  originCep: string,
+  destinationCep: string,
+  options: ResolveDistanceOptions = {}
+): Promise<DistanceResult> {
+  const apiKey = options.apiKey ?? process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  const fetchImpl = options.fetchImpl ?? fetch;
+
+  if (!apiKey || apiKey === 'your_api_key_here') {
+    return simulateDistance(originCep, destinationCep);
+  }
+
+  try {
+    const origin = originCep.replace(/\D/g, '');
+    const destination = destinationCep.replace(/\D/g, '');
+
+    const originFormatted = `${origin.slice(0, 5)}-${origin.slice(5)}, Brasil`;
+    const destinationFormatted = `${destination.slice(0, 5)}-${destination.slice(5)}, Brasil`;
+
+    const url = new URL('https://maps.googleapis.com/maps/api/distancematrix/json');
+    url.searchParams.append('origins', originFormatted);
+    url.searchParams.append('destinations', destinationFormatted);
+    url.searchParams.append('key', apiKey);
+    url.searchParams.append('mode', 'driving');
+    url.searchParams.append('language', 'pt-BR');
+
+    const response = await fetchImpl(url.toString());
+
+    if (!response.ok) {
+      throw new Error(`Google Maps API error: ${response.status}`);
+    }
+
+    const data: DistanceMatrixResponse = await response.json();
+
+    if (data.status !== 'OK') {
+      throw new Error(`Google Maps API status: ${data.status}`);
+    }
+
+    const element = data.rows[0]?.elements[0];
+
+    if (!element || element.status !== 'OK') {
+      throw new Error(`Distance calculation failed: ${element?.status}`);
+    }
+
+    return {
+      distanceKm: Math.round((element.distance.value / 1000) * 10) / 10,
+      distanceText: element.distance.text,
+      durationText: element.duration.text,
+      durationMinutes: Math.round(element.duration.value / 60),
+    };
+  } catch (error) {
+    console.error('Error calculating distance:', error);
+    return simulateDistance(originCep, destinationCep);
+  }
+}
+
 /**
  * Valida se a API Key do Google Maps está configurada
  */
