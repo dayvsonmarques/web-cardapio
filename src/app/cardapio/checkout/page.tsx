@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { formatPhone, isValidMobilePhone } from "@/lib/utils";
 import CardapioHeader from "@/components/cardapio/CardapioHeader";
 
 const CheckoutPage = () => {
@@ -20,6 +21,8 @@ const CheckoutPage = () => {
     paymentMethod: "pix",
     notes: "",
   });
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
 
   // Preencher formulário com dados do usuário se estiver logado
   useEffect(() => {
@@ -27,7 +30,7 @@ const CheckoutPage = () => {
       setFormData((prev) => ({
         ...prev,
         name: user.name,
-        phone: user.phone,
+        phone: formatPhone(user.phone),
         email: user.email,
         address: user.addresses.find((addr) => addr.isDefault)
           ? `${user.addresses.find((addr) => addr.isDefault)?.street}, ${user.addresses.find((addr) => addr.isDefault)?.number}`
@@ -49,12 +52,31 @@ const CheckoutPage = () => {
     >
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const nextValue = name === "phone" ? formatPhone(value) : value;
+    setFormData((prev) => ({ ...prev, [name]: nextValue }));
+
+    if (name === "phone" && phoneError) {
+      setPhoneError(null);
+    }
+  };
+
+  const handlePhoneBlur = () => {
+    if (formData.phone && !isValidMobilePhone(formData.phone)) {
+      setPhoneError("Informe um celular válido com DDD, ex.: (11) 91234-5678");
+    } else {
+      setPhoneError(null);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    if (!isValidMobilePhone(formData.phone)) {
+      setPhoneError("Informe um celular válido com DDD, ex.: (11) 91234-5678");
+      phoneRef.current?.focus();
+      return;
+    }
+
     // Aqui você pode adicionar a lógica de envio do pedido
     console.log("Pedido finalizado:", {
       items,
@@ -154,14 +176,32 @@ const CheckoutPage = () => {
                         Telefone *
                       </label>
                       <input
+                        ref={phoneRef}
                         type="tel"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
+                        onBlur={handlePhoneBlur}
                         required
-                        placeholder="(00) 00000-0000"
-                        className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                        inputMode="numeric"
+                        maxLength={15}
+                        placeholder="(11) 91234-5678"
+                        aria-invalid={phoneError ? true : undefined}
+                        aria-describedby={phoneError ? "phone-error" : undefined}
+                        className={`w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2 dark:bg-gray-700 dark:text-white ${
+                          phoneError
+                            ? "border-red-500 focus:border-red-500 focus:ring-red-500/20 dark:border-red-500"
+                            : "border-gray-300 focus:border-primary focus:ring-primary/20 dark:border-gray-600"
+                        }`}
                       />
+                      {phoneError && (
+                        <p
+                          id="phone-error"
+                          className="mt-1 text-sm text-red-600 dark:text-red-400"
+                        >
+                          {phoneError}
+                        </p>
+                      )}
                     </div>
 
                     <div>
