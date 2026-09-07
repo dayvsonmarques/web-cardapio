@@ -135,7 +135,7 @@ const CarrinhoPage = () => {
             </p>
             <Link
               href="/cardapio"
-              className="mt-6 inline-block rounded-xl border-2 border-primary bg-primary px-6 py-3 font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
+              className="mt-6 inline-block rounded-xl border-2 border-gray-300 bg-white px-6 py-3 font-semibold text-gray-900 transition-all hover:bg-gray-100 hover:shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
             >
               Explorar Produtos
             </Link>
@@ -161,7 +161,7 @@ const CarrinhoPage = () => {
                 clearCart();
               }
             }}
-            className="text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+            className="text-base text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
           >
             Limpar carrinho
           </button>
@@ -194,7 +194,7 @@ const CarrinhoPage = () => {
                           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                             {item.product.name}
                           </h3>
-                          <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                          <p className="mt-1 text-base text-gray-600 dark:text-gray-400">
                             {item.product.description}
                           </p>
                           <p className="mt-2 text-lg font-bold text-primary">
@@ -235,7 +235,7 @@ const CarrinhoPage = () => {
                       {/* Controles de Quantidade */}
                       <div className="mt-4 flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                          <span className="text-base font-medium text-gray-700 dark:text-gray-300">
                             Quantidade:
                           </span>
                           <div className="flex items-center rounded-lg border border-gray-300 dark:border-gray-600">
@@ -281,7 +281,7 @@ const CarrinhoPage = () => {
 
                         {/* Subtotal */}
                         <div className="text-right">
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <p className="text-base text-gray-600 dark:text-gray-400">
                             Subtotal
                           </p>
                           <p className="text-xl font-bold text-gray-900 dark:text-white">
@@ -299,7 +299,7 @@ const CarrinhoPage = () => {
             <div className="mt-6">
               <Link
                 href="/cardapio"
-                className="inline-flex items-center text-sm font-medium text-primary hover:underline"
+                className="inline-flex items-center text-base font-medium text-primary hover:underline"
               >
                 <svg
                   className="mr-2 h-4 w-4"
@@ -327,7 +327,7 @@ const CarrinhoPage = () => {
               </h2>
 
               <div className="space-y-3 border-b border-gray-200 pb-4 dark:border-gray-700">
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-base">
                   <span className="text-gray-600 dark:text-gray-400">
                     Subtotal ({items.length} {items.length === 1 ? "item" : "itens"})
                   </span>
@@ -338,7 +338,7 @@ const CarrinhoPage = () => {
 
                 {/* Calculador de Frete */}
                 <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-700/50">
-                  <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="mb-2 block text-base font-medium text-gray-700 dark:text-gray-300">
                     Calcular frete
                   </label>
                   <div className="flex gap-2">
@@ -348,12 +348,12 @@ const CarrinhoPage = () => {
                       onChange={handleCepChange}
                       placeholder="00000-000"
                       maxLength={9}
-                      className="flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+                      className="flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-base focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                     />
                     <button
                       onClick={handleCalculateDelivery}
                       disabled={deliveryLoading}
-                      className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-primary/90 disabled:opacity-50"
+                      className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-base font-semibold text-gray-900 transition-colors hover:bg-gray-100 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                     >
                       {deliveryLoading ? "..." : "OK"}
                     </button>
@@ -362,16 +362,16 @@ const CarrinhoPage = () => {
                   {/* Informações de entrega */}
                   {deliveryAddress && (
                     <div className="mt-3 space-y-1 border-t border-gray-200 pt-3 dark:border-gray-600">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      <p className="text-base font-medium text-gray-900 dark:text-white">
                         Endereço de entrega:
                       </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-base text-gray-600 dark:text-gray-400">
                         {deliveryAddress.street}
                       </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-base text-gray-600 dark:text-gray-400">
                         {deliveryAddress.neighborhood}
                       </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-base text-gray-600 dark:text-gray-400">
                         {deliveryAddress.city}/{deliveryAddress.state}
                       </p>
                     </div>
@@ -380,7 +380,7 @@ const CarrinhoPage = () => {
                   {/* Distância */}
                   {deliveryDistance !== null && (
                     <div className="mt-3 border-t border-gray-200 pt-3 dark:border-gray-600">
-                      <p className="text-base font-semibold text-gray-900 dark:text-white">
+                      <p className="text-lg font-semibold text-gray-900 dark:text-white">
                         Distância: {deliveryDistance}km
                       </p>
                     </div>
@@ -388,7 +388,7 @@ const CarrinhoPage = () => {
                   
                   {/* Mensagens de frete grátis ou erro */}
                   {deliveryInfo && (
-                    <p className={`mt-2 text-sm font-medium ${
+                    <p className={`mt-2 text-base font-medium ${
                       deliveryCost === 0 && deliveryInfo.includes("grátis") 
                         ? "text-green-600 dark:text-green-400" 
                         : "text-red-600 dark:text-red-400"
@@ -399,7 +399,7 @@ const CarrinhoPage = () => {
                 </div>
 
                 {deliveryCost !== null && (
-                  <div className="flex justify-between text-sm">
+                  <div className="flex justify-between text-base">
                     <span className="text-gray-600 dark:text-gray-400">Frete</span>
                     <span className={`font-medium ${
                       deliveryCost === 0 
@@ -422,7 +422,7 @@ const CarrinhoPage = () => {
               <div className="mt-6 space-y-3">
                 <button
                   onClick={() => router.push("/cardapio/checkout")}
-                  className="w-full rounded-xl border-2 border-primary bg-primary py-3 text-center font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
+                  className="w-full rounded-xl border-2 border-gray-300 bg-white py-3 text-center font-semibold text-gray-900 transition-all hover:bg-gray-100 hover:shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                 >
                   Finalizar Pedido
                 </button>

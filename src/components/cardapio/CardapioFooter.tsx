@@ -12,7 +12,7 @@ const CardapioFooter = () => {
             <h3 className="mb-4 text-lg font-semibold text-dark dark:text-white">
               Sobre Nós
             </h3>
-            <p className="text-base text-body dark:text-gray-5">
+            <p className="text-lg text-body dark:text-gray-5">
               Cardápio digital moderno e intuitivo para seu restaurante.
             </p>
           </div>
@@ -26,7 +26,7 @@ const CardapioFooter = () => {
               <li>
                 <Link
                   href="/cardapio"
-                  className="text-base text-body transition-colors hover:text-primary dark:text-gray-5 dark:hover:text-primary"
+                  className="text-lg text-body transition-colors hover:text-primary dark:text-gray-5 dark:hover:text-primary"
                 >
                   Cardápio
                 </Link>
@@ -34,7 +34,7 @@ const CardapioFooter = () => {
               <li>
                 <Link
                   href="/auth/signin"
-                  className="text-base text-body transition-colors hover:text-primary dark:text-gray-5 dark:hover:text-primary"
+                  className="text-lg text-body transition-colors hover:text-primary dark:text-gray-5 dark:hover:text-primary"
                 >
                   Área do Cliente
                 </Link>
@@ -42,7 +42,7 @@ const CardapioFooter = () => {
               <li>
                 <Link
                   href="/#contato"
-                  className="text-base text-body transition-colors hover:text-primary dark:text-gray-5 dark:hover:text-primary"
+                  className="text-lg text-body transition-colors hover:text-primary dark:text-gray-5 dark:hover:text-primary"
                 >
                   Contato
                 </Link>
@@ -55,7 +55,7 @@ const CardapioFooter = () => {
             <h3 className="mb-4 text-lg font-semibold text-dark dark:text-white">
               Contato
             </h3>
-            <ul className="space-y-2 text-base text-body dark:text-gray-5">
+            <ul className="space-y-2 text-lg text-body dark:text-gray-5">
               <li>WhatsApp: (11) 99999-9999</li>
               <li>Email: contato@cardapio.com</li>
               <li>Seg - Sáb: 11:00 - 23:00</li>
@@ -65,7 +65,7 @@ const CardapioFooter = () => {
 
         {/* Copyright */}
         <div className="mt-8 border-t border-stroke pt-8 text-center dark:border-stroke-dark">
-          <p className="text-base text-body dark:text-gray-5">
+          <p className="text-lg text-body dark:text-gray-5">
             &copy; {currentYear} Cardápio Digital. Todos os direitos reservados.
           </p>
         </div>

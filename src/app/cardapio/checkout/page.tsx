@@ -24,7 +24,7 @@ const inputClass =
 const lockedInputClass =
   "w-full cursor-not-allowed rounded-lg border border-gray-200 bg-gray-100 px-4 py-2 text-gray-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-400";
 const labelClass =
-  "mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300";
+  "mb-1 block text-base font-medium text-gray-700 dark:text-gray-300";
 
 const CheckoutPage = () => {
   const router = useRouter();
@@ -245,13 +245,13 @@ const CheckoutPage = () => {
                 <h3 className="font-medium text-gray-900 dark:text-white">
                   Já tem uma conta?
                 </h3>
-                <p className="text-sm text-gray-700 dark:text-gray-400">
+                <p className="text-base text-gray-700 dark:text-gray-400">
                   Faça login para preencher automaticamente seus dados e acompanhar seus pedidos.
                 </p>
               </div>
               <Link
                 href="/cardapio/login?redirect=/cardapio/checkout"
-                className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 transition-colors hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800"
+                className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-900 transition-colors hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800"
               >
                 Fazer Login
               </Link>
@@ -306,7 +306,7 @@ const CheckoutPage = () => {
                       {phoneError && (
                         <p
                           id="phone-error"
-                          className="mt-1 text-sm text-red-600 dark:text-red-400"
+                          className="mt-1 text-base text-red-600 dark:text-red-400"
                         >
                           {phoneError}
                         </p>
@@ -357,13 +357,13 @@ const CheckoutPage = () => {
                     {addressError && (
                       <p
                         id="address-error"
-                        className="mt-1 text-sm text-red-600 dark:text-red-400"
+                        className="mt-1 text-base text-red-600 dark:text-red-400"
                       >
                         {addressError}
                       </p>
                     )}
                     {!resolvedAddress && !addressError && (
-                      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                      <p className="mt-1 text-base text-gray-500 dark:text-gray-400">
                         Informe o CEP para carregarmos o endereço de entrega.
                       </p>
                     )}
@@ -491,7 +491,7 @@ const CheckoutPage = () => {
                 {items.map((item) => (
                   <div
                     key={item.product.id}
-                    className="flex justify-between text-sm"
+                    className="flex justify-between text-base"
                   >
                     <div className="flex-1">
                       <p className="font-medium text-gray-900 dark:text-white">
@@ -509,7 +509,7 @@ const CheckoutPage = () => {
               </div>
 
               <div className="space-y-2 border-t border-gray-200 pt-4 dark:border-gray-700">
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-base">
                   <span className="text-gray-600 dark:text-gray-400">Subtotal</span>
                   <span className="font-medium text-gray-900 dark:text-white">
                     {formatPrice(getTotalPrice())}
@@ -517,7 +517,7 @@ const CheckoutPage = () => {
                 </div>
 
                 {delivery.cost !== null && (
-                  <div className="flex justify-between text-sm">
+                  <div className="flex justify-between text-base">
                     <span className="text-gray-600 dark:text-gray-400">Frete</span>
                     <span
                       className={`font-medium ${

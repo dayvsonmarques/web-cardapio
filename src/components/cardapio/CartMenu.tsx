@@ -69,7 +69,7 @@ const CartMenu = () => {
             />
           </svg>
           {totalItems > 0 && (
-            <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white shadow-sm">
+            <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-sm font-bold text-white shadow-sm">
               {totalItems}
             </span>
           )}
@@ -85,7 +85,7 @@ const CartMenu = () => {
             </h3>
 
             {items.length === 0 ? (
-              <p className="py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+              <p className="py-4 text-center text-base text-gray-500 dark:text-gray-400">
                 Seu carrinho está vazio
               </p>
             ) : (
@@ -101,10 +101,10 @@ const CartMenu = () => {
                           <h4 className="font-medium text-gray-900 dark:text-white">
                             {item.product.name}
                           </h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <p className="text-base text-gray-600 dark:text-gray-400">
                             {formatPrice(item.product.price)} x {item.quantity}
                           </p>
-                          <p className="mt-1 text-sm font-semibold text-gray-900 dark:text-white">
+                          <p className="mt-1 text-base font-semibold text-gray-900 dark:text-white">
                             {formatPrice(item.product.price * item.quantity)}
                           </p>
                         </div>
@@ -121,13 +121,13 @@ const CartMenu = () => {
                   <div className="flex gap-2">
                     <Link
                       href="/cardapio/carrinho"
-                      className="flex-1 rounded-lg border-2 border-gray-300 bg-white py-2 text-center text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                      className="flex-1 rounded-lg border-2 border-gray-300 bg-white py-2 text-center text-base font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                     >
                       Ver Carrinho
                     </Link>
                     <Link
                       href="/cardapio/checkout"
-                      className="flex-1 rounded-xl border-2 border-gray-300 bg-white py-2 text-center text-sm font-semibold text-gray-900 transition-all hover:bg-gray-100 hover:shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
+                      className="flex-1 rounded-xl border-2 border-gray-300 bg-white py-2 text-center text-base font-semibold text-gray-900 transition-all hover:bg-gray-100 hover:shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                     >
                       Finalizar
                     </Link>

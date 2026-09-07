@@ -196,7 +196,7 @@ const AreaClientePage = () => {
           </div>
           <button
             onClick={handleLogout}
-            className="rounded-lg border-2 border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+            className="rounded-lg border-2 border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
           >
             Sair
           </button>
@@ -207,7 +207,7 @@ const AreaClientePage = () => {
           <div className="flex space-x-8">
             <button
               onClick={() => setActiveTab("dados")}
-              className={`border-b-2 pb-4 text-sm font-medium transition-colors ${
+              className={`border-b-2 pb-4 text-base font-medium transition-colors ${
                 activeTab === "dados"
                   ? "border-primary text-primary"
                   : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
@@ -217,7 +217,7 @@ const AreaClientePage = () => {
             </button>
             <button
               onClick={() => setActiveTab("enderecos")}
-              className={`border-b-2 pb-4 text-sm font-medium transition-colors ${
+              className={`border-b-2 pb-4 text-base font-medium transition-colors ${
                 activeTab === "enderecos"
                   ? "border-primary text-primary"
                   : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
@@ -227,7 +227,7 @@ const AreaClientePage = () => {
             </button>
             <button
               onClick={() => setActiveTab("pedidos")}
-              className={`border-b-2 pb-4 text-sm font-medium transition-colors ${
+              className={`border-b-2 pb-4 text-base font-medium transition-colors ${
                 activeTab === "pedidos"
                   ? "border-primary text-primary"
                   : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
@@ -250,7 +250,7 @@ const AreaClientePage = () => {
                 {!isEditingProfile && (
                   <button
                     onClick={() => setIsEditingProfile(true)}
-                    className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-primary/90"
+                    className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-900 transition-colors hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                   >
                     Editar
                   </button>
@@ -260,7 +260,7 @@ const AreaClientePage = () => {
               {isEditingProfile ? (
                 <form onSubmit={handleProfileSubmit} className="space-y-4">
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                       Nome completo
                     </label>
                     <input
@@ -275,7 +275,7 @@ const AreaClientePage = () => {
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                       E-mail
                     </label>
                     <input
@@ -290,7 +290,7 @@ const AreaClientePage = () => {
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                       Telefone
                     </label>
                     <input
@@ -307,7 +307,7 @@ const AreaClientePage = () => {
                   <div className="flex gap-3">
                     <button
                       type="submit"
-                      className="rounded-xl border-2 border-primary bg-primary px-6 py-2 font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
+                      className="rounded-xl border-2 border-gray-300 bg-white px-6 py-2 font-semibold text-gray-900 transition-all hover:bg-gray-100 hover:shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                     >
                       Salvar
                     </button>
@@ -323,19 +323,19 @@ const AreaClientePage = () => {
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Nome</p>
+                    <p className="text-base text-gray-600 dark:text-gray-400">Nome</p>
                     <p className="text-lg font-medium text-gray-900 dark:text-white">
                       {user.name}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">E-mail</p>
+                    <p className="text-base text-gray-600 dark:text-gray-400">E-mail</p>
                     <p className="text-lg font-medium text-gray-900 dark:text-white">
                       {user.email}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Telefone</p>
+                    <p className="text-base text-gray-600 dark:text-gray-400">Telefone</p>
                     <p className="text-lg font-medium text-gray-900 dark:text-white">
                       {user.phone}
                     </p>
@@ -355,7 +355,7 @@ const AreaClientePage = () => {
                 {!isAddingAddress && (
                   <button
                     onClick={() => setIsAddingAddress(true)}
-                    className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-primary/90"
+                    className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-900 transition-colors hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                   >
                     Adicionar Endereço
                   </button>
@@ -366,7 +366,7 @@ const AreaClientePage = () => {
                 <form onSubmit={handleAddressSubmit} className="space-y-4">
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                         CEP
                       </label>
                       <input
@@ -384,7 +384,7 @@ const AreaClientePage = () => {
 
                   <div className="grid gap-4 sm:grid-cols-3">
                     <div className="sm:col-span-2">
-                      <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                         Rua
                       </label>
                       <input
@@ -398,7 +398,7 @@ const AreaClientePage = () => {
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                         Número
                       </label>
                       <input
@@ -414,7 +414,7 @@ const AreaClientePage = () => {
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                       Complemento
                     </label>
                     <input
@@ -429,7 +429,7 @@ const AreaClientePage = () => {
 
                   <div className="grid gap-4 sm:grid-cols-3">
                     <div>
-                      <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                         Bairro
                       </label>
                       <input
@@ -446,7 +446,7 @@ const AreaClientePage = () => {
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                         Cidade
                       </label>
                       <input
@@ -460,7 +460,7 @@ const AreaClientePage = () => {
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                         Estado
                       </label>
                       <input
@@ -492,7 +492,7 @@ const AreaClientePage = () => {
                     />
                     <label
                       htmlFor="isDefault"
-                      className="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                      className="ml-2 text-base text-gray-700 dark:text-gray-300"
                     >
                       Definir como endereço padrão
                     </label>
@@ -501,7 +501,7 @@ const AreaClientePage = () => {
                   <div className="flex gap-3">
                     <button
                       type="submit"
-                      className="rounded-xl border-2 border-primary bg-primary px-6 py-2 font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
+                      className="rounded-xl border-2 border-gray-300 bg-white px-6 py-2 font-semibold text-gray-900 transition-all hover:bg-gray-100 hover:shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                     >
                       {editingAddressId ? "Salvar" : "Adicionar"}
                     </button>
@@ -542,7 +542,7 @@ const AreaClientePage = () => {
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
                             {address.isDefault && (
-                              <span className="mb-2 inline-block rounded bg-primary px-2 py-1 text-xs font-medium text-black">
+                              <span className="mb-2 inline-block rounded bg-gray-100 px-2 py-1 text-sm font-medium text-gray-900 dark:bg-gray-700 dark:text-white">
                                 Padrão
                               </span>
                             )}
@@ -550,14 +550,14 @@ const AreaClientePage = () => {
                               {address.street}, {address.number}
                             </p>
                             {address.complement && (
-                              <p className="text-sm text-gray-600 dark:text-gray-400">
+                              <p className="text-base text-gray-600 dark:text-gray-400">
                                 {address.complement}
                               </p>
                             )}
-                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                            <p className="text-base text-gray-600 dark:text-gray-400">
                               {address.neighborhood}, {address.city} - {address.state}
                             </p>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                            <p className="text-base text-gray-600 dark:text-gray-400">
                               CEP: {address.zipCode}
                             </p>
                           </div>
@@ -565,20 +565,20 @@ const AreaClientePage = () => {
                             {!address.isDefault && (
                               <button
                                 onClick={() => setDefaultAddress(address.id)}
-                                className="text-sm text-primary hover:underline"
+                                className="text-base text-primary hover:underline"
                               >
                                 Tornar padrão
                               </button>
                             )}
                             <button
                               onClick={() => handleEditAddress(address.id)}
-                              className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
+                              className="text-base text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
                             >
                               Editar
                             </button>
                             <button
                               onClick={() => deleteAddress(address.id)}
-                              className="text-sm text-red-600 hover:text-red-800"
+                              className="text-base text-red-600 hover:text-red-800"
                             >
                               Excluir
                             </button>
@@ -615,12 +615,12 @@ const AreaClientePage = () => {
                           <p className="font-medium text-gray-900 dark:text-white">
                             Pedido #{order.id}
                           </p>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <p className="text-base text-gray-600 dark:text-gray-400">
                             {formatDate(order.date)}
                           </p>
                         </div>
                         <span
-                          className={`rounded-full px-3 py-1 text-xs font-medium ${getStatusColor(order.status)}`}
+                          className={`rounded-full px-3 py-1 text-sm font-medium ${getStatusColor(order.status)}`}
                         >
                           {getStatusText(order.status)}
                         </span>
@@ -630,7 +630,7 @@ const AreaClientePage = () => {
                         {order.items.map((item, index) => (
                           <div
                             key={index}
-                            className="flex justify-between text-sm"
+                            className="flex justify-between text-base"
                           >
                             <span className="text-gray-700 dark:text-gray-300">
                               {item.quantity}x {item.name}

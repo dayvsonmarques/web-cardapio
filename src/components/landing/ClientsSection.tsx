@@ -21,12 +21,12 @@ export default function ClientsSection() {
   ];
 
   const logos = [
-    'Sabor Caseiro',
-    'Bistro Gourmet',
-    'Don Giovanni',
-    'Cantina Bella',
-    'Sushi House',
-    'Burguer Master',
+    'brand-01.svg',
+    'brand-02.svg',
+    'brand-03.svg',
+    'brand-04.svg',
+    'brand-05.svg',
+    'brand-06.svg',
   ];
 
   return (
@@ -34,7 +34,7 @@ export default function ClientsSection() {
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
+          <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-base font-semibold mb-4">
             Depoimentos
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -80,7 +80,7 @@ export default function ClientsSection() {
                   <div className="font-semibold text-gray-900 dark:text-white">
                     {testimonial.name}
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                  <div className="text-base text-gray-600 dark:text-gray-400">
                     {testimonial.role}
                   </div>
                 </div>
@@ -98,11 +98,13 @@ export default function ClientsSection() {
             {logos.map((logo, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center h-16 px-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                className="flex items-center justify-center h-16 px-4 transition-colors"
               >
-                <div className="text-center font-bold text-sm opacity-50 hover:opacity-100 transition-opacity">
-                  {logo}
-                </div>
+                <img
+                  src={`/images/brand/${logo}`}
+                  alt={`Logo ${index + 1}`}
+                  className="h-12 object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all"
+                />
               </div>
             ))}
           </div>

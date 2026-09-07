@@ -93,7 +93,7 @@ const LoginForm = () => {
             </h1>
 
             {error && (
-              <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-400">
+              <div className="mb-4 rounded-lg bg-red-50 p-3 text-base text-red-600 dark:bg-red-900/20 dark:text-red-400">
                 {error}
               </div>
             )}
@@ -102,7 +102,7 @@ const LoginForm = () => {
               {!isLogin && (
                 <>
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                       Nome completo
                     </label>
                     <input
@@ -116,7 +116,7 @@ const LoginForm = () => {
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                       Telefone
                     </label>
                     <input
@@ -133,7 +133,7 @@ const LoginForm = () => {
               )}
 
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                   E-mail
                 </label>
                 <input
@@ -147,7 +147,7 @@ const LoginForm = () => {
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                   Senha
                 </label>
                 <input
@@ -163,7 +163,7 @@ const LoginForm = () => {
 
               {!isLogin && (
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <label className="mb-1 block text-base font-medium text-gray-700 dark:text-gray-300">
                     Confirmar senha
                   </label>
                   <input
@@ -180,7 +180,7 @@ const LoginForm = () => {
 
               <button
                 type="submit"
-                className="w-full rounded-xl border-2 border-primary bg-primary py-3 font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
+                className="w-full rounded-xl border-2 border-gray-300 bg-white py-3 font-semibold text-gray-900 transition-all hover:bg-gray-100 hover:shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
               >
                 {isLogin ? "Entrar" : "Criar Conta"}
               </button>
@@ -199,7 +199,7 @@ const LoginForm = () => {
                     confirmPassword: "",
                   });
                 }}
-                className="text-sm text-primary hover:underline"
+                className="text-base text-primary hover:underline"
               >
                 {isLogin
                   ? "Não tem uma conta? Criar conta"
@@ -210,7 +210,7 @@ const LoginForm = () => {
             <div className="mt-4 text-center">
               <Link
                 href="/cardapio"
-                className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
+                className="text-base text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
               >
                 Voltar para o cardápio
               </Link>

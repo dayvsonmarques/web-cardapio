@@ -76,7 +76,7 @@ const CardapioHeader = () => {
               <Link
                 key={item.name}
                 href={item.href}
-                className="block rounded-md px-3 py-2 text-base font-medium text-dark transition-colors hover:bg-gray-100 hover:text-primary dark:text-white dark:hover:bg-gray-800 dark:hover:text-primary"
+                className="block rounded-md px-3 py-2 text-lg font-medium text-dark transition-colors hover:bg-gray-100 hover:text-primary dark:text-white dark:hover:bg-gray-800 dark:hover:text-primary"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.name}
@@ -84,7 +84,7 @@ const CardapioHeader = () => {
             ))}
             <Link
               href="/cardapio"
-              className="flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-base font-medium text-white hover:bg-primary/90"
+              className="flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-lg font-medium text-gray-900 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
               onClick={() => setMobileMenuOpen(false)}
             >
               <svg
