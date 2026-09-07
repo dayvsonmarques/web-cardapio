@@ -35,13 +35,13 @@ export function useDeliveryCalculator() {
       // Buscar configurações de entrega
       const settingsResponse = await fetch('/api/delivery-settings');
       if (!settingsResponse.ok) {
-        throw new Error('Erro ao buscar configurações de entrega');
+        throw new Error('Erro ao buscar configurações de entrega. Tente novamente.');
       }
 
       const settings = await settingsResponse.json();
       
       if (!settings || !settings.isActive) {
-        throw new Error('Serviço de entrega não disponível');
+        throw new Error('Serviço de entrega temporariamente indisponível. Entre em contato conosco.');
       }
 
       // Buscar informações do endereço via ViaCEP
@@ -69,7 +69,7 @@ export function useDeliveryCalculator() {
       );
 
       if (!distanceResult) {
-        throw new Error('Não foi possível calcular a distância');
+        throw new Error('Não foi possível calcular a distância para este CEP. Verifique se o CEP está correto.');
       }
 
       const distance = distanceResult.distanceKm;
@@ -78,7 +78,7 @@ export function useDeliveryCalculator() {
       if (settings.hasDeliveryLimit && settings.maxDeliveryDistance) {
         if (distance > settings.maxDeliveryDistance) {
           throw new Error(
-            `Desculpe, não entregamos nesta região. Nossa área de entrega é limitada a ${settings.maxDeliveryDistance}km. Distância calculada: ${distance.toFixed(1)}km`
+            'Entrega indisponível, está fora da nossa área de entrega. Entre em contato se quiser combinar outra forma.'
           );
         }
       }
@@ -128,11 +128,11 @@ export function useDeliveryCalculator() {
             } else {
               // Se não encontrar faixa correspondente, não entrega
               throw new Error(
-                `Desculpe, não entregamos nesta distância (${distance.toFixed(1)}km). Verifique as faixas de entrega disponíveis.`
+                'Entrega indisponível, está fora da nossa área de entrega. Entre em contato se quiser combinar outra forma.'
               );
             }
           } else {
-            throw new Error('Faixas de distância não configuradas');
+            throw new Error('Sistema de entrega não configurado corretamente. Entre em contato conosco.');
           }
           break;
 
