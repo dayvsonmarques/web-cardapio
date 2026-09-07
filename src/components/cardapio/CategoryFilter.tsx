@@ -23,9 +23,9 @@ const CategoryFilter = ({
             <button
               key={category.id}
               onClick={() => onSelectCategory(category.id)}
-              className={`rounded-lg px-6 py-3 text-base font-medium transition-all ${
+              className={`rounded-lg px-6 py-3 text-lg font-medium transition-all ${
                 selectedCategoryId === category.id
-                  ? "bg-primary text-black shadow-md shadow-primary/30"
+                  ? "border border-gray-300 bg-white text-gray-900 shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                   : "bg-white text-body hover:bg-gray-2 dark:bg-gray-dark dark:text-gray-5 dark:hover:bg-gray-800"
               }`}
             >

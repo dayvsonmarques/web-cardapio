@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { CalenderIcon, PencilIcon, TrashBinIcon, PlusIcon, EyeIcon } from '@/icons';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 interface Reserva {
   id: string;
@@ -111,6 +112,8 @@ const reservasTestData: Reserva[] = [
 ];
 
 export default function ReservasPage() {
+  usePageTitle('Reservas');
+  
   const [reservas] = useState<Reserva[]>(reservasTestData);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('');

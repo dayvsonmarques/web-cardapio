@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import toast from 'react-hot-toast';
 import { Product } from '@/types/catalog';
 
 interface CartItem {
@@ -22,29 +23,23 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
-  
-  console.log('CartProvider renderizado, items atuais:', items);
 
   const addItem = (product: Product, quantity: number) => {
-    console.log('CartContext - addItem chamado:', product.name, quantity);
     setItems((prevItems) => {
-      console.log('CartContext - Items anteriores:', prevItems.length);
       const existingItem = prevItems.find(item => item.product.id === product.id);
-      
+
       if (existingItem) {
-        console.log('CartContext - Item já existe, atualizando quantidade');
         return prevItems.map(item =>
           item.product.id === product.id
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       }
-      
-      console.log('CartContext - Adicionando novo item');
-      const newItems = [...prevItems, { product, quantity }];
-      console.log('CartContext - Novo total de items:', newItems.length);
-      return newItems;
+
+      return [...prevItems, { product, quantity }];
     });
+
+    toast.success('Produto adicionado ao carrinho');
   };
 
   const removeItem = (productId: string) => {
@@ -95,7 +90,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  console.log('useCart chamado, context:', context ? 'OK' : 'UNDEFINED');
   if (context === undefined) {
     throw new Error('useCart must be used within a CartProvider');
   }

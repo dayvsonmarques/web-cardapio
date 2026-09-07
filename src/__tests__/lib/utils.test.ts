@@ -4,6 +4,8 @@ import {
   formatDateTime,
   validateCPF,
   validatePhone,
+  formatPhone,
+  isValidMobilePhone,
   validateEmail,
   validateCEP,
   calculatePercentage,
@@ -98,6 +100,46 @@ describe('Utils - Validation Functions', () => {
     it('should reject invalid phone', () => {
       expect(validatePhone('123')).toBe(false);
       expect(validatePhone('12345678901234')).toBe(false);
+    });
+  });
+
+  describe('formatPhone', () => {
+    it('formats progressively as digits are typed', () => {
+      expect(formatPhone('')).toBe('');
+      expect(formatPhone('1')).toBe('(1');
+      expect(formatPhone('11')).toBe('(11');
+      expect(formatPhone('119')).toBe('(11) 9');
+      expect(formatPhone('1192345')).toBe('(11) 92345');
+      expect(formatPhone('11923456789')).toBe('(11) 92345-6789');
+    });
+
+    it('caps at 11 digits', () => {
+      expect(formatPhone('119234567890123')).toBe('(11) 92345-6789');
+    });
+
+    it('ignores non-digit characters', () => {
+      expect(formatPhone('(11) 9')).toBe('(11) 9');
+      expect(formatPhone('abc11def92345ghi6789')).toBe('(11) 92345-6789');
+    });
+  });
+
+  describe('isValidMobilePhone', () => {
+    it('accepts an 11-digit mobile with 9 after the DDD', () => {
+      expect(isValidMobilePhone('11912345678')).toBe(true);
+      expect(isValidMobilePhone('(11) 91234-5678')).toBe(true);
+    });
+
+    it('rejects landline (10 digits)', () => {
+      expect(isValidMobilePhone('1133334444')).toBe(false);
+    });
+
+    it('rejects 11 digits without the 9 after the DDD', () => {
+      expect(isValidMobilePhone('11812345678')).toBe(false);
+    });
+
+    it('rejects empty and too-short values', () => {
+      expect(isValidMobilePhone('')).toBe(false);
+      expect(isValidMobilePhone('11912')).toBe(false);
     });
   });
 

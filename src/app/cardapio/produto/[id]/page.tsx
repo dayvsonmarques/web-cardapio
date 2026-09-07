@@ -56,7 +56,7 @@ const ProductDetailPage = () => {
           </p>
           <Link
             href="/cardapio"
-            className="mt-6 inline-block rounded-xl border-2 border-primary bg-primary px-6 py-3 font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
+            className="mt-6 inline-block rounded-xl border-2 border-gray-300 bg-white px-6 py-3 font-semibold text-gray-900 transition-all hover:bg-gray-100 hover:shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
           >
             Voltar para o Cardápio
           </Link>
@@ -73,7 +73,7 @@ const ProductDetailPage = () => {
       <main className="flex-1">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
-          <nav className="mb-6 flex items-center space-x-2 text-sm">
+          <nav className="mb-6 flex items-center space-x-2 text-base">
             <Link 
               href="/cardapio" 
               className="text-body hover:text-primary dark:text-gray-5 dark:hover:text-primary"
@@ -139,7 +139,7 @@ const ProductDetailPage = () => {
             <div className="flex flex-col">
               {/* Category Badge */}
               {category && (
-                <span className="mb-2 inline-block w-fit rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary dark:bg-primary/20">
+                <span className="mb-2 inline-block w-fit rounded-full bg-gray-100 px-3 py-1 text-base font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-200">
                   {category.name}
                 </span>
               )}
@@ -148,7 +148,7 @@ const ProductDetailPage = () => {
               <h1 className="mb-4 text-4xl font-bold text-dark dark:text-white">
                 {product.name}
               </h1>
-              <p className="mb-6 text-3xl font-bold text-primary">
+              <p className="mb-6 text-3xl font-bold text-gray-900 dark:text-white">
                 R$ {product.price.toFixed(2).replace(".", ",")}
               </p>
 
@@ -172,10 +172,10 @@ const ProductDetailPage = () => {
                     {product.ingredients.map((ingredient, index) => (
                       <li 
                         key={index}
-                        className="flex items-center text-sm text-body dark:text-gray-5"
+                        className="flex items-center text-base text-body dark:text-gray-5"
                       >
                         <svg 
-                          className="mr-2 h-4 w-4 text-primary" 
+                          className="mr-2 h-4 w-4 text-gray-700 dark:text-gray-200" 
                           fill="currentColor" 
                           viewBox="0 0 20 20"
                         >
@@ -199,42 +199,42 @@ const ProductDetailPage = () => {
                 </h2>
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-primary">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
                       {product.nutritionalInfo.calories}
                     </p>
-                    <p className="text-xs text-body-secondary dark:text-gray-6">
+                    <p className="text-sm text-body-secondary dark:text-gray-6">
                       Calorias
                     </p>
                   </div>
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-primary">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
                       {product.nutritionalInfo.proteins}g
                     </p>
-                    <p className="text-xs text-body-secondary dark:text-gray-6">
+                    <p className="text-sm text-body-secondary dark:text-gray-6">
                       Proteínas
                     </p>
                   </div>
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-primary">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
                       {product.nutritionalInfo.carbohydrates}g
                     </p>
-                    <p className="text-xs text-body-secondary dark:text-gray-6">
+                    <p className="text-sm text-body-secondary dark:text-gray-6">
                       Carboidratos
                     </p>
                   </div>
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-primary">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
                       {product.nutritionalInfo.fats}g
                     </p>
-                    <p className="text-xs text-body-secondary dark:text-gray-6">
+                    <p className="text-sm text-body-secondary dark:text-gray-6">
                       Gorduras
                     </p>
                   </div>
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-primary">
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">
                       {product.nutritionalInfo.fiber}g
                     </p>
-                    <p className="text-xs text-body-secondary dark:text-gray-6">
+                    <p className="text-sm text-body-secondary dark:text-gray-6">
                       Fibras
                     </p>
                   </div>
@@ -245,7 +245,7 @@ const ProductDetailPage = () => {
               {product.isAvailable && (
                 <div className="mt-auto">
                   <div className="mb-4 flex items-center gap-4">
-                    <span className="text-sm font-medium text-dark dark:text-white">
+                    <span className="text-base font-medium text-dark dark:text-white">
                       Quantidade:
                     </span>
                     <div className="flex items-center rounded-lg border border-stroke dark:border-stroke-dark">
@@ -278,7 +278,7 @@ const ProductDetailPage = () => {
                   <div className="flex gap-3">
                     <button
                       onClick={handleAddToCart}
-                      className="flex-1 rounded-xl border-2 border-primary bg-primary px-6 py-4 text-lg font-semibold text-black transition-all hover:bg-primary/90 hover:shadow-md"
+                      className="flex-1 rounded-xl border-2 border-gray-300 bg-white px-6 py-4 text-lg font-semibold text-gray-900 transition-all hover:bg-gray-100 hover:shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                     >
                       Adicionar ao Carrinho
                     </button>
@@ -287,7 +287,7 @@ const ProductDetailPage = () => {
                         handleAddToCart();
                         router.push("/cardapio/carrinho");
                       }}
-                      className="rounded-xl border-2 border-primary bg-transparent px-6 py-4 text-lg font-semibold text-primary transition-all hover:bg-primary/10"
+                      className="rounded-xl border-2 border-gray-300 bg-white px-6 py-4 text-lg font-semibold text-gray-900 transition-all hover:bg-gray-100 dark:border-gray-600 dark:bg-transparent dark:text-gray-100 dark:hover:bg-gray-800"
                     >
                       Comprar Agora
                     </button>

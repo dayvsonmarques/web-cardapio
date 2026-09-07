@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import CardapioHeader from "@/components/cardapio/CardapioHeader";
 import CardapioFooter from "@/components/cardapio/CardapioFooter";
 import ProductCard from "@/components/cardapio/ProductCard";
+import useProgressiveList from "@/hooks/useProgressiveList";
 import { categoriesTestData, productsTestData } from "@/data/catalogTestData";
 
 const CardapioPage = () => {
@@ -21,6 +22,9 @@ const CardapioPage = () => {
       return matchesCategory && matchesSearch && product.isAvailable;
     });
   }, [selectedCategoryId, searchTerm]);
+
+  // Scroll infinito: revela os produtos em lotes de 8 conforme o usuário rola
+  const { visibleItems, hasMore, sentinelRef } = useProgressiveList(filteredProducts, 8);
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-2 dark:bg-dark">
@@ -55,9 +59,9 @@ const CardapioPage = () => {
           <div className="mb-8 flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedCategoryId(null)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+              className={`rounded-full px-4 py-2 text-base font-medium transition-colors ${
                 selectedCategoryId === null
-                  ? "bg-primary text-black shadow-md"
+                  ? "border border-gray-300 bg-white text-gray-900 shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                   : "bg-white text-body hover:bg-gray-2 dark:bg-gray-dark dark:text-gray-5 dark:hover:bg-gray-800"
               }`}
             >
@@ -67,9 +71,9 @@ const CardapioPage = () => {
               <button
                 key={category.id}
                 onClick={() => setSelectedCategoryId(category.id)}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                className={`rounded-full px-4 py-2 text-base font-medium transition-colors ${
                   selectedCategoryId === category.id
-                    ? "bg-primary text-black shadow-md"
+                    ? "border border-gray-300 bg-white text-gray-900 shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                     : "bg-white text-body hover:bg-gray-2 dark:bg-gray-dark dark:text-gray-5 dark:hover:bg-gray-800"
                 }`}
               >
@@ -80,11 +84,23 @@ const CardapioPage = () => {
 
           {/* Grid de Produtos */}
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {visibleItems.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+
+              {/* Sentinela do scroll infinito */}
+              {hasMore && (
+                <div
+                  ref={sentinelRef}
+                  className="flex justify-center py-8 text-body dark:text-gray-5"
+                >
+                  <span className="text-base">Carregando mais produtos...</span>
+                </div>
+              )}
+            </>
           ) : (
             <div className="py-16 text-center">
               <p className="text-lg text-body dark:text-gray-5">

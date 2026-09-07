@@ -1,6 +1,9 @@
 'use client';
 
+import { usePageTitle } from '@/hooks/usePageTitle';
+
 export default function PedidosPage() {
+  usePageTitle('Pedidos');
   return (
     <div className="rounded-lg bg-white p-8 shadow-md dark:bg-gray-dark">
       <h1 className="mb-4 text-2xl font-bold text-dark dark:text-white">

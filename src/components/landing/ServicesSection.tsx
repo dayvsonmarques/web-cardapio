@@ -61,7 +61,7 @@ export default function ServicesSection() {
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-base font-semibold mb-4">
+          <span className="inline-block px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-lg font-semibold mb-4 dark:bg-gray-800 dark:text-gray-300">
             Nossos Serviços
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 font-['Space_Grotesk']">
@@ -77,9 +77,9 @@ export default function ServicesSection() {
           {services.map((service, index) => (
             <div
               key={index}
-              className="group p-8 bg-gray-50 dark:bg-gray-800 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-transparent hover:border-primary/20 text-center"
+              className="group p-8 bg-gray-50 dark:bg-gray-800 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-transparent hover:border-gray-300 text-center"
             >
-              <div className="w-20 h-20 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform mx-auto">
+              <div className="w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center text-gray-700 mb-6 group-hover:scale-110 transition-transform mx-auto dark:bg-gray-700 dark:text-gray-300">
                 {service.icon}
               </div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 font-['Space_Grotesk']">
@@ -96,7 +96,7 @@ export default function ServicesSection() {
         <div className="text-center mt-12">
           <a
             href="#planos"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-all transform hover:scale-105 shadow-lg"
+            className="inline-flex items-center gap-2 px-8 py-4 border border-gray-300 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800"
           >
             Experimente Gratuitamente
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
