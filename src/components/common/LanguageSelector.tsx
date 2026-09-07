@@ -86,7 +86,7 @@ export const LanguageSelector: React.FC = () => {
             onClick={() => handleLanguageChange("pt")}
             className={`flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm transition-colors w-full text-left ${
               language === "pt"
-                ? "bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300"
+                ? "bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-white"
                 : "text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
             }`}
           >
@@ -94,7 +94,7 @@ export const LanguageSelector: React.FC = () => {
             {t("portuguese")}
             {language === "pt" && (
               <svg
-                className="ml-auto w-4 h-4 text-blue-600 dark:text-blue-400"
+                className="ml-auto w-4 h-4 text-gray-700 dark:text-gray-200"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -111,7 +111,7 @@ export const LanguageSelector: React.FC = () => {
             onClick={() => handleLanguageChange("en")}
             className={`flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm transition-colors w-full text-left ${
               language === "en"
-                ? "bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300"
+                ? "bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-white"
                 : "text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
             }`}
           >
@@ -119,7 +119,7 @@ export const LanguageSelector: React.FC = () => {
             {t("english")}
             {language === "en" && (
               <svg
-                className="ml-auto w-4 h-4 text-blue-600 dark:text-blue-400"
+                className="ml-auto w-4 h-4 text-gray-700 dark:text-gray-200"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >

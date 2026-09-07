@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import ThemeTogglerTwo from '@/components/common/ThemeTogglerTwo';
 
 export default function LandingNav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,10 +37,11 @@ export default function LandingNav() {
             </a>
             <Link
               href="/admin"
-              className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+              className="px-6 py-2 border border-gray-300 bg-white text-gray-900 rounded-lg hover:bg-gray-100 transition-colors dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800"
             >
               Acessar Sistema
             </Link>
+            <ThemeTogglerTwo />
           </div>
 
           {/* Mobile Menu Button */}
@@ -80,10 +82,13 @@ export default function LandingNav() {
               </a>
               <Link
                 href="/admin"
-                className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors text-center"
+                className="px-6 py-2 border border-gray-300 bg-white text-gray-900 rounded-lg hover:bg-gray-100 transition-colors text-center dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800"
               >
                 Acessar Sistema
               </Link>
+              <div className="pt-2">
+                <ThemeTogglerTwo />
+              </div>
             </div>
           </div>
         )}
